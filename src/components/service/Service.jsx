@@ -5,7 +5,7 @@ const Service = ({ category, name, worker, address, photo }) => {
   return (
     <div className={styles.card}>
       <div className={styles.imageContainer}>
-        <img src={photo} alt={`${name}`} className={styles.image} />
+        <img src={photo} alt={name} className={styles.image} />
       </div>
       <div className={styles.content}>
         <p className={styles.category}>{category}</p>

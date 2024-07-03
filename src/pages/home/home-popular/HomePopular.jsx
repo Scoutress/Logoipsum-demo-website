@@ -20,14 +20,7 @@ const HomePopular = () => {
       <h3 className={styles.title}>Popular businesses</h3>
       <div className={styles.container}>
         {popularServices.map((service) => (
-          <Service
-            key={service.id}
-            category={service.category}
-            name={service.name}
-            worker={service.worker}
-            address={service.address}
-            photo={service.photo}
-          />
+          <Service key={service.id} {...service} />
         ))}
       </div>
     </div>

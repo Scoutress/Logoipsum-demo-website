@@ -11,14 +11,7 @@ const CategoryList = ({ selectedCategory }) => {
       <h2 className={styles.categoryListTitle}>{selectedCategory || "All"}</h2>
       <div className={styles.services}>
         {filteredServices.map((service) => (
-          <Service
-            key={service.id}
-            name={service.name}
-            worker={service.worker}
-            address={service.address}
-            photo={service.photo}
-            category={service.category}
-          />
+          <Service key={service.id} {...service} />
         ))}
       </div>
     </div>

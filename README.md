@@ -1,6 +1,7 @@
 # Tasks left:
 
-- Services button (navbar) to all services list page
+- BUG - In services page you need to press twice on category to make it "active".
+
 - Service card. OnClick navigate to categories
 - Search functionality
 - Service card Save as favorite with localStorage (useLocalStorage hook)

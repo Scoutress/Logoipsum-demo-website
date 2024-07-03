@@ -1,9 +1,19 @@
+import { useState, useEffect } from "react";
 import Service from "../../../components/service/Service";
-import ServicesList from "../../../data/ServicesData";
 import styles from "./HomePopular.module.scss";
 
 const HomePopular = () => {
-  const popularServices = ServicesList.slice(0, 4);
+  const [popularServices, setPopularServices] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:3000/services")
+      .then((response) => response.json())
+      .then((data) => {
+        const popular = data.slice(0, 4);
+        setPopularServices(popular);
+      })
+      .catch((error) => console.error("Error fetching services:", error));
+  }, []);
 
   return (
     <div>

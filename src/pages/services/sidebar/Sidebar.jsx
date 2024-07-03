@@ -1,14 +1,21 @@
 import PropTypes from "prop-types";
 import { useState, useEffect } from "react";
-import { useNavigate, useLocation, useParams } from "react-router-dom";
+import { useNavigate, useLocation, useParams, NavLink } from "react-router-dom";
 import styles from "./Sidebar.module.scss";
-import categories from "../../../data/CategoriesData";
 
 const Sidebar = ({ selectedCategory, onCategoryClick }) => {
+  const [categories, setCategories] = useState([]);
   const [activeCategory, setActiveCategory] = useState(selectedCategory);
   const navigate = useNavigate();
   const location = useLocation();
   const { category } = useParams();
+
+  useEffect(() => {
+    fetch("http://localhost:3000/categories")
+      .then((response) => response.json())
+      .then((data) => setCategories(data))
+      .catch((error) => console.error("Error fetching categories:", error));
+  }, []);
 
   useEffect(() => {
     if (selectedCategory) {
@@ -34,7 +41,7 @@ const Sidebar = ({ selectedCategory, onCategoryClick }) => {
         <ul>
           {categories.map(({ name, link, icon }) => (
             <li key={name}>
-              <button
+              <NavLink
                 className={`
                   ${styles.button} 
                   ${activeCategory === name ? styles.active : ""}
@@ -42,8 +49,8 @@ const Sidebar = ({ selectedCategory, onCategoryClick }) => {
                 onClick={() => handleCategoryClick({ name, link })}
               >
                 <img src={icon} alt={`${name} icon`} className={styles.icon} />
-                <p className={styles.category}>{name}</p>
-              </button>
+                <p>{name}</p>
+              </NavLink>
             </li>
           ))}
         </ul>

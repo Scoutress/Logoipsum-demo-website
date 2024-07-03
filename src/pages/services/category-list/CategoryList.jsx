@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
 import Service from "../../../components/service/Service";
-import ServicesList from "../../../data/ServicesData";
 import styles from "./CategoryList.module.scss";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
@@ -10,15 +9,27 @@ const CategoryList = ({ selectedCategory }) => {
   const [filteredServices, setFilteredServices] = useState([]);
 
   useEffect(() => {
-    const currentCategory = category || selectedCategory || "All";
-    const services =
-      currentCategory !== "All"
-        ? ServicesList.filter(
-            (service) =>
-              service.category.toLowerCase() === currentCategory.toLowerCase()
-          )
-        : ServicesList;
-    setFilteredServices(services);
+    const fetchServices = async () => {
+      try {
+        const response = await fetch("http://localhost:3000/services");
+        const data = await response.json();
+
+        const currentCategory = category || selectedCategory || "All";
+        const services =
+          currentCategory !== "All"
+            ? data.filter(
+                (service) =>
+                  service.category.toLowerCase() ===
+                  currentCategory.toLowerCase()
+              )
+            : data;
+        setFilteredServices(services);
+      } catch (error) {
+        console.error("Error fetching services:", error);
+      }
+    };
+
+    fetchServices();
   }, [category, selectedCategory]);
 
   return (

@@ -4,32 +4,32 @@ import styles from "./HomeCategories.module.scss";
 const categories = [
   {
     name: "Cleaning",
-    icon: "../public/icons/icons8-cleaning-50.png",
+    icon: "../public/icons/cleaning.svg",
     link: "/category/cleaning",
   },
   {
     name: "Repair",
-    icon: "../public/icons/icons8-tools-50.png",
+    icon: "../public/icons/repair.svg",
     link: "/category/repair",
   },
   {
     name: "Painting",
-    icon: "../public/icons/icons8-painting-50.png",
+    icon: "../public/icons/painting.svg",
     link: "/category/painting",
   },
   {
     name: "Shifting",
-    icon: "../public/icons/icons8-truck-50.png",
+    icon: "../public/icons/shifting.svg",
     link: "/category/shifting",
   },
   {
     name: "Plumbing",
-    icon: "../public/icons/icons8-plumbing-50.png",
+    icon: "../public/icons/plumbing.svg",
     link: "/category/plumbing",
   },
   {
     name: "Electric",
-    icon: "../public/icons/icons8-electric-50.png",
+    icon: "../public/icons/electric.svg",
     link: "/category/electric",
   },
 ];

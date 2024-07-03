@@ -5,7 +5,7 @@ const ServicesList = [
     name: "Išsivalyk pats",
     worker: "Tadas Gedvilas",
     address: "Kauno g. 27, Vilnius",
-    photo: "/images/Issivalyk-pats.jpg",
+    photo: "/images/photo-cleaning-1.jpg",
   },
   {
     id: 2,
@@ -13,7 +13,7 @@ const ServicesList = [
     name: "UAB Valymas",
     worker: "Regina Kazlauskienė",
     address: "Aukštaičių al. 27, Klaipėda",
-    photo: "/images/UAB-valymas.jpg",
+    photo: "/images/photo-cleaning-2.jpg",
   },
   {
     id: 3,
@@ -21,7 +21,7 @@ const ServicesList = [
     name: "Moki veži",
     worker: "Darius Standys",
     address: "Žemaičių al. 27, Klaipėda",
-    photo: "/images/moki-vezi.webp",
+    photo: "/images/photo-shifting-1.webp",
   },
   {
     id: 4,
@@ -29,7 +29,7 @@ const ServicesList = [
     name: "Elektrikas į namus",
     worker: "Rokas Andreikėnas",
     address: "Maisto g. 17, Vilnius",
-    photo: "/images/elektrikas-i-namus.jpg",
+    photo: "/images/photo-electric-1.jpg",
   },
 ];
 

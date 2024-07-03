@@ -3,12 +3,12 @@ import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import styles from "./Sidebar.module.scss";
 
-import cleaningIcon from "../../../public/icons/icons8-cleaning-50.png";
-import repairIcon from "../../../public/icons/icons8-tools-50.png";
-import paintingIcon from "../../../public/icons/icons8-painting-50.png";
-import shiftingIcon from "../../../public/icons/icons8-truck-50.png";
-import plumbingIcon from "../../../public/icons/icons8-plumbing-50.png";
-import electricIcon from "../../../public/icons/icons8-electric-50.png";
+import cleaningIcon from "../../../public/icons/cleaning.svg";
+import repairIcon from "../../../public/icons/repair.svg";
+import paintingIcon from "../../../public/icons/painting.svg";
+import shiftingIcon from "../../../public/icons/shifting.svg";
+import plumbingIcon from "../../../public/icons/plumbing.svg";
+import electricIcon from "../../../public/icons/electric.svg";
 
 const categories = [
   { name: "Cleaning", icon: cleaningIcon, link: "/category/cleaning" },

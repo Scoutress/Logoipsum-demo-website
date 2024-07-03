@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import styles from "./Header.module.scss";
+import Button from "../button/Button";
 
 const Header = () => {
   return (
@@ -30,13 +31,7 @@ const Header = () => {
           </ul>
         </nav>
       </div>
-      <div>
-        <button className={styles.loginBtn}>
-          <Link to="/login" className={styles.buttonLink}>
-            Login / Sign Up
-          </Link>
-        </button>
-      </div>
+      <Button className={styles.loginBtn}>Login / Sign Up</Button>
     </header>
   );
 };

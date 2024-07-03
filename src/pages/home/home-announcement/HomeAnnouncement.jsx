@@ -1,5 +1,7 @@
-import { AiOutlineSearch } from "react-icons/ai";
 import styles from "./HomeAnnouncement.module.scss";
+import Input from "../../../components/input/Input";
+import Button from "../../../components/button/Button";
+import { AiOutlineSearch } from "react-icons/ai";
 
 const HomeAnnouncement = () => {
   return (
@@ -16,14 +18,12 @@ const HomeAnnouncement = () => {
           </h2>
         </div>
         <div className={styles.searchContainer}>
-          <input
-            className={styles.searchInput}
+          <Input
             type="text"
             placeholder="Search"
+            className={styles.searchInput}
           />
-          <button className={styles.searchBtn}>
-            <AiOutlineSearch />
-          </button>
+          <Button icon={AiOutlineSearch} className={styles.searchBtn} />
         </div>
       </div>
     </header>

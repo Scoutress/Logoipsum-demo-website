@@ -1,6 +1,22 @@
 import { Link } from "react-router-dom";
 import styles from "./Header.module.scss";
 import Button from "../button/Button";
+import PropTypes from "prop-types";
+
+const NavItem = ({ to, children }) => {
+  return (
+    <li className={styles.button}>
+      <Link to={to} className={styles.buttonLink}>
+        {children}
+      </Link>
+    </li>
+  );
+};
+
+NavItem.propTypes = {
+  to: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired,
+};
 
 const Header = () => {
   return (
@@ -13,21 +29,9 @@ const Header = () => {
       <div className={styles.navbar}>
         <nav>
           <ul className={styles.ul}>
-            <li className={styles.button}>
-              <Link to="/" className={styles.buttonLink}>
-                Home
-              </Link>
-            </li>
-            <li className={styles.button}>
-              <Link to="/services" className={styles.buttonLink}>
-                Services
-              </Link>
-            </li>
-            <li className={styles.button}>
-              <Link to="/about" className={styles.buttonLink}>
-                About Us
-              </Link>
-            </li>
+            <NavItem to="/">Home</NavItem>
+            <NavItem to="/services">Services</NavItem>
+            <NavItem to="/about">About Us</NavItem>
           </ul>
         </nav>
       </div>

@@ -1,38 +1,14 @@
 import PropTypes from "prop-types";
-import { useState, useEffect } from "react";
-import { useNavigate, useLocation, useParams, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import clsx from "clsx";
 import styles from "./Sidebar.module.scss";
+import useSidebar from "./useSidebar";
 
 const Sidebar = ({ selectedCategory, onCategoryClick }) => {
-  const [categories, setCategories] = useState([]);
-  const [activeCategory, setActiveCategory] = useState(selectedCategory);
-  const navigate = useNavigate();
-  const location = useLocation();
-  const { category } = useParams();
-
-  useEffect(() => {
-    fetch("http://localhost:3000/categories")
-      .then((response) => response.json())
-      .then((data) => setCategories(data))
-      .catch((error) => console.error("Error fetching categories:", error));
-  }, []);
-
-  useEffect(() => {
-    if (selectedCategory) {
-      setActiveCategory(selectedCategory);
-    } else if (category) {
-      setActiveCategory(category.charAt(0).toUpperCase() + category.slice(1));
-    } else {
-      const path = location.pathname.split("/").pop();
-      setActiveCategory(path.charAt(0).toUpperCase() + path.slice(1));
-    }
-  }, [selectedCategory, category, location.pathname]);
-
-  const handleCategoryClick = (category) => {
-    setActiveCategory(category.name);
-    onCategoryClick(category.name);
-    navigate(`${category.link}`);
-  };
+  const { categories, activeCategory, handleCategoryClick } = useSidebar(
+    selectedCategory,
+    onCategoryClick
+  );
 
   return (
     <div className={styles.sidebar}>
@@ -42,10 +18,9 @@ const Sidebar = ({ selectedCategory, onCategoryClick }) => {
           {categories.map(({ name, link, icon }) => (
             <li key={name}>
               <NavLink
-                className={`
-                  ${styles.button} 
-                  ${activeCategory === name ? styles.active : ""}
-                `}
+                className={clsx(styles.button, {
+                  [styles.active]: activeCategory === name,
+                })}
                 onClick={() => handleCategoryClick({ name, link })}
               >
                 <img src={icon} alt={`${name} icon`} className={styles.icon} />

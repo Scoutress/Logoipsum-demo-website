@@ -1,0 +1,25 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "name": "Steven",
+      "email": "steven@iamjunior.com",
+      "password": "Vilnius123",
+      "role": "user"
+    },
+    {
+      "id": "2",
+      "name": "Marry",
+      "email": "marry@iamjunior.com",
+      "password": "Vilnius123",
+      "role": "user"
+    },
+    {
+      "id": "3",
+      "name": "Admin",
+      "email": "admin@iamjunior.com",
+      "password": "Vilnius123",
+      "role": "admin"
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import Service from "../service/Service";
-import ServicesList from "../../all-services/ServicesList";
+import ServicesList from "../../data/ServicesData";
 import styles from "./CategoryList.module.scss";
 import { useState, useEffect } from "react";
 

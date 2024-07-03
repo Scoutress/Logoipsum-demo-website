@@ -1,8 +1,22 @@
 export const routes = {
-  homePage: "/",
-  servicesPage: "/services",
-  aboutPage: "/about",
-  errorPage: "/*",
-
-  categoryPage: "/category/:name",
+  homePage: {
+    link: "/",
+    name: "Home",
+  },
+  servicesPage: {
+    link: "/services",
+    name: "Services",
+  },
+  aboutPage: {
+    link: "/about",
+    name: "About",
+  },
+  errorPage: {
+    link: "/*",
+    name: "404",
+  },
+  categoryPage: {
+    link: "/category/:name",
+    name: "Category",
+  },
 };

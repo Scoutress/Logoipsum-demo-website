@@ -1,4 +1,4 @@
-const ServicesList = [
+const ServicesData = [
   {
     id: 1,
     category: "Cleaning",
@@ -33,4 +33,4 @@ const ServicesList = [
   },
 ];
 
-export default ServicesList;
+export default ServicesData;

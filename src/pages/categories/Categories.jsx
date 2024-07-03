@@ -16,10 +16,13 @@ const Categories = () => {
 
   return (
     <div className={styles.categoriesPage}>
-      <Sidebar
-        selectedCategory={selectedCategory}
-        onCategoryClick={setSelectedCategory}
-      />
+      <div>
+        <Sidebar
+          selectedCategory={selectedCategory}
+          onCategoryClick={setSelectedCategory}
+        />
+      </div>
+
       <div className={styles.categoryList}>
         <CategoryList selectedCategory={selectedCategory} />
       </div>

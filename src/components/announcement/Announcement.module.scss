@@ -1,6 +1,5 @@
-@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
-
 .header {
+  font-family: $primaryFontStyle;
   margin-top: 100px;
   text-align: center;
 }
@@ -12,8 +11,7 @@
 }
 
 .h1 {
-  font-size: 52px;
-  font-family: "Roboto", sans-serif;
+  font-size: $primaryH1FontSize;
   font-weight: bold;
   line-height: 75px;
   display: inline-block;
@@ -27,11 +25,10 @@
   color: #8659d5;
 }
 
-.h3 {
+.h2 {
   color: #aeadb0;
   font-size: 20px;
-  font-family: "Roboto", sans-serif;
-  margin-bottom: 40px;
+  margin-bottom: 30px;
 }
 
 .searchContainer {

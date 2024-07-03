@@ -4,13 +4,13 @@ import styles from "./Category.module.scss";
 
 const Category = ({ name, icon, link, isActive }) => {
   return (
-    <li>
+    <li className={styles.category}>
       <Link
         to={link}
         className={`${styles.button} ${isActive ? styles.active : ""}`}
       >
         <img src={icon} alt={`${name} icon`} className={styles.icon} />
-        <p className={styles.category}>{name}</p>
+        <p>{name}</p>
       </Link>
     </li>
   );

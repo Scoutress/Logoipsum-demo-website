@@ -8,8 +8,8 @@ const Service = ({ category, name, worker, address, photo }) => {
         <img src={photo} alt={`${name}`} className={styles.image} />
       </div>
       <div className={styles.content}>
-        <h4 className={styles.category}>{category}</h4>
-        <h3 className={styles.name}>{name}</h3>
+        <p className={styles.category}>{category}</p>
+        <p className={styles.name}>{name}</p>
         <p className={styles.worker}>{worker}</p>
         <p className={styles.address}>{address}</p>
         <button className={styles.button}>Book now</button>

@@ -11,9 +11,9 @@ const Announcement = () => {
             <span className={styles.h1Colored}>Service/Repair </span>
             <span>Near You</span>
           </h1>
-          <h3 className={styles.h3}>
+          <h2 className={styles.h2}>
             Explore Best Home Service & Repair near you
-          </h3>
+          </h2>
         </div>
         <div className={styles.searchContainer}>
           <input

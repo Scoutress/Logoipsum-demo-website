@@ -19,7 +19,7 @@ const CategoryList = ({ selectedCategory }) => {
 
   return (
     <div>
-      <h3 className={styles.categoryListTitle}>{selectedCategory || "All"}</h3>
+      <h2 className={styles.categoryListTitle}>{selectedCategory || "All"}</h2>
       <div className={styles.services}>
         {filteredServices.map((service) => (
           <Service

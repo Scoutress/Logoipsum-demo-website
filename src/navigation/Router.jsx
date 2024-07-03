@@ -1,33 +1,34 @@
 import { createBrowserRouter } from "react-router-dom";
 import ErrorPage from "../pages/ErrorPage";
-import Home from "../pages/Home";
-import Services from "../pages/Services";
+import Home from "../pages/home/Home";
+import Services from "../pages/services/Services";
 import About from "../pages/About";
-import Categories from "../pages/categories/Categories";
-import { routes } from "./Routes";
-import { Root } from "./Root";
+import Routes from "./Routes";
+import Root from "./Root";
 
-export const router = createBrowserRouter([
+const Router = createBrowserRouter([
   {
     element: <Root />,
     errorElement: <ErrorPage />,
     children: [
       {
-        path: routes.homePage.link,
+        path: Routes.homePage.link,
         element: <Home />,
       },
       {
-        path: routes.servicesPage.link,
+        path: Routes.servicesPage.link,
         element: <Services />,
       },
       {
-        path: routes.aboutPage.link,
-        element: <About />,
+        path: Routes.allServicesPage.link,
+        element: <Services />,
       },
       {
-        path: routes.categoryPage.link,
-        element: <Categories />,
+        path: Routes.aboutPage.link,
+        element: <About />,
       },
     ],
   },
 ]);
+
+export default Router;

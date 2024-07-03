@@ -1,7 +1,7 @@
 import { AiOutlineSearch } from "react-icons/ai";
-import styles from "./Announcement.module.scss";
+import styles from "./HomeAnnouncement.module.scss";
 
-const Announcement = () => {
+const HomeAnnouncement = () => {
   return (
     <header className={styles.header}>
       <div>
@@ -30,4 +30,4 @@ const Announcement = () => {
   );
 };
 
-export default Announcement;
+export default HomeAnnouncement;

@@ -1,27 +1,30 @@
 import PropTypes from "prop-types";
 import { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 import styles from "./Sidebar.module.scss";
-import categories from "../../data/CategoriesData";
+import categories from "../../../data/CategoriesData";
 
 const Sidebar = ({ selectedCategory, onCategoryClick }) => {
   const [activeCategory, setActiveCategory] = useState(selectedCategory);
   const navigate = useNavigate();
   const location = useLocation();
+  const { category } = useParams();
 
   useEffect(() => {
     if (selectedCategory) {
       setActiveCategory(selectedCategory);
+    } else if (category) {
+      setActiveCategory(category.charAt(0).toUpperCase() + category.slice(1));
     } else {
       const path = location.pathname.split("/").pop();
       setActiveCategory(path.charAt(0).toUpperCase() + path.slice(1));
     }
-  }, [selectedCategory, location.pathname]);
+  }, [selectedCategory, category, location.pathname]);
 
   const handleCategoryClick = (category) => {
     setActiveCategory(category.name);
     onCategoryClick(category.name);
-    navigate(category.link);
+    navigate(`${category.link}`);
   };
 
   return (
@@ -35,7 +38,7 @@ const Sidebar = ({ selectedCategory, onCategoryClick }) => {
                 className={`
                   ${styles.button} 
                   ${activeCategory === name ? styles.active : ""}
-                  `}
+                `}
                 onClick={() => handleCategoryClick({ name, link })}
               >
                 <img src={icon} alt={`${name} icon`} className={styles.icon} />

@@ -1,9 +1,13 @@
-export const routes = {
+const Routes = {
   homePage: {
     link: "/",
     name: "Home",
   },
   servicesPage: {
+    link: "/category/:category",
+    name: "Services",
+  },
+  allServicesPage: {
     link: "/services",
     name: "Services",
   },
@@ -15,8 +19,6 @@ export const routes = {
     link: "/*",
     name: "404",
   },
-  categoryPage: {
-    link: "/category/:name",
-    name: "Category",
-  },
 };
+
+export default Routes;

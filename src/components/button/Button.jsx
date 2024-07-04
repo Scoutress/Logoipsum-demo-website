@@ -1,25 +1,23 @@
 import PropTypes from "prop-types";
 
-const Button = ({ children, onClick, className, icon: Icon, ...props }) => {
-  return (
-    <button className={` ${className}`} onClick={onClick} {...props}>
-      {Icon && <Icon />}
-      {children}
-    </button>
-  );
-};
+const Button = ({ icon: Icon, onClick, className, children }) => (
+  <button onClick={onClick} className={className}>
+    {Icon && <Icon />}
+    {children}
+  </button>
+);
 
 Button.propTypes = {
-  children: PropTypes.node.isRequired,
-  onClick: PropTypes.func,
-  className: PropTypes.string,
   icon: PropTypes.elementType,
+  onClick: PropTypes.func.isRequired,
+  className: PropTypes.string,
+  children: PropTypes.node,
 };
 
 Button.defaultProps = {
-  onClick: () => {},
-  className: "",
   icon: null,
+  className: "",
+  children: null,
 };
 
 export default Button;

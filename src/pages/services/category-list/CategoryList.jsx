@@ -1,16 +1,24 @@
 import PropTypes from "prop-types";
+import { useParams } from "react-router-dom";
 import Service from "../../../components/service/Service";
 import styles from "./CategoryList.module.scss";
-import useFilteredServices from "./UseFilteredServices";
+import useFilteredServices from "../../../hooks/UseFilteredServices";
+import useSearchedServices from "../../../hooks/UseSearchedServices";
 
 const CategoryList = ({ selectedCategory }) => {
+  const { searchTerm } = useParams();
   const filteredServices = useFilteredServices(selectedCategory);
+  const searchedServices = useSearchedServices(searchTerm);
+
+  const servicesToDisplay = searchTerm ? searchedServices : filteredServices;
 
   return (
     <div>
-      <h2 className={styles.categoryListTitle}>{selectedCategory || "All"}</h2>
+      <h2 className={styles.categoryListTitle}>
+        {selectedCategory || searchTerm || "All"}
+      </h2>
       <div className={styles.services}>
-        {filteredServices.map((service) => (
+        {servicesToDisplay.map((service) => (
           <Service key={service.id} {...service} />
         ))}
       </div>
@@ -19,7 +27,7 @@ const CategoryList = ({ selectedCategory }) => {
 };
 
 CategoryList.propTypes = {
-  selectedCategory: PropTypes.string.isRequired,
+  selectedCategory: PropTypes.string,
 };
 
 export default CategoryList;

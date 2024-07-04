@@ -5,6 +5,7 @@ import Services from "../pages/services/Services";
 import About from "../pages/About";
 import Routes from "./Routes";
 import Root from "./Root";
+import SearchPage from "../pages/search/SearchPage";
 
 const Router = createBrowserRouter([
   {
@@ -14,6 +15,10 @@ const Router = createBrowserRouter([
       {
         path: Routes.homePage.link,
         element: <Home />,
+      },
+      {
+        path: Routes.searchPage.link,
+        element: <SearchPage />,
       },
       {
         path: Routes.servicesPage.link,

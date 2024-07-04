@@ -1,31 +1,39 @@
 import PropTypes from "prop-types";
+import React from "react";
 
-const Input = ({ type, placeholder, value, onChange, className, ...props }) => {
-  return (
-    <input
-      className={`${className}`}
-      type={type}
-      placeholder={placeholder}
-      value={value}
-      onChange={onChange}
-      {...props}
-    />
-  );
-};
+const Input = React.forwardRef(
+  ({ value, onChange, placeholder, className, maxLength, onKeyDown }, ref) => {
+    return (
+      <input
+        ref={ref}
+        type="text"
+        value={value}
+        onChange={onChange}
+        onKeyDown={onKeyDown}
+        placeholder={placeholder}
+        className={className}
+        maxLength={maxLength}
+      />
+    );
+  }
+);
+
+Input.displayName = "Input";
 
 Input.propTypes = {
-  type: PropTypes.string,
-  placeholder: PropTypes.string,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
+  placeholder: PropTypes.string,
   className: PropTypes.string,
+  maxLength: PropTypes.number,
+  onKeyDown: PropTypes.func,
 };
 
 Input.defaultProps = {
-  type: "text",
   placeholder: "",
-  value: "",
   className: "",
+  maxLength: 255,
+  onKeyDown: null,
 };
 
 export default Input;

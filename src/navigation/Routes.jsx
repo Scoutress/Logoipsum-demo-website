@@ -3,6 +3,10 @@ const Routes = {
     link: "/",
     name: "Home",
   },
+  searchPage: {
+    link: "/search",
+    name: "Search",
+  },
   servicesPage: {
     link: "/category/:category",
     name: "Services",

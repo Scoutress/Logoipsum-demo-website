@@ -1,9 +1,32 @@
+import { useState } from "react";
 import styles from "./HomeAnnouncement.module.scss";
 import Input from "../../../components/input/Input";
 import Button from "../../../components/button/Button";
 import { AiOutlineSearch } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
 
 const HomeAnnouncement = () => {
+  const [searchTerm, setSearchTerm] = useState("");
+  const navigate = useNavigate();
+
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const handleSearchClick = () => {
+    if (searchTerm !== "") {
+      navigate(`/search?term=${searchTerm}`);
+    } else {
+      navigate(`/search`);
+    }
+  };
+
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      handleSearchClick();
+    }
+  };
+
   return (
     <header className={styles.header}>
       <div>
@@ -21,9 +44,16 @@ const HomeAnnouncement = () => {
           <Input
             type="text"
             placeholder="Search"
+            value={searchTerm}
+            onChange={handleSearchChange}
+            onKeyDown={handleKeyDown}
             className={styles.searchInput}
           />
-          <Button icon={AiOutlineSearch} className={styles.searchBtn} />
+          <Button
+            icon={AiOutlineSearch}
+            className={styles.searchBtn}
+            onClick={handleSearchClick}
+          />
         </div>
       </div>
     </header>

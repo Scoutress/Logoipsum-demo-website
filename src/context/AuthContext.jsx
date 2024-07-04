@@ -18,6 +18,9 @@ const AuthProvider = ({ children }) => {
       const response = await fetch(
         `http://localhost:3000/users?email=${userData.email}&password=${userData.password}`
       );
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
       const users = await response.json();
       if (users.length > 0) {
         setUser(users[0]);
@@ -27,7 +30,29 @@ const AuthProvider = ({ children }) => {
         return false;
       }
     } catch (error) {
-      console.error("Login error", error);
+      console.error("Login error:", error);
+      return false;
+    }
+  };
+
+  const register = async (userData) => {
+    try {
+      const response = await fetch("http://localhost:3000/users", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userData),
+      });
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const newUser = await response.json();
+      setUser(newUser);
+      localStorage.setItem("user", JSON.stringify(newUser));
+      return true;
+    } catch (error) {
+      console.error("Register error:", error);
       return false;
     }
   };
@@ -38,7 +63,7 @@ const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, register, logout }}>
       {children}
     </AuthContext.Provider>
   );

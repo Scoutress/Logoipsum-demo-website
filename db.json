@@ -20,6 +20,12 @@
       "email": "admin@iamjunior.com",
       "password": "Vilnius123",
       "role": "admin"
+    },
+    {
+      "id": "c038",
+      "name": "Scoutress",
+      "email": "scoutress@gmail.com",
+      "password": "testas"
     }
   ],
   "services": [

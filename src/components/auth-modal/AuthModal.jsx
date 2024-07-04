@@ -5,9 +5,14 @@ import styles from "./AuthModal.module.scss";
 import Loading from "../loading/Loading";
 
 const AuthModal = ({ onClose }) => {
-  const { login } = useContext(AuthContext);
+  const { login, register } = useContext(AuthContext);
   const [isLogin, setIsLogin] = useState(true);
-  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -20,7 +25,10 @@ const AuthModal = ({ onClose }) => {
     setLoading(true);
     setError(null);
     if (isLogin) {
-      const success = await login(formData);
+      const success = await login({
+        email: formData.email,
+        password: formData.password,
+      });
       setLoading(false);
       if (success) {
         onClose();
@@ -28,7 +36,22 @@ const AuthModal = ({ onClose }) => {
         setError("Invalid email or password");
       }
     } else {
-      // Implement registration logic here
+      if (formData.password !== formData.confirmPassword) {
+        setError("Passwords do not match");
+        setLoading(false);
+        return;
+      }
+      const success = await register({
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+      });
+      setLoading(false);
+      if (success) {
+        onClose();
+      } else {
+        setError("Registration failed");
+      }
     }
   };
 
@@ -50,7 +73,9 @@ const AuthModal = ({ onClose }) => {
                   type="text"
                   id="name"
                   name="name"
+                  value={formData.name}
                   onChange={handleChange}
+                  required
                 />
               </div>
             )}
@@ -60,6 +85,7 @@ const AuthModal = ({ onClose }) => {
                 type="email"
                 id="email"
                 name="email"
+                value={formData.email}
                 onChange={handleChange}
                 required
               />
@@ -70,6 +96,7 @@ const AuthModal = ({ onClose }) => {
                 type="password"
                 id="password"
                 name="password"
+                value={formData.password}
                 onChange={handleChange}
                 required
               />
@@ -81,6 +108,7 @@ const AuthModal = ({ onClose }) => {
                   type="password"
                   id="confirmPassword"
                   name="confirmPassword"
+                  value={formData.confirmPassword}
                   onChange={handleChange}
                   required
                 />

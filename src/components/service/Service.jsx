@@ -1,9 +1,22 @@
 import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
 import styles from "./Service.module.scss";
 
-const Service = ({ category, name, worker, address, photo }) => {
+const Service = ({
+  category = "Default Category",
+  name = "Default Name",
+  worker = "Default Worker",
+  address = "Default Address",
+  photo = "default.jpg",
+}) => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/category/${category.toLowerCase()}`);
+  };
+
   return (
-    <div className={styles.card}>
+    <div className={styles.card} onClick={handleClick}>
       <div className={styles.imageContainer}>
         <img src={photo} alt={name} className={styles.image} />
       </div>

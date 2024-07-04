@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import { NavLink } from "react-router-dom";
 import clsx from "clsx";
 import styles from "./Sidebar.module.scss";
-import useSidebar from "./useSidebar";
+import useSidebar from "./UseSidebar";
 
 const Sidebar = ({ selectedCategory, onCategoryClick }) => {
   const { categories, activeCategory, handleCategoryClick } = useSidebar(

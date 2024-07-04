@@ -1,23 +1,20 @@
 import PropTypes from "prop-types";
+import styles from "./Button.module.scss";
 
-const Button = ({ icon: Icon, onClick, className, children }) => (
-  <button onClick={onClick} className={className}>
-    {Icon && <Icon />}
-    {children}
-  </button>
-);
-
-Button.propTypes = {
-  icon: PropTypes.elementType,
-  onClick: PropTypes.func.isRequired,
-  className: PropTypes.string,
-  children: PropTypes.node,
+const Button = ({ className = "", children, onClick, icon: Icon }) => {
+  return (
+    <button className={`${styles.button} ${className}`} onClick={onClick}>
+      {Icon && <Icon className={styles.icon} />}
+      {children}
+    </button>
+  );
 };
 
-Button.defaultProps = {
-  icon: null,
-  className: "",
-  children: null,
+Button.propTypes = {
+  className: PropTypes.string,
+  children: PropTypes.node,
+  onClick: PropTypes.func,
+  icon: PropTypes.elementType,
 };
 
 export default Button;

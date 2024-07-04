@@ -1,7 +1,10 @@
+import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import styles from "./Header.module.scss";
 import Button from "../button/Button";
 import PropTypes from "prop-types";
+import AuthModal from "../auth-modal/AuthModal";
+import { AuthContext } from "../../context/AuthContext";
 
 const NavItem = ({ to, children }) => {
   return (
@@ -19,6 +22,17 @@ NavItem.propTypes = {
 };
 
 const Header = () => {
+  const { user, logout } = useContext(AuthContext);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleLoginClick = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleLogoutClick = () => {
+    logout();
+  };
+
   return (
     <header className={styles.header}>
       <div className={styles.logo}>
@@ -35,7 +49,16 @@ const Header = () => {
           </ul>
         </nav>
       </div>
-      <Button className={styles.loginBtn}>Login / Sign Up</Button>
+      {user ? (
+        <Button className={styles.loginBtn} onClick={handleLogoutClick}>
+          Logout
+        </Button>
+      ) : (
+        <Button className={styles.loginBtn} onClick={handleLoginClick}>
+          Login / Sign Up
+        </Button>
+      )}
+      {isModalOpen && <AuthModal onClose={() => setIsModalOpen(false)} />}
     </header>
   );
 };

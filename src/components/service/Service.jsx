@@ -1,5 +1,8 @@
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStar } from "@fortawesome/free-solid-svg-icons";
+import useLocalStorage from "../../hooks/UseLocalStorage";
 import styles from "./Service.module.scss";
 
 const Service = ({
@@ -10,15 +13,46 @@ const Service = ({
   photo = "default.jpg",
 }) => {
   const navigate = useNavigate();
+  const [favorites, setFavorites] = useLocalStorage("favorites", []);
+
+  const isFavorite = favorites.some(
+    (fav) =>
+      fav.name === name && fav.worker === worker && fav.address === address
+  );
 
   const handleClick = () => {
     navigate(`/category/${category.toLowerCase()}`);
+  };
+
+  const handleFavorite = (e) => {
+    e.stopPropagation();
+    if (isFavorite) {
+      setFavorites(
+        favorites.filter(
+          (fav) =>
+            fav.name !== name ||
+            fav.worker !== worker ||
+            fav.address !== address
+        )
+      );
+    } else {
+      const newFavorite = { category, name, worker, address, photo };
+      setFavorites([...favorites, newFavorite]);
+    }
   };
 
   return (
     <div className={styles.card} onClick={handleClick}>
       <div className={styles.imageContainer}>
         <img src={photo} alt={name} className={styles.image} />
+        <button
+          className={`${styles.favoriteButton} ${
+            isFavorite ? styles.active : ""
+          }`}
+          onClick={handleFavorite}
+        >
+          <FontAwesomeIcon icon={faStar} />
+        </button>
       </div>
       <div className={styles.content}>
         <p className={styles.category}>{category}</p>

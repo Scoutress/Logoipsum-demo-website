@@ -1,0 +1,18 @@
+.listContainer {
+  display: flex;
+  flex-wrap: wrap;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+  align-items: center;
+}
+
+.serviceItem {
+  margin-bottom: 10px;
+}
+
+.noResults {
+  font-family: $primaryFontStyle;
+  font-size: $primaryH2FontSize;
+  text-align: center;
+  font-weight: bold;
+}

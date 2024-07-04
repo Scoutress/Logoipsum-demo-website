@@ -1,15 +1,5 @@
 # Tasks left:
 
-- BUG - In services page you need to press twice on category to make it "active".
-
----
-
-## React part
-
-- Login / Register functionality. After typing username, password and pressing Login button, save info with useContext and localStorage. Redirect to main page with updated topbar while logged in.
-
----
-
 ## Node.js part
 
 - Create RESTful API with Express.js.

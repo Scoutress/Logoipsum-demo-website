@@ -18,10 +18,13 @@ const Sidebar = ({ selectedCategory, onCategoryClick }) => {
           {categories.map(({ name, link, icon }) => (
             <li key={name}>
               <NavLink
-                className={clsx(styles.button, {
-                  [styles.active]: activeCategory === name,
-                })}
-                onClick={() => handleCategoryClick({ name, link })}
+                to={link}
+                className={({ isActive }) =>
+                  clsx(styles.button, {
+                    [styles.active]: isActive || activeCategory === name,
+                  })
+                }
+                onClick={() => handleCategoryClick({ name })}
               >
                 <img src={icon} alt={`${name} icon`} className={styles.icon} />
                 <p>{name}</p>

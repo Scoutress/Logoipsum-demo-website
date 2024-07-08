@@ -5,6 +5,8 @@ import BusinessModel from "../../models/BusinessModel.js";
  * /api/businesses:
  *  get:
  *    description: Get all businesses
+ *    tags:
+ *      - Businesses
  *    responses:
  *      200:
  *        description: Success

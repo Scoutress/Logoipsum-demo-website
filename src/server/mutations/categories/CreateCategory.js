@@ -5,6 +5,8 @@ import CategoryModel from "../../models/CategoryModel.js";
  * /api/categories:
  *  post:
  *    description: Add a new category
+ *    tags:
+ *      - Categories
  *    requestBody:
  *      required: true
  *      content:

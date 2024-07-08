@@ -1,14 +1,16 @@
 import BookingModel from "../../models/BookingModel.js";
 import BusinessModel from "../../models/BusinessModel.js";
-import { bookingSchema } from "../../Schemas.js";
-import validate from "../../middleware/ValidationMiddleware.js";
 import moment from "moment";
+import validate from "../../middleware/ValidationMiddleware.js";
+import { bookingSchema } from "../../schemas.js";
 
 /**
  * @swagger
  * /api/bookings:
  *  post:
  *    description: Create a new booking
+ *    tags:
+ *      - Bookings
  *    requestBody:
  *      required: true
  *      content:

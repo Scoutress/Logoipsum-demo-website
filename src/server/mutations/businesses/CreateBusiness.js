@@ -1,12 +1,14 @@
 import BusinessModel from "../../models/BusinessModel.js";
 import { businessSchema } from "../../schemas.js";
-import validate from "../../middleware/validationMiddleware.js";
+import validate from "../../middleware/ValidationMiddleware.js";
 
 /**
  * @swagger
  * /api/businesses:
  *  post:
  *    description: Create a new business
+ *    tags:
+ *      - Businesses
  *    requestBody:
  *      required: true
  *      content:

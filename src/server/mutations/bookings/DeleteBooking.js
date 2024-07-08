@@ -5,6 +5,8 @@ import BookingModel from "../../models/BookingModel.js";
  * /api/bookings/{id}:
  *  delete:
  *    description: Delete a booking by ID
+ *    tags:
+ *      - Bookings
  *    parameters:
  *      - in: path
  *        name: id

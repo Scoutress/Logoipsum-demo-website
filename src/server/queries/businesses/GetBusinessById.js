@@ -5,6 +5,8 @@ import BusinessModel from "../../models/BusinessModel.js";
  * /api/businesses/{id}:
  *  get:
  *    description: Get a business by ID
+ *    tags:
+ *      - Businesses
  *    parameters:
  *      - in: path
  *        name: id

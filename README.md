@@ -2,30 +2,9 @@
 
 ## Node.js part
 
-- Create RESTful API with Express.js.
-- Need API:
-
-1. Categories
-   GET /categories: gets all categories.
-   POST /categories: creates new category.
-2. Business
-   GET /businesses: gets all companies.
-   GET /businesses/category/:category: gets all companies, belonging to the specified category.
-   GET /businesses/:id: Gets a specific company by ID.
-   POST /businesses: Adds a new company to the list. Ensure all required fields are provided.
-   PUT /businesses/:id: Updates an existing company. Check if the company with the specified ID exists before updating.
-3. Orders
-   GET /bookings/user/:email: Gets all orders related to a specific user's email. postal address.
-   POST /bookings: Creates a new order. Ensure all fields are provided.
-   GET /businesses/:businessId/bookings/date/:date: Receives all orders for a specific company on the specified date.
-   DELETE /bookings/:id: Deletes a specific order.
-
-- Error handling: Implement a comprehensive error handling system to clearly report missing data, invalid operations, and failed actions.
-- Data check: Ensuring that all input data conforms to expected formats and constraints before processing.
 - Add User schema with appropriate fields.
 - Use authentication methods and secure the required APIs.
 - Split routes into different files e.g. routes/bookingRoutes.js.
-- Integrate ESlint and meet all ESlint requirements.
 
 ---
 

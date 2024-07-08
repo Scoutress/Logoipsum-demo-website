@@ -5,6 +5,8 @@ import CategoryModel from "../../models/CategoryModel.js";
  * /api/categories:
  *  get:
  *    description: Get all categories
+ *    tags:
+ *      - Categories
  *    responses:
  *      200:
  *        description: Success

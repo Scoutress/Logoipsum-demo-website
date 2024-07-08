@@ -5,6 +5,8 @@ import BusinessModel from "../../models/BusinessModel.js";
  * /api/businesses/{id}:
  *  put:
  *    description: Update an existing business
+ *    tags:
+ *      - Businesses
  *    parameters:
  *      - in: path
  *        name: id

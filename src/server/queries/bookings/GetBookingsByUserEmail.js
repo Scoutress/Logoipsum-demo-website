@@ -5,6 +5,8 @@ import BookingModel from "../../models/BookingModel.js";
  * /api/bookings/user/{email}:
  *  get:
  *    description: Get all bookings for a user by email
+ *    tags:
+ *      - Bookings
  *    parameters:
  *      - in: path
  *        name: email

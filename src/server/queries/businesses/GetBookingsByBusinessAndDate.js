@@ -1,4 +1,5 @@
 import BookingModel from "../../models/BookingModel.js";
+import mongoose from "mongoose";
 import moment from "moment";
 
 /**
@@ -6,6 +7,8 @@ import moment from "moment";
  * /api/businesses/{businessId}/bookings/date/{date}:
  *  get:
  *    summary: Get bookings for a business by date
+ *    tags:
+ *      - Businesses
  *    parameters:
  *      - in: path
  *        name: businessId
@@ -42,7 +45,6 @@ const getBookingsByBusinessAndDate = async (req, res) => {
     `Received request to get bookings for business ID: ${businessId} on date: ${date}`
   );
 
-  // Validate date format
   if (!moment(date, "YYYY-MM-DD", true).isValid()) {
     console.error("Invalid date format:", date);
     return res
@@ -52,13 +54,17 @@ const getBookingsByBusinessAndDate = async (req, res) => {
   console.log("Date format is valid:", date);
 
   try {
-    console.log(
-      `Querying bookings for business ID: ${businessId} on date: ${date}`
+    const businessObjectId = new mongoose.Types.ObjectId(businessId);
+
+    const allBookingsOnDate = await BookingModel.find({ date: date });
+
+    const bookings = allBookingsOnDate.filter((booking) =>
+      booking.businessID.equals(businessObjectId)
     );
-    const bookings = await BookingModel.find({
-      businessId,
-      date: new Date(date),
-    });
+    console.log(
+      `Filtered bookings for business ID: ${businessId} on date: ${date}`,
+      bookings
+    );
 
     if (bookings.length === 0) {
       console.error(

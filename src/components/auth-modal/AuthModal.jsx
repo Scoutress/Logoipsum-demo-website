@@ -137,3 +137,4 @@ AuthModal.propTypes = {
 };
 
 export default AuthModal;
+

@@ -1,5 +1,5 @@
 import express from "express";
-import getBookingsByUserEmail from "../queries/bookings/getBookingsByUserEmail.js";
+import getBookingsByUserEmail from "../queries/bookings/GetBookingsByUserEmail.js";
 import createBooking from "../mutations/bookings/CreateBooking.js";
 import deleteBooking from "../mutations/bookings/DeleteBooking.js";
 

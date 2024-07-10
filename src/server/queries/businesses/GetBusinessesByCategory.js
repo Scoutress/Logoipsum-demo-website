@@ -36,9 +36,9 @@ const getBusinessesByCategory = async (req, res) => {
         .status(404)
         .json({ error: "No businesses found for this category" });
     }
-    res.status(200).json(businesses);
+    return res.status(200).json(businesses);
   } catch (err) {
-    res
+    return res
       .status(500)
       .json({ error: "An error occurred while fetching businesses" });
   }

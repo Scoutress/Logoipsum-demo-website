@@ -54,33 +54,20 @@ const updateBusiness = async (req, res) => {
   const { id } = req.params;
   const updateData = req.body;
 
-  console.log(`Received request to update business with ID: ${id}`);
-  console.log(`Update data:`, updateData);
-
   try {
-    console.log(`Looking for business with ID: ${id}`);
     const business = await BusinessModel.findById(id);
     if (!business) {
-      console.error(`Business with ID: ${id} not found`);
       return res.status(404).json({ error: "Business not found" });
     }
 
-    console.log(`Found business:`, business);
     Object.keys(updateData).forEach((key) => {
-      console.log(`Updating ${key} to ${updateData[key]}`);
       business[key] = updateData[key];
     });
 
-    console.log(`Saving updated business`);
     const updatedBusiness = await business.save();
-    console.log(`Business updated successfully:`, updatedBusiness);
-    res.status(200).json(updatedBusiness);
+    return res.status(200).json(updatedBusiness);
   } catch (err) {
-    console.error(
-      `An error occurred while updating the business with ID: ${id}`,
-      err.message
-    );
-    res
+    return res
       .status(500)
       .json({ error: "An error occurred while updating the business" });
   }

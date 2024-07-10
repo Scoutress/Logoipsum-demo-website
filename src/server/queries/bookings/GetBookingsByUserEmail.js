@@ -32,29 +32,18 @@ import BookingModel from "../../models/BookingModel.js";
 const getBookingsByUserEmail = async (req, res) => {
   const { email } = req.params;
 
-  console.log(`Received request to get bookings for user with email: ${email}`);
-
   try {
-    console.log(`Querying bookings for user with email: ${email}`);
     const bookings = await BookingModel.find({ userEmail: email });
 
     if (bookings.length === 0) {
-      console.error(`No bookings found for user with email: ${email}`);
       return res.status(404).json({
         error: "No bookings found for this user",
       });
     }
 
-    console.log(
-      `Found ${bookings.length} bookings for user with email: ${email}`
-    );
-    res.status(200).json(bookings);
+    return res.status(200).json(bookings);
   } catch (err) {
-    console.error(
-      `An error occurred while fetching bookings for user with email: ${email}`,
-      err.message
-    );
-    res
+    return res
       .status(500)
       .json({ error: "An error occurred while fetching bookings" });
   }

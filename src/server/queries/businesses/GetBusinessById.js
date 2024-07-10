@@ -32,9 +32,9 @@ const getBusinessById = async (req, res) => {
     if (!business) {
       return res.status(404).json({ error: "Business not found" });
     }
-    res.status(200).json(business);
+    return res.status(200).json(business);
   } catch (err) {
-    res
+    return res
       .status(500)
       .json({ error: "An error occurred while fetching the business" });
   }

@@ -31,3 +31,4 @@ CategoryList.propTypes = {
 };
 
 export default CategoryList;
+

@@ -45,8 +45,11 @@ if (!dbConnection) {
 mongoose
   .connect(dbConnection)
   .then(() => {
+    // TODO: remove console logs before deploy
+    // eslint-disable-next-line no-console
     console.log("Connected to MongoDB");
     server.listen(3001, () => {
+      // eslint-disable-next-line no-console
       console.log("Server is running on http://localhost:3001/api-docs");
     });
   })

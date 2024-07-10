@@ -74,3 +74,4 @@ Service.propTypes = {
 };
 
 export default Service;
+

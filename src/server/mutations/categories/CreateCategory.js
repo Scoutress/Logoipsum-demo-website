@@ -36,10 +36,7 @@ import CategoryModel from "../../models/CategoryModel.js";
 const createCategory = async (req, res) => {
   const { name, backgroundColor, photo } = req.body;
 
-  console.log("Received request to create category with data:", req.body);
-
   if (!name || !backgroundColor || !photo) {
-    console.error("Invalid input data:", req.body);
     return res.status(400).json({ error: "Invalid input" });
   }
 
@@ -49,15 +46,11 @@ const createCategory = async (req, res) => {
     photo,
   };
 
-  console.log("Attempting to create new category with data:", categoryProps);
-
   try {
     const newCategory = await CategoryModel.create(categoryProps);
-    console.log("New category created successfully:", newCategory);
-    res.status(200).json(newCategory);
+    return res.status(200).json(newCategory);
   } catch (err) {
-    console.error("Error creating category:", err.message);
-    res.status(500).json({ error: "Error creating category" });
+    return res.status(500).json({ error: "Error creating category" });
   }
 };
 

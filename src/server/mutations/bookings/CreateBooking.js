@@ -53,35 +53,20 @@ import { bookingSchema } from "../../schemas.js";
 const createBooking = async (req, res) => {
   const { businessID, date, time, userEmail, userName, status } = req.body;
 
-  console.log("Received request to create booking with data:", req.body);
-
   if (!moment(date, "YYYY-MM-DD", true).isValid()) {
-    console.error("Invalid date format:", date);
     return res
       .status(400)
       .json({ error: "Invalid date format, should be YYYY-MM-DD" });
   }
-  console.log("Date format is valid:", date);
 
   try {
-    console.log("Checking if business with ID (", businessID, ") exists");
     const business = await BusinessModel.findById(businessID);
     if (!business) {
-      console.error("Business with ID", businessID, "does not exist");
       return res
         .status(400)
         .json({ error: "Business with this ID does not exist" });
     }
-    console.log("Business with ID", businessID, "exists:", business);
 
-    console.log("Creating new booking with data:", {
-      businessID,
-      date,
-      time,
-      userEmail,
-      userName,
-      status,
-    });
     const newBooking = await BookingModel.create({
       businessID,
       date,
@@ -90,11 +75,9 @@ const createBooking = async (req, res) => {
       userName,
       status,
     });
-    console.log("New booking created successfully:", newBooking);
-    res.status(201).json(newBooking);
+    return res.status(201).json(newBooking);
   } catch (err) {
-    console.error("An error occurred while creating the booking:", err.message);
-    res
+    return res
       .status(500)
       .json({ error: "An error occurred while creating the booking" });
   }

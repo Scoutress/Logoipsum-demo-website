@@ -43,3 +43,4 @@ SearchInputSection.propTypes = {
 };
 
 export default SearchInputSection;
+

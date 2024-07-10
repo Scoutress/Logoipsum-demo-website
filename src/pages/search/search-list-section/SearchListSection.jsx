@@ -30,3 +30,4 @@ SearchListSection.propTypes = {
 };
 
 export default SearchListSection;
+

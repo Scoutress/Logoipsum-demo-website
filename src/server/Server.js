@@ -1,11 +1,13 @@
 import "dotenv/config";
-import configEnvVariables from "./config/ConfigEnvVariables.js";
 import express from "express";
-import configSwagger from "./config/ConfigSwagger.js";
-import configMiddlewares from "./config/ConfigMiddlewares.js";
-import connectToDb from "./libs/ConnectToDb.js";
+import {
+  configEnvVariables,
+  configSwagger,
+  configMiddlewares,
+  configRoutes,
+  connectToDb,
+} from "./config/Index.js";
 import errorHandler from "./middleware/ErrorHandler.js";
-import configRoutes from "./config/ConfigRoutes.js";
 
 const { SERVER_PORT } = configEnvVariables;
 

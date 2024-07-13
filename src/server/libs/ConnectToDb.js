@@ -12,7 +12,9 @@ const connectToDb = async (successCallback) => {
     await mongoose.connect(dbConnection);
     //TODO: Remove log before deploy
     console.log("Connected to MongoDB");
-    successCallback();
+    if (successCallback && typeof successCallback === "function") {
+      successCallback();
+    }
   } catch (err) {
     //TODO: Remove log before deploy
     console.error("Failed to connect to MongoDB", err);

@@ -1,4 +1,5 @@
 import "dotenv/config";
+import configEnvVariables from "./config/ConfigEnvVariables.js";
 import express from "express";
 import configSwagger from "./config/ConfigSwagger.js";
 import configMiddlewares from "./config/ConfigMiddlewares.js";
@@ -6,16 +7,26 @@ import connectToDb from "./libs/ConnectToDb.js";
 import errorHandler from "./middleware/ErrorHandler.js";
 import configRoutes from "./config/ConfigRoutes.js";
 
-const server = express();
-configSwagger(server);
-configMiddlewares(server);
-configRoutes(server);
+const { SERVER_PORT } = configEnvVariables;
 
-server.use(errorHandler);
+const startServer = async () => {
+  const server = express();
+  configSwagger(server);
+  configMiddlewares(server);
+  configRoutes(server);
 
-await connectToDb(() => {
-  server.listen(5005, () => {
-    //TODO: Remove log before deploy
-    console.log("Server is running on http://localhost:5005/api-docs");
+  server.use(errorHandler);
+
+  await connectToDb(() => {
+    server.listen(SERVER_PORT, () => {
+      //TODO: Remove log before deploy
+      console.log(
+        `Server is running on http://localhost:${SERVER_PORT}/api-docs`
+      );
+    });
   });
+};
+
+startServer().catch((err) => {
+  console.error("Failed to start server:", err);
 });

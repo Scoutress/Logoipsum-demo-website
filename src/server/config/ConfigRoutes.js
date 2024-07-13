@@ -1,11 +1,13 @@
 import bookingsRouter from "../routers/BookingsRouter.js";
 import businessesRouter from "../routers/BusinessesRouter.js";
 import categoriesRouter from "../routers/CategoriesRouter.js";
+import authRouter from "../routers/AuthRouter.js";
 
 const configRoutes = (server) => {
-  server.use("/api/categories", categoriesRouter);
-  server.use("/api/businesses", businessesRouter);
-  server.use("/api/bookings", bookingsRouter);
+  server.use("/categories", categoriesRouter);
+  server.use("/businesses", businessesRouter);
+  server.use("/bookings", bookingsRouter);
+  server.use("/auth", authRouter);
 };
 
 export default configRoutes;

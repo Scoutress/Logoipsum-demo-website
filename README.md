@@ -2,9 +2,7 @@
 
 ## Node.js part
 
-- Add User schema with appropriate fields.
 - Use authentication methods and secure the required APIs.
-- Split routes into different files e.g. routes/bookingRoutes.js.
 
 ---
 

@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "node server.js --port 3003",
-    "dev": "nodemon server.js",
+    "dev": "nodemon src/server/Server.js",
     "server": "json-server --watch db.json --port 3001",
     "vite-dev": "vite",
     "build": "vite build",

@@ -2,7 +2,7 @@ import BookingModel from "../../models/BookingModel.js";
 
 /**
  * @swagger
- * /api/bookings/user/{email}:
+ * /bookings/user/{email}:
  *  get:
  *    description: Get all bookings for a user by email
  *    tags:

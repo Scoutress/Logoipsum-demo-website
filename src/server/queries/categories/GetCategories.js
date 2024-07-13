@@ -2,7 +2,7 @@ import CategoryModel from "../../models/CategoryModel.js";
 
 /**
  * @swagger
- * /api/categories:
+ * /categories:
  *  get:
  *    description: Get all categories
  *    tags:

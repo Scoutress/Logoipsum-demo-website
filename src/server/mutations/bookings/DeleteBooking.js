@@ -2,7 +2,7 @@ import BookingModel from "../../models/BookingModel.js";
 
 /**
  * @swagger
- * /api/bookings/{id}:
+ * /bookings/{id}:
  *  delete:
  *    description: Delete a booking by ID
  *    tags:

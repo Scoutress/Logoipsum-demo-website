@@ -1,11 +1,5 @@
 # Tasks left:
 
-## Node.js part
-
-- Use authentication methods and secure the required APIs.
-
----
-
 ## Typescript part
 
 - Integrate Typescript support.

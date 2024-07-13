@@ -6,7 +6,7 @@ import { bookingSchema } from "../../schemas.js";
 
 /**
  * @swagger
- * /api/bookings:
+ * /bookings:
  *  post:
  *    description: Create a new booking
  *    tags:

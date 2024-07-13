@@ -2,7 +2,7 @@ import BusinessModel from "../../models/BusinessModel.js";
 
 /**
  * @swagger
- * /api/businesses:
+ * /businesses:
  *  get:
  *    description: Get all businesses
  *    tags:

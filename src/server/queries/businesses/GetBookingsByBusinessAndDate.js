@@ -4,7 +4,7 @@ import moment from "moment";
 
 /**
  * @swagger
- * /api/businesses/{businessId}/bookings/date/{date}:
+ * /businesses/{businessId}/bookings/date/{date}:
  *  get:
  *    summary: Get bookings for a business by date
  *    tags:

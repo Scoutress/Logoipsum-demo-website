@@ -4,7 +4,7 @@ import validate from "../../middleware/ValidationMiddleware.js";
 
 /**
  * @swagger
- * /api/businesses:
+ * /businesses:
  *  post:
  *    description: Create a new business
  *    tags:

@@ -1,9 +1,9 @@
 import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import styles from "./Header.module.scss";
-import Button from "../button/Button.jsx";
+import Button from "../button/Button.js";
 import PropTypes from "prop-types";
-import AuthModal from "../auth-modal/AuthModal.jsx";
+import AuthModal from "../auth-modal/AuthModal.js";
 import { AuthContext } from "../../context/AuthContext.jsx";
 
 const NavItem = ({ to, children }) => {

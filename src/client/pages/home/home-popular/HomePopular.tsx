@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import Service from "../../../components/service/Service.jsx";
+import Service from "../../../components/service/Service.js";
 import styles from "./HomePopular.module.scss";
 
 const HomePopular = () => {

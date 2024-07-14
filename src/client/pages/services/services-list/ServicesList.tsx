@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import Service from "../../../components/service/Service.jsx";
+import Service from "../../../components/service/Service.js";
 import styles from "./ServicesList.module.scss";
 
 const ServicesList = () => {

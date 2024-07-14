@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import SearchInputSection from "./search-input-section/SearchInputSection.jsx";
-import SearchListSection from "./search-list-section/SearchListSection.jsx";
+import SearchInputSection from "./search-input-section/SearchInputSection.js";
+import SearchListSection from "./search-list-section/SearchListSection.js";
 import styles from "./SearchPage.module.scss";
 
 const useQuery = () => {

@@ -1,4 +1,4 @@
-import generateToken from "../helpers/GenerateToken.js";
+import generateToken from "./GenerateToken.js";
 
 /**
  * @swagger

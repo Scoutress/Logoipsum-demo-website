@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
-import Service from "../../../components/service/Service.jsx";
+import Service from "../../../components/service/Service.js";
 import styles from "./SearchListSection.module.scss";
 
 const SearchListSection = ({ searchTerm }) => {

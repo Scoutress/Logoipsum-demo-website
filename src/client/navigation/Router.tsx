@@ -4,7 +4,7 @@ import Home from "../pages/home/Home.jsx";
 import Services from "../pages/services/Services.jsx";
 import About from "../pages/About.jsx";
 import Routes from "./Routes.jsx";
-import Root from "./Root.jsx";
+import Root from "./Root.js";
 import SearchPage from "../pages/search/SearchPage.jsx";
 
 const Router = createBrowserRouter([

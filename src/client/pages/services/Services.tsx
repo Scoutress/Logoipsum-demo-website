@@ -1,9 +1,9 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import styles from "./Services.module.scss";
-import Sidebar from "./sidebar/Sidebar.jsx";
-import CategoryList from "./category-list/CategoryList.jsx";
-import ServicesList from "./services-list/ServicesList.jsx";
+import Sidebar from "./sidebar/Sidebar.js";
+import CategoryList from "./category-list/CategoryList.js";
+import ServicesList from "./services-list/ServicesList.js";
 
 const Services = () => {
   const { category } = useParams();

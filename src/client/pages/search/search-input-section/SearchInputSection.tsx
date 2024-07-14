@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import { useState, useEffect, useRef } from "react";
-import Input from "../../../components/input/Input.jsx";
+import Input from "../../../components/input/Input.js";
 import styles from "./SearchInputSection.module.scss";
 
 const SearchInputSection = ({ setSearchTerm, searchTerm }) => {

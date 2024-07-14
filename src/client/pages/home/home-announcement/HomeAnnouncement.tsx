@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styles from "./HomeAnnouncement.module.scss";
-import Input from "../../../components/input/Input.jsx";
-import Button from "../../../components/button/Button.jsx";
+import Input from "../../../components/input/Input.js";
+import Button from "../../../components/button/Button.js";
 import { AiOutlineSearch } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 

@@ -1,24 +1,18 @@
 import "dotenv/config";
 
-const { SERVER_PORT, DB_CONNECTION, TOKEN_SECRET, TOKEN_EXPIRATION } =
-  process.env;
+const requiredParams = {
+  SERVER_PORT: process.env.SERVER_PORT,
+  DB_CONNECTION: process.env.DB_CONNECTION,
+  TOKEN_SECRET: process.env.TOKEN_SECRET,
+  TOKEN_EXPIRATION: process.env.TOKEN_EXPIRATION,
+};
 
 const missingParams = [];
 
-if (!SERVER_PORT) {
-  missingParams.push("SERVER_PORT");
-}
-
-if (!DB_CONNECTION) {
-  missingParams.push("DB_CONNECTION");
-}
-
-if (!TOKEN_SECRET) {
-  missingParams.push("TOKEN_SECRET");
-}
-
-if (!TOKEN_EXPIRATION) {
-  missingParams.push("TOKEN_EXPIRATION");
+for (const [key, value] of Object.entries(requiredParams)) {
+  if (!value) {
+    missingParams.push(key);
+  }
 }
 
 if (missingParams.length > 0) {
@@ -26,8 +20,8 @@ if (missingParams.length > 0) {
 }
 
 export default {
-  SERVER_PORT,
-  DB_CONNECTION,
-  TOKEN_SECRET,
-  TOKEN_EXPIRATION,
+  SERVER_PORT: requiredParams.SERVER_PORT,
+  DB_CONNECTION: requiredParams.DB_CONNECTION,
+  TOKEN_SECRET: requiredParams.TOKEN_SECRET,
+  TOKEN_EXPIRATION: requiredParams.TOKEN_EXPIRATION,
 };

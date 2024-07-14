@@ -1,0 +1,19 @@
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.serviceItem {
+  margin-bottom: 10px;
+  flex: 1 1 calc(25% - 20px);
+  max-width: calc(25% - 20px);
+}
+
+.noResults {
+  font-family: $primaryFontStyle;
+  font-size: $primaryH2FontSize;
+  text-align: center;
+  font-weight: bold;
+}

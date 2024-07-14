@@ -1,0 +1,30 @@
+.servicesList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
+}
+
+.error {
+  color: red;
+  font-size: 1.2em;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.noServices {
+  font-size: 1.2em;
+  text-align: center;
+  margin-top: 20px;
+  font-weight: bold;
+}
+
+.service {
+  flex: 1 1 calc(33.33% - 40px);
+  max-width: calc(33.33% - 40px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: #fff;
+  margin-bottom: 20px;
+}

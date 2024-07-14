@@ -1,0 +1,15 @@
+.categoryListTitle {
+  font-family: $primaryFontStyle;
+  font-size: $primaryH2FontSize;
+  &::first-letter {
+    text-transform: uppercase;
+  }
+}
+
+.services {
+  display: flex;
+  flex-wrap: wrap;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+}
+

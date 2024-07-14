@@ -9,8 +9,8 @@ import bcrypt from "bcrypt";
  *       type: object
  *       required:
  *         - username
- *         - firstname
- *         - lastname
+ *         - firstName
+ *         - lastName
  *         - city
  *         - email
  *         - password
@@ -21,10 +21,10 @@ import bcrypt from "bcrypt";
  *         username:
  *           type: string
  *           description: The username of the user
- *         firstname:
+ *         firstName:
  *           type: string
  *           description: The first name of the user
- *         lastname:
+ *         lastName:
  *           type: string
  *           description: The last name of the user
  *         city:
@@ -47,8 +47,8 @@ import bcrypt from "bcrypt";
  *       example:
  *         id: d5fE_asz
  *         username: johndoe
- *         firstname: John
- *         lastname: Doe
+ *         firstName: John
+ *         lastName: Doe
  *         city: New York
  *         email: johndoe@example.com
  *         password: $2a$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36z4zN7jTOG2JbG6eU0t1Wy
@@ -59,8 +59,8 @@ import bcrypt from "bcrypt";
 const userSchema = new mongoose.Schema(
   {
     username: { type: String, required: true, unique: true },
-    firstname: { type: String, required: true },
-    lastname: { type: String, required: true },
+    firstName: { type: String, required: true },
+    lastName: { type: String, required: true },
     city: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },

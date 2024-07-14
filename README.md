@@ -1,5 +1,7 @@
 # Tasks left:
 
+- Bug: When pressing on category (/services) twice, system will show doubled service cards.
+
 ## Typescript part
 
 - Integrate Typescript support.

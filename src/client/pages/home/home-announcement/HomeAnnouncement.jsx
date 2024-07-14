@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styles from "./HomeAnnouncement.module.scss";
-import Input from "../../../components/input/Input";
-import Button from "../../../components/button/Button";
+import Input from "../../../components/input/Input.jsx";
+import Button from "../../../components/button/Button.jsx";
 import { AiOutlineSearch } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 
@@ -61,4 +61,3 @@ const HomeAnnouncement = () => {
 };
 
 export default HomeAnnouncement;
-

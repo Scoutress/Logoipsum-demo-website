@@ -1,16 +1,36 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import styles from "./HomeCategories.module.scss";
 
 const HomeCategories = () => {
   const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:3000/categories")
-      .then((response) => response.json())
-      .then((data) => setCategories(data))
-      .catch((error) => console.error("Error fetching categories:", error));
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get("http://localhost:3001/categories");
+        setCategories(response.data);
+      } catch (error) {
+        setError("Error fetching categories");
+        console.error("Error fetching categories:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCategories();
   }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
 
   return (
     <div className={styles.container}>
@@ -31,4 +51,3 @@ const HomeCategories = () => {
 };
 
 export default HomeCategories;
-

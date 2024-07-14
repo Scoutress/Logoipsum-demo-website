@@ -1,17 +1,22 @@
 import { useState, useEffect } from "react";
+import axios from "axios";
 
 const useSearchedServices = (searchTerm) => {
   const [services, setServices] = useState([]);
   const [filteredServices, setFilteredServices] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const response = await fetch("http://localhost:3000/services");
-        const data = await response.json();
-        setServices(data);
+        const response = await axios.get("http://localhost:3000/services");
+        setServices(response.data);
       } catch (error) {
+        setError("Error fetching services");
         console.error("Error fetching services:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -35,7 +40,7 @@ const useSearchedServices = (searchTerm) => {
     }
   }, [searchTerm, services]);
 
-  return filteredServices;
+  return { filteredServices, loading, error };
 };
 
 export default useSearchedServices;

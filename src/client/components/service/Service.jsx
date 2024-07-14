@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
-import useLocalStorage from "../../hooks/UseLocalStorage";
+import useLocalStorage from "../../hooks/UseLocalStorage.js";
 import styles from "./Service.module.scss";
 
 const Service = ({
@@ -74,4 +74,3 @@ Service.propTypes = {
 };
 
 export default Service;
-

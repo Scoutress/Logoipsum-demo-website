@@ -1,19 +1,37 @@
 import { useState, useEffect } from "react";
-import Service from "../../../components/service/Service";
+import axios from "axios";
+import Service from "../../../components/service/Service.jsx";
 import styles from "./HomePopular.module.scss";
 
 const HomePopular = () => {
   const [popularServices, setPopularServices] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:3000/services")
-      .then((response) => response.json())
-      .then((data) => {
-        const popular = data.slice(0, 4);
+    const fetchServices = async () => {
+      try {
+        const response = await axios.get("http://localhost:3001/services");
+        const popular = response.data.slice(0, 4);
         setPopularServices(popular);
-      })
-      .catch((error) => console.error("Error fetching services:", error));
+      } catch (error) {
+        setError("Error fetching services");
+        console.error("Error fetching services:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchServices();
   }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
 
   return (
     <div>
@@ -28,4 +46,3 @@ const HomePopular = () => {
 };
 
 export default HomePopular;
-

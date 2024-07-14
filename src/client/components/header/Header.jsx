@@ -1,10 +1,10 @@
 import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import styles from "./Header.module.scss";
-import Button from "../button/Button";
+import Button from "../button/Button.jsx";
 import PropTypes from "prop-types";
-import AuthModal from "../auth-modal/AuthModal";
-import { AuthContext } from "../../context/AuthContext";
+import AuthModal from "../auth-modal/AuthModal.jsx";
+import { AuthContext } from "../../context/AuthContext.jsx";
 
 const NavItem = ({ to, children }) => {
   return (
@@ -64,4 +64,3 @@ const Header = () => {
 };
 
 export default Header;
-

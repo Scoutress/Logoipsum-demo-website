@@ -1,9 +1,9 @@
 .servicesPage {
   display: flex;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .servicesList {
-  flex-grow: 1;
-  padding: 20px;
+  padding: 10px;
 }
-

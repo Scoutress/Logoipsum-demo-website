@@ -1,5 +1,6 @@
 import { createContext, useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import axios from "axios";
 
 const AuthContext = createContext();
 
@@ -15,13 +16,10 @@ const AuthProvider = ({ children }) => {
 
   const login = async (userData) => {
     try {
-      const response = await fetch(
+      const response = await axios.get(
         `http://localhost:3000/users?email=${userData.email}&password=${userData.password}`
       );
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const users = await response.json();
+      const users = response.data;
       if (users.length > 0) {
         setUser(users[0]);
         localStorage.setItem("user", JSON.stringify(users[0]));
@@ -37,17 +35,16 @@ const AuthProvider = ({ children }) => {
 
   const register = async (userData) => {
     try {
-      const response = await fetch("http://localhost:3000/users", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(userData),
-      });
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const newUser = await response.json();
+      const response = await axios.post(
+        "http://localhost:3000/users",
+        userData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const newUser = response.data;
       setUser(newUser);
       localStorage.setItem("user", JSON.stringify(newUser));
       return true;
@@ -74,4 +71,3 @@ AuthProvider.propTypes = {
 };
 
 export { AuthContext, AuthProvider };
-

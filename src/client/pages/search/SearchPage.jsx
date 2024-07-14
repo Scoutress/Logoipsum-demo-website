@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import SearchInputSection from "./search-input-section/SearchInputSection";
-import SearchListSection from "./search-list-section/SearchListSection";
+import SearchInputSection from "./search-input-section/SearchInputSection.jsx";
+import SearchListSection from "./search-list-section/SearchListSection.jsx";
 import styles from "./SearchPage.module.scss";
 
 const useQuery = () => {
@@ -33,4 +33,3 @@ const SearchPage = () => {
 };
 
 export default SearchPage;
-

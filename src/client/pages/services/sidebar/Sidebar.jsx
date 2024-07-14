@@ -5,10 +5,18 @@ import styles from "./Sidebar.module.scss";
 import useSidebar from "./UseSidebar";
 
 const Sidebar = ({ selectedCategory, onCategoryClick }) => {
-  const { categories, activeCategory, handleCategoryClick } = useSidebar(
+  const { categories, loading, error, handleCategoryClick } = useSidebar(
     selectedCategory,
     onCategoryClick
   );
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
 
   return (
     <div className={styles.sidebar}>
@@ -21,7 +29,7 @@ const Sidebar = ({ selectedCategory, onCategoryClick }) => {
                 to={link}
                 className={({ isActive }) =>
                   clsx(styles.button, {
-                    [styles.active]: isActive || activeCategory === name,
+                    [styles.active]: isActive || selectedCategory === name,
                   })
                 }
                 onClick={() => handleCategoryClick({ name })}
@@ -43,4 +51,3 @@ Sidebar.propTypes = {
 };
 
 export default Sidebar;
-

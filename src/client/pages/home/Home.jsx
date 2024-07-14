@@ -1,6 +1,6 @@
-import HomeAnnouncement from "./home-announcement/HomeAnnouncement";
-import HomeCategories from "./home-categories/HomeCategories";
-import HomePopular from "./home-popular/HomePopular";
+import HomeAnnouncement from "./home-announcement/HomeAnnouncement.jsx";
+import HomeCategories from "./home-categories/HomeCategories.jsx";
+import HomePopular from "./home-popular/HomePopular.jsx";
 
 const Home = () => {
   return (
@@ -13,4 +13,3 @@ const Home = () => {
 };
 
 export default Home;
-

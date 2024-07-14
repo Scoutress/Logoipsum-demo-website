@@ -1,5 +1,5 @@
 import formatAuthResponse from "../helpers/FormatAuthResponse.js";
-import UserModel from "../../users/UserModel.js";
+import UserModel from "../../models/UserModel.js";
 
 /**
  * @swagger

@@ -1,37 +1,32 @@
 import { useState, useEffect } from "react";
+import axios from "axios";
 
 const useSidebar = (selectedCategory, onCategoryClick) => {
   const [categories, setCategories] = useState([]);
-  const [activeCategory, setActiveCategory] = useState(selectedCategory);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await fetch("http://localhost:3000/categories");
-        const data = await response.json();
-        setCategories(data);
+        const response = await axios.get("http://localhost:3001/categories");
+        setCategories(response.data);
       } catch (error) {
+        setError("Error fetching categories");
         console.error("Error fetching categories:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchCategories();
   }, []);
 
-  useEffect(() => {
-    setActiveCategory(selectedCategory);
-  }, [selectedCategory]);
-
-  const handleCategoryClick = ({ name }) => {
-    setActiveCategory(name);
-    onCategoryClick(name);
+  const handleCategoryClick = (category) => {
+    onCategoryClick(category.name);
   };
 
-  return {
-    categories,
-    activeCategory,
-    handleCategoryClick,
-  };
+  return { categories, loading, error, handleCategoryClick };
 };
 
 export default useSidebar;

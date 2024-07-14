@@ -1,8 +1,8 @@
 import { useState, useContext } from "react";
 import PropTypes from "prop-types";
-import { AuthContext } from "../../context/AuthContext";
+import { AuthContext } from "../../context/AuthContext.jsx";
 import styles from "./AuthModal.module.scss";
-import Loading from "../loading/Loading";
+import Loading from "../loading/Loading.jsx";
 
 const AuthModal = ({ onClose }) => {
   const { login, register } = useContext(AuthContext);
@@ -137,4 +137,3 @@ AuthModal.propTypes = {
 };
 
 export default AuthModal;
-

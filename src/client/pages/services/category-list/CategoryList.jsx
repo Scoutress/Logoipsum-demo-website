@@ -1,34 +1,55 @@
+import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { useParams } from "react-router-dom";
+import axios from "axios";
 import Service from "../../../components/service/Service";
 import styles from "./CategoryList.module.scss";
-import useFilteredServices from "../../../hooks/UseFilteredServices";
-import useSearchedServices from "../../../hooks/UseSearchedServices";
 
 const CategoryList = ({ selectedCategory }) => {
-  const { searchTerm } = useParams();
-  const filteredServices = useFilteredServices(selectedCategory);
-  const searchedServices = useSearchedServices(searchTerm);
+  const [services, setServices] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const servicesToDisplay = searchTerm ? searchedServices : filteredServices;
+  useEffect(() => {
+    const fetchServices = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const response = await axios.get(
+          `http://localhost:3001/services?category=${selectedCategory}`
+        );
+        setServices(response.data);
+      } catch (error) {
+        setError("Error fetching services");
+        console.error("Error fetching services:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchServices();
+  }, [selectedCategory]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
+
+  const servicesToDisplay = Array.isArray(services) ? services : [];
 
   return (
-    <div>
-      <h2 className={styles.categoryListTitle}>
-        {selectedCategory || searchTerm || "All"}
-      </h2>
-      <div className={styles.services}>
-        {servicesToDisplay.map((service) => (
-          <Service key={service.id} {...service} />
-        ))}
-      </div>
+    <div className={styles.categoryList}>
+      {servicesToDisplay.map((service) => (
+        <Service key={service.id} {...service} />
+      ))}
     </div>
   );
 };
 
 CategoryList.propTypes = {
-  selectedCategory: PropTypes.string,
+  selectedCategory: PropTypes.string.isRequired,
 };
 
 export default CategoryList;
-

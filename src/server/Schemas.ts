@@ -16,7 +16,7 @@ export const serviceSchema = Joi.object({
   category: Joi.string().required(),
   contactPerson: Joi.string().required(),
   email: Joi.string().email().required(),
-  photo: Joi.string().uri().required(),
+  photo: Joi.string(),
 });
 
 export const categorySchema = Joi.object({

@@ -21,6 +21,4 @@ export const businessSchema = Joi.object({
 
 export const categorySchema = Joi.object({
   name: Joi.string().required(),
-  backgroundColor: Joi.string().required(),
-  photo: Joi.string().required(),
 });

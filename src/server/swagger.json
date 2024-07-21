@@ -39,11 +39,10 @@
             "application/json": {
               "schema": {
                 "type": "object",
-                "required": ["name", "backgroundColor", "photo"],
+                "required": ["name", "iconFile"],
                 "properties": {
                   "name": { "type": "string" },
-                  "backgroundColor": { "type": "string" },
-                  "photo": { "type": "string" }
+                  "iconFile": { "type": "string" }
                 }
               }
             }
@@ -345,14 +344,11 @@
           "name": {
             "type": "string"
           },
-          "backgroundColor": {
-            "type": "string"
-          },
-          "photo": {
+          "iconFile": {
             "type": "string"
           }
         },
-        "required": ["name", "backgroundColor", "photo"]
+        "required": ["name", "iconFile"]
       },
       "Business": {
         "type": "object",

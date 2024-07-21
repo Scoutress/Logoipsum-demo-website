@@ -18,8 +18,6 @@ const categoriesRouter = express.Router();
  *   get:
  *     summary: Get all categories
  *     tags: [Categories]
- *     security:
- *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: A list of categories
@@ -29,8 +27,11 @@ const categoriesRouter = express.Router();
  *               type: array
  *               items:
  *                 $ref: '#/components/schemas/Category'
- *       401:
- *         description: Unauthorized
+ */
+
+/**
+ * @swagger
+ * /categories:
  *   post:
  *     summary: Create a new category
  *     tags: [Categories]
@@ -41,7 +42,12 @@ const categoriesRouter = express.Router();
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Category'
+ *             type: object
+ *             required:
+ *               - name
+ *             properties:
+ *               name:
+ *                 type: string
  *     responses:
  *       201:
  *         description: Category created
@@ -53,7 +59,7 @@ const categoriesRouter = express.Router();
  *         description: Unauthorized
  */
 
-categoriesRouter.get("/", authMiddleware, getCategories);
+categoriesRouter.get("/", getCategories);
 categoriesRouter.post("/", authMiddleware, createCategory);
 
 export default categoriesRouter;

@@ -3,11 +3,11 @@
 - Bug: When pressing on category (/services) twice, system will show doubled service cards.
 - Bug: Size of service cards is not correct.
 - Bug: Search is not working.
-- Bug: While creating new category, business or booking in swagger, he asks for ID. And when I try to fill id input, it says "id is not allowed".
+- Bug: While creating new business or booking in swagger, he asks for ID. And when I try to fill id input, it says "id is not allowed".
 
 ## Typescript part
 
-- Connect the /categories and /businesses APIs to the front-end application.
+- Connect the /businesses API to the front-end application.
 - Merge /login and /register APIs with login and registration forms. (Print the registration form if there is none).
 - (Optional) Add error and success messages. For example when invalid data is entered.
 - Make a dynamic route for one business page.

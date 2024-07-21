@@ -8,24 +8,21 @@ import mongoose from "mongoose";
  *      type: object
  *      required:
  *        - name
- *        - backgroundColor
- *        - photo
  *      properties:
  *        id:
  *          type: string
+ *          readOnly: true
  *        name:
  *          type: string
- *        backgroundColor:
+ *        iconFile:
  *          type: string
- *        photo:
- *          type: string
+ *          nullable: true
  */
 
 const categorySchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
-    backgroundColor: { type: String, required: true },
-    photo: { type: String, required: true },
+    iconFile: { type: String, default: "" },
   },
   {
     versionKey: false,

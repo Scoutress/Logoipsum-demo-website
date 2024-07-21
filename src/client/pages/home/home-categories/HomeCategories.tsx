@@ -3,11 +3,10 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import styles from "./HomeCategories.module.scss";
 
-// Define the shape of a category object
 interface Category {
   name: string;
   link: string;
-  icon: string;
+  iconFile: string;
 }
 
 const HomeCategories: React.FC = () => {
@@ -18,7 +17,7 @@ const HomeCategories: React.FC = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get("http://localhost:3001/categories");
+        const response = await axios.get("http://localhost:5005/categories");
         setCategories(response.data);
       } catch (error) {
         setError("Error fetching categories");
@@ -45,7 +44,7 @@ const HomeCategories: React.FC = () => {
         <div key={category.name} className={styles.subcontainer}>
           <Link to={category.link} className={styles.link}>
             <img
-              src={category.icon}
+              src={`/${category.iconFile}`}
               alt={`${category.name} Icon`}
               className={styles.icon}
             />

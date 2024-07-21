@@ -18,17 +18,11 @@ import validate from "../../middleware/ValidationMiddleware.ts";
  *            type: object
  *            required:
  *              - name
- *              - backgroundColor
- *              - photo
  *            properties:
  *              name:
  *                type: string
- *              backgroundColor:
- *                type: string
- *              photo:
- *                type: string
  *    responses:
- *      200:
+ *      201:
  *        description: Success
  *        content:
  *          application/json:
@@ -40,17 +34,16 @@ const createCategory = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  const { name, backgroundColor, photo } = req.body;
-
-  const categoryProps = {
-    name,
-    backgroundColor,
-    photo,
-  };
+  const { name } = req.body;
 
   try {
-    const newCategory = await CategoryModel.create(categoryProps);
-    return res.status(200).json(newCategory);
+    const newCategory = new CategoryModel({
+      name,
+    });
+
+    await newCategory.save();
+
+    return res.status(201).json(newCategory);
   } catch (err) {
     console.error("Error creating category:", err);
     return res.status(500).json({ error: "Error creating category" });

@@ -4,28 +4,33 @@ import CategoryModel from "../../models/CategoryModel.ts";
 /**
  * @swagger
  * /categories:
- *  get:
- *    description: Get all categories
- *    tags:
- *      - Categories
- *    responses:
- *      200:
- *        description: Success
- *        content:
- *          application/json:
- *            schema:
- *              type: array
- *              items:
- *                $ref: '#/components/schemas/Category'
+ *   get:
+ *     summary: Get all categories
+ *     tags: [Categories]
+ *     responses:
+ *       200:
+ *         description: A list of categories
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Category'
+ *       401:
+ *         description: Unauthorized
  */
 
-const getServices = async (req: Request, res: Response): Promise<void> => {
+const getCategories = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
   try {
-    const services = await CategoryModel.find();
-    res.status(200).json(services);
+    const categories = await CategoryModel.find();
+    return res.status(200).json(categories);
   } catch (error) {
-    res.status(500).json({ error: "Failed to retrieve categories" });
+    console.error("Error fetching categories:", error);
+    return res.status(500).json({ error: "Error fetching categories" });
   }
 };
 
-export default getServices;
+export default getCategories;

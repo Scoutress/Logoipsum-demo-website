@@ -3,7 +3,10 @@ import axios from "axios";
 
 interface User {
   id: number;
-  name: string;
+  username: string;
+  firstName: string;
+  lastName: string;
+  city: string;
   email: string;
   password: string;
 }
@@ -12,7 +15,10 @@ interface AuthContextType {
   user: User | null;
   login: (userData: { email: string; password: string }) => Promise<boolean>;
   register: (userData: {
-    name: string;
+    username: string;
+    firstName: string;
+    lastName: string;
+    city: string;
     email: string;
     password: string;
   }) => Promise<boolean>;
@@ -35,22 +41,23 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   }, []);
 
+  const API_URL = `http://localhost:5005`;
+
   const login = async (userData: {
     email: string;
     password: string;
   }): Promise<boolean> => {
     try {
-      const response = await axios.get(
-        `http://localhost:3000/users?email=${userData.email}&password=${userData.password}`
-      );
-      const users: User[] = response.data;
-      if (users.length > 0) {
-        setUser(users[0]);
-        localStorage.setItem("user", JSON.stringify(users[0]));
-        return true;
-      } else {
-        return false;
-      }
+      const response = await axios.post(`${API_URL}/auth/login`, userData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const { token, user } = response.data;
+      setUser(user);
+      localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem("token", token);
+      return true;
     } catch (error) {
       console.error("Login error:", error);
       return false;
@@ -58,23 +65,23 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   const register = async (userData: {
-    name: string;
+    username: string;
+    firstName: string;
+    lastName: string;
+    city: string;
     email: string;
     password: string;
   }): Promise<boolean> => {
     try {
-      const response = await axios.post(
-        "http://localhost:3000/users",
-        userData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      const newUser: User = response.data;
-      setUser(newUser);
-      localStorage.setItem("user", JSON.stringify(newUser));
+      const response = await axios.post(`${API_URL}/auth/register`, userData, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const { token, user } = response.data;
+      setUser(user);
+      localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem("token", token);
       return true;
     } catch (error) {
       console.error("Register error:", error);
@@ -85,6 +92,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const logout = () => {
     setUser(null);
     localStorage.removeItem("user");
+    localStorage.removeItem("token");
   };
 
   return (

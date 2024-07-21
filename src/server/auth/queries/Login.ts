@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import UserModel from "../../models/UserModel.ts";
 import formatAuthResponse from "../helpers/FormatAuthResponse.ts";
 import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
 
 /**
  * @swagger
@@ -48,6 +49,9 @@ import jwt from "jsonwebtoken";
  *                   type: string
  *                   example: Incorrect email or password
  */
+
+dotenv.config();
+
 const login = async (req: Request, res: Response): Promise<Response> => {
   const { email, password } = req.body;
   try {
@@ -57,12 +61,10 @@ const login = async (req: Request, res: Response): Promise<Response> => {
     }
 
     const tokenSecret = process.env.TOKEN_SECRET;
-    const tokenExpiration = process.env.TOKEN_EXPIRATION;
+    const tokenExpiration = process.env.TOKEN_EXPIRATION || "1h";
 
-    if (!tokenSecret || !tokenExpiration) {
-      console.error(
-        "JWT secret or expiration not set in environment variables"
-      );
+    if (!tokenSecret) {
+      console.error("JWT secret is not defined in environment variables");
       return res.status(500).json({ message: "Internal server error" });
     }
 
@@ -74,9 +76,13 @@ const login = async (req: Request, res: Response): Promise<Response> => {
       token,
       user: formatAuthResponse(user),
     });
-  } catch (err) {
-    console.error("Error during login:", err);
-    return res.status(500).json({ message: "An error occurred during login" });
+  } catch (error) {
+    console.error("Error during login:", error);
+    const typedError = error as Error;
+    return res.status(500).json({
+      message: "An error occurred during login",
+      error: typedError.message,
+    });
   }
 };
 

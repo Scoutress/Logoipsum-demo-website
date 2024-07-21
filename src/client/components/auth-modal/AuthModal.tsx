@@ -18,7 +18,10 @@ const AuthModal: React.FC<AuthModalProps> = ({ onClose }) => {
   const { login, register } = authContext;
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({
-    name: "",
+    username: "",
+    firstName: "",
+    lastName: "",
+    city: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -30,38 +33,62 @@ const AuthModal: React.FC<AuthModalProps> = ({ onClose }) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const validateEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
-    if (isLogin) {
-      const success = await login({
-        email: formData.email,
-        password: formData.password,
-      });
-      setLoading(false);
-      if (success) {
-        onClose();
-      } else {
-        setError("Invalid email or password");
-      }
-    } else {
-      if (formData.password !== formData.confirmPassword) {
-        setError("Passwords do not match");
+
+    try {
+      if (!validateEmail(formData.email)) {
+        setError("Invalid email format. Please enter a valid email address.");
         setLoading(false);
         return;
       }
-      const success = await register({
-        name: formData.name,
-        email: formData.email,
-        password: formData.password,
-      });
-      setLoading(false);
-      if (success) {
-        onClose();
+
+      if (isLogin) {
+        const success = await login({
+          email: formData.email,
+          password: formData.password,
+        });
+        if (success) {
+          onClose();
+        } else {
+          setError("Invalid email or password");
+        }
       } else {
-        setError("Registration failed");
+        if (formData.password !== formData.confirmPassword) {
+          setError("Passwords do not match");
+        } else {
+          const success = await register({
+            username: formData.username,
+            firstName: formData.firstName,
+            lastName: formData.lastName,
+            city: formData.city,
+            email: formData.email,
+            password: formData.password,
+          });
+          if (success) {
+            onClose();
+          } else {
+            setError("Registration failed");
+          }
+        }
       }
+    } catch (error: any) {
+      if (error.response) {
+        setError(`Error: ${error.response.data.message}`);
+      } else if (error.request) {
+        setError("Network error, please try again later.");
+      } else {
+        setError("An unexpected error occurred. Please try again later.");
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -77,17 +104,52 @@ const AuthModal: React.FC<AuthModalProps> = ({ onClose }) => {
         ) : (
           <form onSubmit={handleSubmit}>
             {!isLogin && (
-              <div className={styles.formGroup}>
-                <label htmlFor="name">Name</label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
+              <>
+                <div className={styles.formGroup}>
+                  <label htmlFor="username">Username</label>
+                  <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    value={formData.username}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+                <div className={styles.formGroup}>
+                  <label htmlFor="firstName">First Name</label>
+                  <input
+                    type="text"
+                    id="firstName"
+                    name="firstName"
+                    value={formData.firstName}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+                <div className={styles.formGroup}>
+                  <label htmlFor="lastName">Last Name</label>
+                  <input
+                    type="text"
+                    id="lastName"
+                    name="lastName"
+                    value={formData.lastName}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+                <div className={styles.formGroup}>
+                  <label htmlFor="city">City</label>
+                  <input
+                    type="text"
+                    id="city"
+                    name="city"
+                    value={formData.city}
+                    onChange={handleChange}
+                    required
+                  />
+                </div>
+              </>
             )}
             <div className={styles.formGroup}>
               <label htmlFor="email">Email</label>

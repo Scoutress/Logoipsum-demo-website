@@ -1,20 +1,33 @@
 import { useState, useEffect } from "react";
-import PropTypes from "prop-types";
 import axios from "axios";
-import Service from "../../../components/service/Service.js";
+import Service from "../../../components/service/Service";
 import styles from "./SearchListSection.module.scss";
 
-const SearchListSection = ({ searchTerm }) => {
-  const [services, setServices] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+interface ServiceData {
+  id: number;
+  name: string;
+  description: string;
+  imageUrl: string;
+  // add other properties if needed
+}
+
+interface SearchListSectionProps {
+  searchTerm: string;
+}
+
+const SearchListSection: React.FC<SearchListSectionProps> = ({
+  searchTerm,
+}) => {
+  const [services, setServices] = useState<ServiceData[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchServices = async () => {
       setLoading(true);
       setError(null);
       try {
-        const response = await axios.get(
+        const response = await axios.get<ServiceData[]>(
           `http://localhost:3001/services?term=${searchTerm}`
         );
         setServices(response.data);
@@ -40,14 +53,17 @@ const SearchListSection = ({ searchTerm }) => {
   return (
     <div className={styles.container}>
       {services.map((service) => (
-        <Service key={service.id} {...service} />
+        <Service
+          category={""}
+          worker={""}
+          address={""}
+          photo={""}
+          key={service.id}
+          {...service}
+        />
       ))}
     </div>
   );
-};
-
-SearchListSection.propTypes = {
-  searchTerm: PropTypes.string.isRequired,
 };
 
 export default SearchListSection;

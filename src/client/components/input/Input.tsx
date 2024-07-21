@@ -1,15 +1,33 @@
-import PropTypes from "prop-types";
-import React from "react";
+import React, { ForwardedRef, ChangeEvent, KeyboardEvent } from "react";
 
-const Input = React.forwardRef(
-  ({ value, onChange, placeholder, className, maxLength, onKeyDown }, ref) => {
+interface InputProps {
+  value: string;
+  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  placeholder?: string;
+  className?: string;
+  maxLength?: number;
+  onKeyDown?: (event: KeyboardEvent<HTMLInputElement>) => void;
+}
+
+const Input = React.forwardRef<HTMLInputElement, InputProps>(
+  (
+    {
+      value,
+      onChange,
+      placeholder = "",
+      className = "",
+      maxLength = 255,
+      onKeyDown,
+    },
+    ref: ForwardedRef<HTMLInputElement>
+  ) => {
     return (
       <input
         ref={ref}
         type="text"
         value={value}
         onChange={onChange}
-        onKeyDown={onKeyDown}
+        onKeyDown={onKeyDown || undefined}
         placeholder={placeholder}
         className={className}
         maxLength={maxLength}
@@ -20,21 +38,4 @@ const Input = React.forwardRef(
 
 Input.displayName = "Input";
 
-Input.propTypes = {
-  value: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
-  placeholder: PropTypes.string,
-  className: PropTypes.string,
-  maxLength: PropTypes.number,
-  onKeyDown: PropTypes.func,
-};
-
-Input.defaultProps = {
-  placeholder: "",
-  className: "",
-  maxLength: 255,
-  onKeyDown: null,
-};
-
 export default Input;
-

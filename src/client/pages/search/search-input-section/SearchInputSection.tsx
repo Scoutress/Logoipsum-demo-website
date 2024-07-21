@@ -1,11 +1,18 @@
-import PropTypes from "prop-types";
-import { useState, useEffect, useRef } from "react";
-import Input from "../../../components/input/Input.js";
+import { useState, useEffect, useRef, ChangeEvent } from "react";
+import Input from "../../../components/input/Input";
 import styles from "./SearchInputSection.module.scss";
 
-const SearchInputSection = ({ setSearchTerm, searchTerm }) => {
-  const [inputValue, setInputValue] = useState(searchTerm);
-  const inputRef = useRef(null);
+interface SearchInputSectionProps {
+  setSearchTerm: (term: string) => void;
+  searchTerm: string;
+}
+
+const SearchInputSection: React.FC<SearchInputSectionProps> = ({
+  setSearchTerm,
+  searchTerm,
+}) => {
+  const [inputValue, setInputValue] = useState<string>(searchTerm);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     setInputValue(searchTerm);
@@ -17,7 +24,7 @@ const SearchInputSection = ({ setSearchTerm, searchTerm }) => {
     }
   }, []);
 
-  const handleSearchChange = (event) => {
+  const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     setInputValue(value);
     setSearchTerm(value);
@@ -35,11 +42,6 @@ const SearchInputSection = ({ setSearchTerm, searchTerm }) => {
       />
     </div>
   );
-};
-
-SearchInputSection.propTypes = {
-  setSearchTerm: PropTypes.func.isRequired,
-  searchTerm: PropTypes.string,
 };
 
 export default SearchInputSection;

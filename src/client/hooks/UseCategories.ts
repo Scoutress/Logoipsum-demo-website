@@ -1,10 +1,23 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-const useCategories = () => {
-  const [categories, setCategories] = useState([]);
+// Define the shape of a category object
+interface Category {
+  id: number;
+  name: string;
+}
+
+// Define the return type of the custom hook
+interface UseCategoriesReturn {
+  categories: Category[];
+  loading: boolean;
+  error: string | null;
+}
+
+const useCategories = (): UseCategoriesReturn => {
+  const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchCategories = async () => {

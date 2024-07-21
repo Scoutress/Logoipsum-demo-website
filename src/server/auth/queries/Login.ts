@@ -1,5 +1,7 @@
-import UserModel from "../../models/UserModel.js";
-import formatAuthResponse from "../helpers/FormatAuthResponse.js";
+import { Request, Response } from "express";
+import UserModel from "../../models/UserModel.ts";
+import formatAuthResponse from "../helpers/FormatAuthResponse.ts";
+import jwt from "jsonwebtoken";
 
 /**
  * @swagger
@@ -46,13 +48,36 @@ import formatAuthResponse from "../helpers/FormatAuthResponse.js";
  *                   type: string
  *                   example: Incorrect email or password
  */
-const login = async (req, res) => {
+const login = async (req: Request, res: Response): Promise<Response> => {
   const { email, password } = req.body;
-  const newUser = await UserModel.findOne({ email });
-  if (!newUser || !(await newUser.isCorrectPassword(password))) {
-    return res.status(401).json({ message: "Incorrect email or password" });
+  try {
+    const user = await UserModel.findOne({ email });
+    if (!user || !(await user.isCorrectPassword(password))) {
+      return res.status(401).json({ message: "Incorrect email or password" });
+    }
+
+    const tokenSecret = process.env.TOKEN_SECRET;
+    const tokenExpiration = process.env.TOKEN_EXPIRATION;
+
+    if (!tokenSecret || !tokenExpiration) {
+      console.error(
+        "JWT secret or expiration not set in environment variables"
+      );
+      return res.status(500).json({ message: "Internal server error" });
+    }
+
+    const token = jwt.sign({ id: user._id }, tokenSecret, {
+      expiresIn: tokenExpiration,
+    });
+
+    return res.status(200).json({
+      token,
+      user: formatAuthResponse(user),
+    });
+  } catch (err) {
+    console.error("Error during login:", err);
+    return res.status(500).json({ message: "An error occurred during login" });
   }
-  return res.status(200).json(formatAuthResponse(newUser));
 };
 
 export default login;

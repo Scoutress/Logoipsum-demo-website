@@ -1,8 +1,9 @@
-import BookingModel from "../../models/BookingModel.js";
-import BusinessModel from "../../models/BusinessModel.js";
+import { Request, Response } from "express";
 import moment from "moment";
-import validate from "../../middleware/ValidationMiddleware.js";
-import { bookingSchema } from "../../schemas.js";
+import BookingModel, { IBooking } from "../../models/BookingModel.ts";
+import BusinessModel from "../../models/BusinessModel.ts";
+import validate from "../../middleware/ValidationMiddleware.ts";
+import { bookingSchema } from "../../Schemas.ts";
 
 /**
  * @swagger
@@ -50,7 +51,10 @@ import { bookingSchema } from "../../schemas.js";
  *        description: An error occurred while creating the booking
  */
 
-const createBooking = async (req, res) => {
+const createBooking = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
   const { businessID, date, time, userEmail, userName, status } = req.body;
 
   if (!moment(date, "YYYY-MM-DD", true).isValid()) {
@@ -67,7 +71,7 @@ const createBooking = async (req, res) => {
         .json({ error: "Business with this ID does not exist" });
     }
 
-    const newBooking = await BookingModel.create({
+    const newBooking: IBooking = await BookingModel.create({
       businessID,
       date,
       time,
@@ -77,6 +81,7 @@ const createBooking = async (req, res) => {
     });
     return res.status(201).json(newBooking);
   } catch (err) {
+    console.error("Error creating booking:", err);
     return res
       .status(500)
       .json({ error: "An error occurred while creating the booking" });

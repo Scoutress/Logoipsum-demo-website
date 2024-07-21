@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Document, Schema } from "mongoose";
 import bcrypt from "bcrypt";
 
 /**
@@ -56,7 +56,17 @@ import bcrypt from "bcrypt";
  *         updatedAt: 2023-07-08T14:21:00Z
  */
 
-const userSchema = new mongoose.Schema(
+export interface IUser extends Document {
+  username: string;
+  firstName: string;
+  lastName: string;
+  city: string;
+  email: string;
+  password: string;
+  isCorrectPassword(password: string): Promise<boolean>;
+}
+
+const userSchema: Schema<IUser> = new Schema(
   {
     username: { type: String, required: true, unique: true },
     firstName: { type: String, required: true },
@@ -71,50 +81,27 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-/**
- * Pre-save hook to hash the password before saving the user
- * @function
- * @name pre-save
- * @memberof User
- * @param {function} next - The next middleware function
- * @returns {Promise<void>}
- */
-userSchema.pre("save", async function (next) {
+userSchema.pre<IUser>("save", async function (next) {
   if (this.isModified("password")) {
     this.password = await bcrypt.hash(this.password, 10);
   }
   next();
 });
 
-/**
- * Method to compare the provided password with the hashed password
- * @function
- * @name isCorrectPassword
- * @memberof User
- * @param {string} password - The password to compare
- * @returns {Promise<boolean>}
- */
-userSchema.methods.isCorrectPassword = async function (password) {
+userSchema.methods.isCorrectPassword = async function (
+  password: string
+): Promise<boolean> {
   return bcrypt.compare(password, this.password);
 };
 
-/**
- * Transform method to remove sensitive data from the output
- * @function
- * @name toJSON
- * @memberof User
- * @param {object} doc - The document being transformed
- * @param {object} ret - The plain object representation which has been converted
- * @returns {object} - The transformed object
- */
 userSchema.set("toJSON", {
   transform: (doc, ret) => {
     ret.id = ret._id;
     delete ret._id;
-    delete ret.password; // Remove password from the output
+    delete ret.password;
     return ret;
   },
 });
 
-const UserModel = mongoose.model("User", userSchema);
+const UserModel = mongoose.model<IUser>("User", userSchema);
 export default UserModel;

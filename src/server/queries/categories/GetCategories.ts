@@ -1,4 +1,5 @@
-import CategoryModel from "../../models/CategoryModel.js";
+import { Request, Response } from "express";
+import CategoryModel from "../../models/CategoryModel.ts";
 
 /**
  * @swagger
@@ -18,9 +19,13 @@ import CategoryModel from "../../models/CategoryModel.js";
  *                $ref: '#/components/schemas/Category'
  */
 
-const getServices = async (req, res) => {
-  const services = await CategoryModel.find();
-  res.status(200).json(services);
+const getServices = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const services = await CategoryModel.find();
+    res.status(200).json(services);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to retrieve categories" });
+  }
 };
 
 export default getServices;

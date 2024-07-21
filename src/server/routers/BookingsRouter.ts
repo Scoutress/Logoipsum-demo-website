@@ -1,8 +1,8 @@
 import express from "express";
-import getBookingsByUserEmail from "../queries/bookings/GetBookingsByUserEmail.js";
-import createBooking from "../mutations/bookings/CreateBooking.js";
-import deleteBooking from "../mutations/bookings/DeleteBooking.js";
-import authMiddleware from "../middleware/AuthMiddleware.js";
+import getBookingsByUserEmail from "../queries/bookings/GetBookingsByUserEmail.ts";
+import createBooking from "../mutations/bookings/CreateBooking.ts";
+import deleteBooking from "../mutations/bookings/DeleteBooking.ts";
+import authMiddleware from "../middleware/AuthMiddleware.ts";
 
 const bookingsRouter = express.Router();
 

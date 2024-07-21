@@ -1,4 +1,7 @@
-import CategoryModel from "../../models/CategoryModel.js";
+import { Request, Response } from "express";
+import CategoryModel from "../../models/CategoryModel.ts";
+import { categorySchema } from "../../Schemas.ts";
+import validate from "../../middleware/ValidationMiddleware.ts";
 
 /**
  * @swagger
@@ -33,12 +36,11 @@ import CategoryModel from "../../models/CategoryModel.js";
  *              $ref: '#/components/schemas/Category'
  */
 
-const createCategory = async (req, res) => {
+const createCategory = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
   const { name, backgroundColor, photo } = req.body;
-
-  if (!name || !backgroundColor || !photo) {
-    return res.status(400).json({ error: "Invalid input" });
-  }
 
   const categoryProps = {
     name,
@@ -50,8 +52,9 @@ const createCategory = async (req, res) => {
     const newCategory = await CategoryModel.create(categoryProps);
     return res.status(200).json(newCategory);
   } catch (err) {
+    console.error("Error creating category:", err);
     return res.status(500).json({ error: "Error creating category" });
   }
 };
 
-export default createCategory;
+export default [validate(categorySchema), createCategory];

@@ -1,13 +1,13 @@
 import "dotenv/config";
 
-const requiredParams = {
+const requiredParams: { [key: string]: string | undefined } = {
   SERVER_PORT: process.env.SERVER_PORT,
   DB_CONNECTION: process.env.DB_CONNECTION,
   TOKEN_SECRET: process.env.TOKEN_SECRET,
   TOKEN_EXPIRATION: process.env.TOKEN_EXPIRATION,
 };
 
-const missingParams = [];
+const missingParams: string[] = [];
 
 for (const [key, value] of Object.entries(requiredParams)) {
   if (!value) {

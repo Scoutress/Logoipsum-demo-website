@@ -1,13 +1,15 @@
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./Services.module.scss";
-import Sidebar from "./sidebar/Sidebar.js";
-import CategoryList from "./category-list/CategoryList.js";
-import ServicesList from "./services-list/ServicesList.js";
+import Sidebar from "./sidebar/Sidebar";
+import CategoryList from "./category-list/CategoryList";
+import ServicesList from "./services-list/ServicesList";
 
-const Services = () => {
-  const { category } = useParams();
-  const [selectedCategory, setSelectedCategory] = useState(category || "All");
+const Services: React.FC = () => {
+  const { category } = useParams<{ category: string }>();
+  const [selectedCategory, setSelectedCategory] = useState<string>(
+    category || "All"
+  );
 
   useEffect(() => {
     if (category) {

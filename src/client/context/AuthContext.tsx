@@ -1,11 +1,32 @@
-import { createContext, useState, useEffect } from "react";
-import PropTypes from "prop-types";
+import React, { createContext, useState, useEffect, ReactNode } from "react";
 import axios from "axios";
 
-const AuthContext = createContext();
+interface User {
+  id: number;
+  name: string;
+  email: string;
+  password: string;
+}
 
-const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+interface AuthContextType {
+  user: User | null;
+  login: (userData: { email: string; password: string }) => Promise<boolean>;
+  register: (userData: {
+    name: string;
+    email: string;
+    password: string;
+  }) => Promise<boolean>;
+  logout: () => void;
+}
+
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+interface AuthProviderProps {
+  children: ReactNode;
+}
+
+const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
@@ -14,12 +35,15 @@ const AuthProvider = ({ children }) => {
     }
   }, []);
 
-  const login = async (userData) => {
+  const login = async (userData: {
+    email: string;
+    password: string;
+  }): Promise<boolean> => {
     try {
       const response = await axios.get(
         `http://localhost:3000/users?email=${userData.email}&password=${userData.password}`
       );
-      const users = response.data;
+      const users: User[] = response.data;
       if (users.length > 0) {
         setUser(users[0]);
         localStorage.setItem("user", JSON.stringify(users[0]));
@@ -33,7 +57,11 @@ const AuthProvider = ({ children }) => {
     }
   };
 
-  const register = async (userData) => {
+  const register = async (userData: {
+    name: string;
+    email: string;
+    password: string;
+  }): Promise<boolean> => {
     try {
       const response = await axios.post(
         "http://localhost:3000/users",
@@ -44,7 +72,7 @@ const AuthProvider = ({ children }) => {
           },
         }
       );
-      const newUser = response.data;
+      const newUser: User = response.data;
       setUser(newUser);
       localStorage.setItem("user", JSON.stringify(newUser));
       return true;
@@ -64,10 +92,6 @@ const AuthProvider = ({ children }) => {
       {children}
     </AuthContext.Provider>
   );
-};
-
-AuthProvider.propTypes = {
-  children: PropTypes.node.isRequired,
 };
 
 export { AuthContext, AuthProvider };

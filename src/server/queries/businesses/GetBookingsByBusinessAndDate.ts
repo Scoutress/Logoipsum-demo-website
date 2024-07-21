@@ -1,6 +1,7 @@
-import BookingModel from "../../models/BookingModel.js";
+import { Request, Response } from "express";
 import mongoose from "mongoose";
 import moment from "moment";
+import BookingModel from "../../models/BookingModel.ts";
 
 /**
  * @swagger
@@ -32,39 +33,51 @@ import moment from "moment";
  *              type: array
  *              items:
  *                $ref: '#/components/schemas/Booking'
+ *      400:
+ *        description: Invalid date format
  *      404:
  *        description: No bookings found for this business on the given date
  *      500:
  *        description: An error occurred while fetching bookings
  */
 
-const getBookingsByBusinessAndDate = async (req, res) => {
+const getBookingsByBusinessAndDate = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
   const { businessId, date } = req.params;
 
   if (!moment(date, "YYYY-MM-DD", true).isValid()) {
-    return res
+    res
       .status(400)
       .json({ error: "Invalid date format, should be YYYY-MM-DD" });
+    return;
+  }
+
+  if (!mongoose.Types.ObjectId.isValid(businessId)) {
+    res.status(400).json({ error: "Invalid business ID format" });
+    return;
   }
 
   try {
     const businessObjectId = new mongoose.Types.ObjectId(businessId);
 
-    const allBookingsOnDate = await BookingModel.find({ date: date });
-
-    const bookings = allBookingsOnDate.filter((booking) =>
-      booking.businessID.equals(businessObjectId)
-    );
+    const bookings = await BookingModel.find({
+      businessID: businessObjectId,
+      date,
+    });
 
     if (bookings.length === 0) {
-      return res.status(404).json({
+      res.status(404).json({
         error: "No bookings found for this business on the given date",
       });
+      return;
     }
 
-    return res.status(200).json(bookings);
+    res.status(200).json(bookings);
   } catch (err) {
-    return res
+    console.error("Error fetching bookings:", err);
+    res
       .status(500)
       .json({ error: "An error occurred while fetching bookings" });
   }

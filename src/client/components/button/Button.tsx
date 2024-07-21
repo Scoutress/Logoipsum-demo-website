@@ -1,7 +1,20 @@
 import PropTypes from "prop-types";
+import React from "react";
 import styles from "./Button.module.scss";
 
-const Button = ({ className = "", children, onClick, icon: Icon }) => {
+interface ButtonProps {
+  className?: string;
+  children: React.ReactNode;
+  onClick?: () => void;
+  icon?: React.ComponentType<{ className?: string }>;
+}
+
+const Button: React.FC<ButtonProps> = ({
+  className = "",
+  children,
+  onClick,
+  icon: Icon,
+}) => {
   return (
     <button className={`${styles.button} ${className}`} onClick={onClick}>
       {Icon && <Icon className={styles.icon} />}
@@ -12,10 +25,9 @@ const Button = ({ className = "", children, onClick, icon: Icon }) => {
 
 Button.propTypes = {
   className: PropTypes.string,
-  children: PropTypes.node,
+  children: PropTypes.node.isRequired,
   onClick: PropTypes.func,
-  icon: PropTypes.elementType,
+  icon: PropTypes.func,
 };
 
 export default Button;
-

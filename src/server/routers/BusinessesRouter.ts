@@ -1,11 +1,11 @@
 import express from "express";
-import getBusinesses from "../queries/businesses/GetBusinesses.js";
-import getBusinessesByCategory from "../queries/businesses/GetBusinessesByCategory.js";
-import getBusinessById from "../queries/businesses/GetBusinessById.js";
-import createBusiness from "../mutations/businesses/CreateBusiness.js";
-import updateBusiness from "../mutations/businesses/UpdateBusiness.js";
-import getBookingsByBusinessAndDate from "../queries/businesses/GetBookingsByBusinessAndDate.js";
-import authMiddleware from "../middleware/AuthMiddleware.js";
+import getBusinesses from "../queries/businesses/GetBusinesses.ts";
+import getBusinessesByCategory from "../queries/businesses/GetBusinessesByCategory.ts";
+import getBusinessById from "../queries/businesses/GetBusinessById.ts";
+import createBusiness from "../mutations/businesses/CreateBusiness.ts";
+import updateBusiness from "../mutations/businesses/UpdateBusiness.ts";
+import getBookingsByBusinessAndDate from "../queries/businesses/GetBookingsByBusinessAndDate.ts";
+import authMiddleware from "../middleware/AuthMiddleware.ts";
 
 const businessesRouter = express.Router();
 

@@ -3,10 +3,16 @@ import ReactDOM from "react-dom/client";
 import App from "./App.js";
 import { AuthProvider } from "./context/AuthContext.js";
 
-ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <AuthProvider>
-      <App />
-    </AuthProvider>
-  </React.StrictMode>
-);
+const rootElement = document.getElementById("root");
+
+if (rootElement) {
+  ReactDOM.createRoot(rootElement).render(
+    <React.StrictMode>
+      <AuthProvider>
+        <App />
+      </AuthProvider>
+    </React.StrictMode>
+  );
+} else {
+  console.error("Root element not found");
+}

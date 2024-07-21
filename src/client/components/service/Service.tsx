@@ -1,19 +1,32 @@
-import PropTypes from "prop-types";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
-import useLocalStorage from "../../hooks/UseLocalStorage.js";
+import useLocalStorage from "../../hooks/UseLocalStorage";
 import styles from "./Service.module.scss";
 
-const Service = ({
+interface ServiceProps {
+  category: string;
+  name: string;
+  worker: string;
+  address: string;
+  photo: string;
+  className?: string;
+}
+
+const Service: React.FC<ServiceProps> = ({
   category = "Default Category",
   name = "Default Name",
   worker = "Default Worker",
   address = "Default Address",
   photo = "default.jpg",
+  className,
 }) => {
   const navigate = useNavigate();
-  const [favorites, setFavorites] = useLocalStorage("favorites", []);
+  const [favorites, setFavorites] = useLocalStorage<ServiceProps[]>(
+    "favorites",
+    []
+  );
 
   const isFavorite = favorites.some(
     (fav) =>
@@ -24,7 +37,9 @@ const Service = ({
     navigate(`/category/${category.toLowerCase()}`);
   };
 
-  const handleFavorite = (e) => {
+  const handleFavorite = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
     e.stopPropagation();
     if (isFavorite) {
       setFavorites(
@@ -42,7 +57,7 @@ const Service = ({
   };
 
   return (
-    <div className={styles.card} onClick={handleClick}>
+    <div className={`${styles.card} ${className}`} onClick={handleClick}>
       <div className={styles.imageContainer}>
         <img src={photo} alt={name} className={styles.image} />
         <button
@@ -63,14 +78,6 @@ const Service = ({
       </div>
     </div>
   );
-};
-
-Service.propTypes = {
-  category: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  worker: PropTypes.string.isRequired,
-  address: PropTypes.string.isRequired,
-  photo: PropTypes.string.isRequired,
 };
 
 export default Service;

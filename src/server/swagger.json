@@ -38,7 +38,13 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Category"
+                "type": "object",
+                "required": ["name", "backgroundColor", "photo"],
+                "properties": {
+                  "name": { "type": "string" },
+                  "backgroundColor": { "type": "string" },
+                  "photo": { "type": "string" }
+                }
               }
             }
           }
@@ -332,17 +338,21 @@
       "Category": {
         "type": "object",
         "properties": {
+          "id": {
+            "type": "string",
+            "readOnly": true
+          },
           "name": {
             "type": "string"
           },
-          "link": {
+          "backgroundColor": {
             "type": "string"
           },
-          "icon": {
+          "photo": {
             "type": "string"
           }
         },
-        "required": ["name", "link", "icon"]
+        "required": ["name", "backgroundColor", "photo"]
       },
       "Business": {
         "type": "object",

@@ -1,4 +1,5 @@
-import generateToken from "./GenerateToken.js";
+import generateToken from "./GenerateToken.ts";
+import { IUser } from "../../models/UserModel.ts";
 
 /**
  * @swagger
@@ -16,33 +17,49 @@ import generateToken from "./GenerateToken.js";
  *             id:
  *               type: string
  *               description: The user's ID
- *             name:
+ *             username:
  *               type: string
- *               description: The user's name
+ *               description: The user's username
+ *             firstName:
+ *               type: string
+ *               description: The user's first name
+ *             lastName:
+ *               type: string
+ *               description: The user's last name
+ *             city:
+ *               type: string
+ *               description: The user's city
  *             email:
  *               type: string
  *               description: The user's email
- *             age:
- *               type: number
- *               description: The user's age
  *       example:
  *         token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
  *         user:
  *           id: "60d0fe4f5311236168a109ca"
- *           name: "John Doe"
+ *           username: "johndoe"
+ *           firstName: "John"
+ *           lastName: "Doe"
+ *           city: "New York"
  *           email: "johndoe@example.com"
- *           age: 29
  */
-const formatAuthResponse = (userDoc) => {
-  const token = generateToken({ id: userDoc._id });
+
+interface FormattedUser {
+  id: string;
+  username: string;
+  firstName: string;
+  lastName: string;
+  city: string;
+  email: string;
+}
+
+const formatAuthResponse = (user: IUser): FormattedUser => {
   return {
-    token,
-    user: {
-      id: userDoc._id,
-      name: userDoc.name,
-      email: userDoc.email,
-      age: userDoc.age,
-    },
+    id: user._id as string,
+    username: user.username,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    city: user.city,
+    email: user.email,
   };
 };
 

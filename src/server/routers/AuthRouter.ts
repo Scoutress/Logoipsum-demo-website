@@ -1,6 +1,6 @@
 import express from "express";
-import login from "../auth/queries/Login.js";
-import register from "../auth/mutations/register.js";
+import login from "../auth/queries/Login.ts";
+import register from "../auth/mutations/Register.ts";
 
 const router = express.Router();
 
@@ -61,8 +61,8 @@ const router = express.Router();
  *             type: object
  *             required:
  *               - username
- *               - firstname
- *               - lastname
+ *               - firstName
+ *               - lastName
  *               - city
  *               - email
  *               - password
@@ -71,11 +71,11 @@ const router = express.Router();
  *                 type: string
  *                 description: The user's username
  *                 example: johndoe
- *               firstname:
+ *               firstName:
  *                 type: string
  *                 description: The user's first name
  *                 example: John
- *               lastname:
+ *               lastName:
  *                 type: string
  *                 description: The user's last name
  *                 example: Doe

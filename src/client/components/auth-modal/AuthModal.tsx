@@ -1,11 +1,21 @@
-import { useState, useContext } from "react";
+import React, { useState, useContext, ChangeEvent, FormEvent } from "react";
 import PropTypes from "prop-types";
-import { AuthContext } from "../../context/AuthContext.jsx";
+import { AuthContext } from "../../context/AuthContext";
 import styles from "./AuthModal.module.scss";
-import Loading from "../loading/Loading.jsx";
+import Loading from "../loading/Loading";
 
-const AuthModal = ({ onClose }) => {
-  const { login, register } = useContext(AuthContext);
+interface AuthModalProps {
+  onClose: () => void;
+}
+
+const AuthModal: React.FC<AuthModalProps> = ({ onClose }) => {
+  const authContext = useContext(AuthContext);
+
+  if (!authContext) {
+    throw new Error("AuthModal must be used within an AuthProvider");
+  }
+
+  const { login, register } = authContext;
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({
     name: "",
@@ -13,14 +23,14 @@ const AuthModal = ({ onClose }) => {
     password: "",
     confirmPassword: "",
   });
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const handleChange = (e) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     setError(null);

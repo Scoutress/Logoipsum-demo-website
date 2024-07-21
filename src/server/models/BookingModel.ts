@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import { model, Schema } from "mongoose";
 
 /**
  * @swagger
@@ -30,34 +30,23 @@ import mongoose from "mongoose";
  *          type: string
  */
 
-const BookingSchema = new mongoose.Schema({
-  businessID: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Business",
-    required: true,
-  },
-  date: {
-    type: String,
-    required: true,
-  },
-  time: {
-    type: String,
-    required: true,
-  },
-  userEmail: {
-    type: String,
-    required: true,
-  },
-  userName: {
-    type: String,
-    required: true,
-  },
-  status: {
-    type: String,
-    required: true,
-  },
+export interface IBooking extends Document {
+  businessID: string;
+  date: string;
+  time: string;
+  userEmail: string;
+  userName: string;
+  status: string;
+}
+
+const bookingSchema = new Schema<IBooking>({
+  businessID: { type: String, required: true },
+  date: { type: String, required: true },
+  time: { type: String, required: true },
+  userEmail: { type: String, required: true },
+  userName: { type: String, required: true },
+  status: { type: String, required: true },
 });
 
-const BookingModel = mongoose.model("Booking", BookingSchema);
-
+const BookingModel = model<IBooking>("Booking", bookingSchema);
 export default BookingModel;

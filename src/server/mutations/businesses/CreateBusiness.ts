@@ -1,6 +1,7 @@
-import BusinessModel from "../../models/BusinessModel.js";
-import { businessSchema } from "../../schemas.js";
-import validate from "../../middleware/ValidationMiddleware.js";
+import { Request, Response } from "express";
+import BusinessModel from "../../models/BusinessModel.ts";
+import { businessSchema } from "../../Schemas.ts";
+import validate from "../../middleware/ValidationMiddleware.ts";
 
 /**
  * @swagger
@@ -51,7 +52,10 @@ import validate from "../../middleware/ValidationMiddleware.js";
  *        description: An error occurred while creating the business
  */
 
-const createBusiness = async (req, res) => {
+const createBusiness = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
   const { name, description, address, category, contactPerson, email, photo } =
     req.body;
 
@@ -67,6 +71,7 @@ const createBusiness = async (req, res) => {
     });
     return res.status(201).json(newBusiness);
   } catch (err) {
+    console.error("Error creating business:", err);
     return res
       .status(500)
       .json({ error: "An error occurred while creating the business" });

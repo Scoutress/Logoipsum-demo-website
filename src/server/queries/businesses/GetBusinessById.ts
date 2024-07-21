@@ -1,4 +1,5 @@
-import BusinessModel from "../../models/BusinessModel.js";
+import { Request, Response } from "express";
+import BusinessModel from "../../models/BusinessModel.ts";
 
 /**
  * @swagger
@@ -25,16 +26,17 @@ import BusinessModel from "../../models/BusinessModel.js";
  *        description: Business not found
  */
 
-const getBusinessById = async (req, res) => {
+const getBusinessById = async (req: Request, res: Response): Promise<void> => {
   const { id } = req.params;
   try {
     const business = await BusinessModel.findById(id);
     if (!business) {
-      return res.status(404).json({ error: "Business not found" });
+      res.status(404).json({ error: "Business not found" });
+      return;
     }
-    return res.status(200).json(business);
+    res.status(200).json(business);
   } catch (err) {
-    return res
+    res
       .status(500)
       .json({ error: "An error occurred while fetching the business" });
   }

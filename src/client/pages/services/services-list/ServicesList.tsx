@@ -1,18 +1,33 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import Service from "../../../components/service/Service.js";
+import Service from "../../../components/service/Service";
 import styles from "./ServicesList.module.scss";
 
-const ServicesList = () => {
-  const { category } = useParams();
-  const [services, setServices] = useState([]);
-  const [error, setError] = useState(null);
+interface ServiceData {
+  id: number;
+  category: string;
+  name: string;
+  worker: string;
+  address: string;
+  photo: string;
+}
+
+const ServicesList: React.FC = () => {
+  const { category } = useParams<{ category: string }>();
+  const [services, setServices] = useState<ServiceData[]>([]);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchServices = async () => {
+      setLoading(true);
+      setError(null);
+
       try {
-        const response = await axios.get("http://localhost:3001/services");
+        const response = await axios.get<ServiceData[]>(
+          "http://localhost:3001/services"
+        );
         const data = response.data;
 
         if (data && Array.isArray(data)) {
@@ -30,12 +45,22 @@ const ServicesList = () => {
         }
       } catch (error) {
         console.error("Error fetching services:", error);
-        setError(error.message);
+        setError(
+          error instanceof Error
+            ? error.message
+            : "An unknown error occurred while fetching services"
+        );
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchServices();
   }, [category]);
+
+  if (loading) {
+    return <div className={styles.loading}>Loading services...</div>;
+  }
 
   if (error) {
     return <div className={styles.error}>Error fetching services: {error}</div>;

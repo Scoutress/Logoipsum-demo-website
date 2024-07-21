@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import { Document, model, Schema } from "mongoose";
 
 /**
  * @swagger
@@ -33,7 +33,17 @@ import mongoose from "mongoose";
  *          type: string
  */
 
-const businessSchema = new mongoose.Schema({
+export interface IBusiness extends Document {
+  name: string;
+  description: string;
+  address: string;
+  category: string;
+  contactPerson: string;
+  email: string;
+  photo: string;
+}
+
+const businessSchema = new Schema<IBusiness>({
   name: { type: String, required: true },
   description: { type: String, required: true },
   address: { type: String, required: true },
@@ -43,15 +53,5 @@ const businessSchema = new mongoose.Schema({
   photo: { type: String, required: true },
 });
 
-businessSchema.set("toJSON", {
-  transform: (doc, ret) => {
-    ret.id = ret._id;
-    delete ret._id;
-    delete ret.__v;
-    return ret;
-  },
-});
-
-const BusinessModel = mongoose.model("Business", businessSchema);
-
+const BusinessModel = model<IBusiness>("Business", businessSchema);
 export default BusinessModel;

@@ -1,6 +1,19 @@
+import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 
-const authMiddleware = (req, res, next) => {
+interface JwtPayload {
+  id: string;
+}
+
+interface AuthenticatedRequest extends Request {
+  currentUser?: JwtPayload;
+}
+
+const authMiddleware = (
+  req: AuthenticatedRequest,
+  res: Response,
+  next: NextFunction
+): Response | void => {
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
@@ -10,7 +23,10 @@ const authMiddleware = (req, res, next) => {
   const token = authHeader.split(" ")[1];
 
   try {
-    const payload = jwt.verify(token, process.env.TOKEN_SECRET);
+    const payload = jwt.verify(
+      token,
+      process.env.TOKEN_SECRET as string
+    ) as JwtPayload;
     req.currentUser = payload;
     next();
   } catch (err) {

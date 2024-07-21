@@ -1,4 +1,5 @@
-import BusinessModel from "../../models/BusinessModel.js";
+import { Request, Response } from "express";
+import BusinessModel from "../../models/BusinessModel.ts";
 
 /**
  * @swagger
@@ -18,9 +19,15 @@ import BusinessModel from "../../models/BusinessModel.js";
  *                $ref: '#/components/schemas/Business'
  */
 
-const getBusinesses = async (req, res) => {
-  const businesses = await BusinessModel.find();
-  res.status(200).json(businesses);
+const getBusinesses = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const businesses = await BusinessModel.find();
+    res.status(200).json(businesses);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ error: "An error occurred while fetching businesses" });
+  }
 };
 
 export default getBusinesses;

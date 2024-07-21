@@ -1,4 +1,5 @@
-import BookingModel from "../../models/BookingModel.js";
+import { Request, Response } from "express";
+import BookingModel from "../../models/BookingModel.ts";
 
 /**
  * @swagger
@@ -27,7 +28,10 @@ import BookingModel from "../../models/BookingModel.js";
  *        description: An error occurred while deleting the booking
  */
 
-const deleteBooking = async (req, res) => {
+const deleteBooking = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
   const { id } = req.params;
 
   try {

@@ -1,12 +1,17 @@
 import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import styles from "./Header.module.scss";
-import Button from "../button/Button.js";
+import Button from "../button/Button";
 import PropTypes from "prop-types";
-import AuthModal from "../auth-modal/AuthModal.js";
-import { AuthContext } from "../../context/AuthContext.jsx";
+import AuthModal from "../auth-modal/AuthModal";
+import { AuthContext } from "../../context/AuthContext";
 
-const NavItem = ({ to, children }) => {
+interface NavItemProps {
+  to: string;
+  children: React.ReactNode;
+}
+
+const NavItem: React.FC<NavItemProps> = ({ to, children }) => {
   return (
     <li className={styles.button}>
       <Link to={to} className={styles.buttonLink}>
@@ -21,8 +26,14 @@ NavItem.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-const Header = () => {
-  const { user, logout } = useContext(AuthContext);
+const Header: React.FC = () => {
+  const authContext = useContext(AuthContext);
+
+  if (!authContext) {
+    throw new Error("Header must be used within an AuthProvider");
+  }
+
+  const { user, logout } = authContext;
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleLoginClick = () => {

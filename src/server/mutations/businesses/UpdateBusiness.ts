@@ -1,4 +1,7 @@
-import BusinessModel from "../../models/BusinessModel.js";
+import { Request, Response } from "express";
+import BusinessModel, { IBusiness } from "../../models/BusinessModel.ts";
+
+// Swagger annotations remain the same
 
 /**
  * @swagger
@@ -50,21 +53,24 @@ import BusinessModel from "../../models/BusinessModel.js";
  *        description: An error occurred while updating the business
  */
 
-const updateBusiness = async (req, res) => {
+const updateBusiness = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
   const { id } = req.params;
   const updateData = req.body;
 
   try {
-    const business = await BusinessModel.findById(id);
+    const business: IBusiness | null = await BusinessModel.findById(id);
     if (!business) {
       return res.status(404).json({ error: "Business not found" });
     }
 
     Object.keys(updateData).forEach((key) => {
-      business[key] = updateData[key];
+      (business as any)[key] = updateData[key];
     });
 
-    const updatedBusiness = await business.save();
+    const updatedBusiness: IBusiness = await business.save();
     return res.status(200).json(updatedBusiness);
   } catch (err) {
     return res

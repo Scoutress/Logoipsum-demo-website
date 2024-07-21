@@ -1,3 +1,4 @@
+import { Express } from "express";
 import swaggerUi from "swagger-ui-express";
 import swaggerJsDoc from "swagger-jsdoc";
 import dotenv from "dotenv";
@@ -10,7 +11,6 @@ const swaggerOptions = {
     info: {
       title: "API for Managing Categories, Businesses, and Bookings",
       version: "1.0.0",
-      description: "API for managing categories, businesses, and bookings.",
     },
     components: {
       securitySchemes: {
@@ -32,10 +32,10 @@ const swaggerOptions = {
       },
     ],
   },
-  apis: ["./src/server/**/*.js"],
+  apis: ["./src/server/**/*.ts"],
 };
 
-const configSwagger = (server) => {
+const configSwagger = (server: Express): void => {
   const swaggerDocs = swaggerJsDoc(swaggerOptions);
   server.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 };

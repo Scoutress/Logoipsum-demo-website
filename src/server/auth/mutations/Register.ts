@@ -1,5 +1,6 @@
-import formatAuthResponse from "../helpers/FormatAuthResponse.js";
-import UserModel from "../../models/UserModel.js";
+import { Request, Response } from "express";
+import UserModel, { IUser } from "../../models/UserModel.ts";
+import formatAuthResponse from "../helpers/FormatAuthResponse.ts";
 
 /**
  * @swagger
@@ -15,8 +16,8 @@ import UserModel from "../../models/UserModel.js";
  *             type: object
  *             required:
  *               - username
- *               - firstname
- *               - lastname
+ *               - firstName
+ *               - lastName
  *               - city
  *               - email
  *               - password
@@ -25,11 +26,11 @@ import UserModel from "../../models/UserModel.js";
  *                 type: string
  *                 description: The user's username
  *                 example: johndoe
- *               firstname:
+ *               firstName:
  *                 type: string
  *                 description: The user's first name
  *                 example: John
- *               lastname:
+ *               lastName:
  *                 type: string
  *                 description: The user's last name
  *                 example: Doe
@@ -82,20 +83,37 @@ import UserModel from "../../models/UserModel.js";
  *                   type: string
  *                   example: error.message
  */
-const register = async (req, res) => {
+
+const register = async (req: Request, res: Response): Promise<Response> => {
+  const { username, firstName, lastName, city, email, password } = req.body;
+
   try {
-    const user = req.body;
-    const existingUser = await UserModel.findOne({ email: user.email });
+    const existingUser = await UserModel.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ message: "User already exists" });
     }
-    const newUser = new UserModel(user);
+
+    const newUser: IUser = new UserModel({
+      username,
+      firstName,
+      lastName,
+      city,
+      email,
+      password,
+    });
+
     await newUser.save();
-    return res.status(201).json(formatAuthResponse(newUser));
+
+    const response = formatAuthResponse(newUser);
+
+    return res.status(201).json(response);
   } catch (error) {
-    return res
-      .status(500)
-      .json({ message: "Error registering new user.", error: error.message });
+    console.error("Error registering new user:", error);
+    const typedError = error as Error;
+    return res.status(500).json({
+      message: "Error registering new user.",
+      error: typedError.message,
+    });
   }
 };
 

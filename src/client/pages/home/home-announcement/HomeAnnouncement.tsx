@@ -1,15 +1,15 @@
-import { useState } from "react";
+import React, { useState, ChangeEvent, KeyboardEvent } from "react";
 import styles from "./HomeAnnouncement.module.scss";
-import Input from "../../../components/input/Input.js";
-import Button from "../../../components/button/Button.js";
+import Input from "../../../components/input/Input";
+import Button from "../../../components/button/Button";
 import { AiOutlineSearch } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 
-const HomeAnnouncement = () => {
-  const [searchTerm, setSearchTerm] = useState("");
+const HomeAnnouncement: React.FC = () => {
+  const [searchTerm, setSearchTerm] = useState<string>("");
   const navigate = useNavigate();
 
-  const handleSearchChange = (event) => {
+  const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
   };
 
@@ -21,7 +21,7 @@ const HomeAnnouncement = () => {
     }
   };
 
-  const handleKeyDown = (event) => {
+  const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
       handleSearchClick();
     }
@@ -42,18 +42,18 @@ const HomeAnnouncement = () => {
         </div>
         <div className={styles.searchContainer}>
           <Input
-            type="text"
-            placeholder="Search"
             value={searchTerm}
             onChange={handleSearchChange}
             onKeyDown={handleKeyDown}
+            placeholder="Search"
             className={styles.searchInput}
           />
           <Button
             icon={AiOutlineSearch}
             className={styles.searchBtn}
             onClick={handleSearchClick}
-          />
+            children={undefined}
+          ></Button>
         </div>
       </div>
     </header>

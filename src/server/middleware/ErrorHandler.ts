@@ -1,4 +1,15 @@
-const errorHandler = (err, req, res, next) => {
+import { Request, Response, NextFunction } from "express";
+
+interface CustomError extends Error {
+  statusCode?: number;
+}
+
+const errorHandler = (
+  err: CustomError,
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Response | void => {
   console.error(err.stack);
 
   if (res.headersSent) {

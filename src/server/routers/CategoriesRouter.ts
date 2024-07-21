@@ -1,7 +1,7 @@
 import express from "express";
-import getCategories from "../queries/categories/GetCategories.js";
-import createCategory from "../mutations/categories/CreateCategory.js";
-import authMiddleware from "../middleware/AuthMiddleware.js";
+import getCategories from "../queries/categories/GetCategories.ts";
+import createCategory from "../mutations/categories/CreateCategory.ts";
+import authMiddleware from "../middleware/AuthMiddleware.ts";
 
 const categoriesRouter = express.Router();
 

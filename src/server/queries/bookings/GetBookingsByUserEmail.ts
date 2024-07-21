@@ -1,4 +1,5 @@
-import BookingModel from "../../models/BookingModel.js";
+import { Request, Response } from "express";
+import BookingModel from "../../models/BookingModel.ts";
 
 /**
  * @swagger
@@ -29,11 +30,14 @@ import BookingModel from "../../models/BookingModel.js";
  *        description: An error occurred while fetching bookings
  */
 
-const getBookingsByUserEmail = async (req, res) => {
+const getBookingsByUserEmail = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
   const { email } = req.params;
 
   try {
-    const bookings = await BookingModel.find({ userEmail: email });
+    const bookings = await BookingModel.find({ userEmail: email }).exec();
 
     if (bookings.length === 0) {
       return res.status(404).json({

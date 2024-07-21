@@ -6,8 +6,8 @@ import {
   configMiddlewares,
   configRoutes,
   connectToDb,
-} from "./config/Index.js";
-import errorHandler from "./middleware/ErrorHandler.js";
+} from "./config/Index.ts";
+import errorHandler from "./middleware/ErrorHandler.ts";
 
 const { SERVER_PORT } = configEnvVariables;
 

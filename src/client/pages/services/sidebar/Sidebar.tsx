@@ -1,10 +1,15 @@
-import PropTypes from "prop-types";
+import { FC } from "react";
 import { NavLink } from "react-router-dom";
 import clsx from "clsx";
 import styles from "./Sidebar.module.scss";
 import useSidebar from "./UseSidebar";
 
-const Sidebar = ({ selectedCategory, onCategoryClick }) => {
+interface SidebarProps {
+  selectedCategory: string;
+  onCategoryClick: (categoryName: string) => void;
+}
+
+const Sidebar: FC<SidebarProps> = ({ selectedCategory, onCategoryClick }) => {
   const { categories, loading, error, handleCategoryClick } = useSidebar(
     selectedCategory,
     onCategoryClick
@@ -23,8 +28,8 @@ const Sidebar = ({ selectedCategory, onCategoryClick }) => {
       <h2>Categories</h2>
       <nav>
         <ul>
-          {categories.map(({ name, link, icon }) => (
-            <li key={name}>
+          {categories.map(({ id, name, link, icon }) => (
+            <li key={id}>
               <NavLink
                 to={link}
                 className={({ isActive }) =>
@@ -32,7 +37,7 @@ const Sidebar = ({ selectedCategory, onCategoryClick }) => {
                     [styles.active]: isActive || selectedCategory === name,
                   })
                 }
-                onClick={() => handleCategoryClick({ name })}
+                onClick={() => handleCategoryClick({ id, name, link, icon })}
               >
                 <img src={icon} alt={`${name} icon`} className={styles.icon} />
                 <p>{name}</p>
@@ -43,11 +48,6 @@ const Sidebar = ({ selectedCategory, onCategoryClick }) => {
       </nav>
     </div>
   );
-};
-
-Sidebar.propTypes = {
-  selectedCategory: PropTypes.string,
-  onCategoryClick: PropTypes.func.isRequired,
 };
 
 export default Sidebar;

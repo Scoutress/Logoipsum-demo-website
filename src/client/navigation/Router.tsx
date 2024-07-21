@@ -1,5 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
-import ErrorPage from "../pages/ErrorPage.tsx";
+import ErrorPage from "../pages/error-page/ErrorPage.tsx";
 import Home from "../pages/home/Home.tsx";
 import Services from "../pages/services/Services.tsx";
 import About from "../pages/about/About.tsx";

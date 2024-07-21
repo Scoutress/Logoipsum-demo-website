@@ -1,14 +1,17 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import Service from "../../../components/service/Service";
+import Service from "../../../components/service/Service.jsx";
 import styles from "./HomePopular.module.scss";
 
 interface ServiceData {
-  id: number;
+  id: string;
   name: string;
   description: string;
-  imageUrl: string;
-  // add other properties if needed
+  address: string;
+  category: string;
+  contactPerson: string;
+  email: string;
+  photo: string;
 }
 
 const HomePopular = () => {
@@ -20,7 +23,7 @@ const HomePopular = () => {
     const fetchServices = async () => {
       try {
         const response = await axios.get<ServiceData[]>(
-          "http://localhost:3001/services"
+          "http://localhost:5005/services"
         );
         const popular = response.data.slice(0, 4);
         setPopularServices(popular);
@@ -45,16 +48,16 @@ const HomePopular = () => {
 
   return (
     <div>
-      <h3 className={styles.title}>Popular businesses</h3>
+      <h3 className={styles.title}>Popular services</h3>
       <div className={styles.container}>
         {popularServices.map((service) => (
           <Service
-            category={""}
-            worker={""}
-            address={""}
-            photo={""}
             key={service.id}
-            {...service}
+            category={service.category}
+            name={service.name}
+            worker={service.contactPerson}
+            address={service.address}
+            photo={service.photo}
           />
         ))}
       </div>

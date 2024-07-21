@@ -7,7 +7,6 @@
 
 ## Typescript part
 
-- Connect the /businesses API to the front-end application.
 - Merge /login and /register APIs with login and registration forms. (Print the registration form if there is none).
 - (Optional) Add error and success messages. For example when invalid data is entered.
 - Make a dynamic route for one business page.

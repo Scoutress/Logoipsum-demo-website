@@ -7,7 +7,7 @@ import { model, Schema } from "mongoose";
  *    Booking:
  *      type: object
  *      required:
- *        - businessID
+ *        - serviceID
  *        - date
  *        - time
  *        - userEmail
@@ -16,7 +16,7 @@ import { model, Schema } from "mongoose";
  *      properties:
  *        id:
  *          type: string
- *        businessID:
+ *        serviceID:
  *          type: string
  *        date:
  *          type: string
@@ -31,7 +31,7 @@ import { model, Schema } from "mongoose";
  */
 
 export interface IBooking extends Document {
-  businessID: string;
+  serviceID: string;
   date: string;
   time: string;
   userEmail: string;
@@ -40,7 +40,7 @@ export interface IBooking extends Document {
 }
 
 const bookingSchema = new Schema<IBooking>({
-  businessID: { type: String, required: true },
+  serviceID: { type: String, required: true },
   date: { type: String, required: true },
   time: { type: String, required: true },
   userEmail: { type: String, required: true },

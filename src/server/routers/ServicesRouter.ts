@@ -1,43 +1,43 @@
 import express from "express";
-import getBusinesses from "../queries/businesses/GetBusinesses.ts";
-import getBusinessesByCategory from "../queries/businesses/GetBusinessesByCategory.ts";
-import getBusinessById from "../queries/businesses/GetBusinessById.ts";
-import createBusiness from "../mutations/businesses/CreateBusiness.ts";
-import updateBusiness from "../mutations/businesses/UpdateBusiness.ts";
-import getBookingsByBusinessAndDate from "../queries/businesses/GetBookingsByBusinessAndDate.ts";
+import getServices from "../queries/services/GetServices.ts";
+import getServicesByCategory from "../queries/services/GetServicesByCategory.ts";
+import getServiceById from "../queries/services/GetServiceById.ts";
+import createService from "../mutations/services/CreateService.ts";
+import updateService from "../mutations/services/UpdateService.ts";
+import getBookingsByServiceAndDate from "../queries/services/GetBookingsByServiceAndDate.ts";
 import authMiddleware from "../middleware/AuthMiddleware.ts";
 
-const businessesRouter = express.Router();
+const servicesRouter = express.Router();
 
 /**
  * @swagger
  * tags:
- *   name: Businesses
- *   description: API to manage businesses.
+ *   name: Services
+ *   description: API to manage services.
  */
 
 /**
  * @swagger
- * /businesses:
+ * /services:
  *   get:
- *     summary: Get all businesses
- *     tags: [Businesses]
+ *     summary: Get all services
+ *     tags: [Services]
  *     security:
  *       - bearerAuth: []
  *     responses:
  *       200:
- *         description: A list of businesses
+ *         description: A list of services
  *         content:
  *           application/json:
  *             schema:
  *               type: array
  *               items:
- *                 $ref: '#/components/schemas/Business'
+ *                 $ref: '#/components/schemas/Service'
  *       401:
  *         description: Unauthorized
  *   post:
- *     summary: Create a new business
- *     tags: [Businesses]
+ *     summary: Create a new service
+ *     tags: [Services]
  *     security:
  *       - bearerAuth: []
  *     requestBody:
@@ -45,24 +45,24 @@ const businessesRouter = express.Router();
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Business'
+ *             $ref: '#/components/schemas/Service'
  *     responses:
  *       201:
- *         description: Business created
+ *         description: Service created
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Business'
+ *               $ref: '#/components/schemas/Service'
  *       401:
  *         description: Unauthorized
  */
 
 /**
  * @swagger
- * /businesses/category/{category}:
+ * /services/category/{category}:
  *   get:
- *     summary: Get businesses by category
- *     tags: [Businesses]
+ *     summary: Get services by category
+ *     tags: [Services]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -73,23 +73,23 @@ const businessesRouter = express.Router();
  *           type: string
  *     responses:
  *       200:
- *         description: A list of businesses by category
+ *         description: A list of services by category
  *         content:
  *           application/json:
  *             schema:
  *               type: array
  *               items:
- *                 $ref: '#/components/schemas/Business'
+ *                 $ref: '#/components/schemas/Service'
  *       401:
  *         description: Unauthorized
  */
 
 /**
  * @swagger
- * /businesses/{id}:
+ * /services/{id}:
  *   get:
- *     summary: Get a business by ID
- *     tags: [Businesses]
+ *     summary: Get a service by ID
+ *     tags: [Services]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -100,16 +100,16 @@ const businessesRouter = express.Router();
  *           type: string
  *     responses:
  *       200:
- *         description: A business object
+ *         description: A service object
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Business'
+ *               $ref: '#/components/schemas/Service'
  *       404:
- *         description: Business not found
+ *         description: Service not found
  *   put:
- *     summary: Update a business by ID
- *     tags: [Businesses]
+ *     summary: Update a service by ID
+ *     tags: [Services]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -123,29 +123,29 @@ const businessesRouter = express.Router();
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Business'
+ *             $ref: '#/components/schemas/Service'
  *     responses:
  *       200:
- *         description: Business updated
+ *         description: Service updated
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Business'
+ *               $ref: '#/components/schemas/Service'
  *       404:
- *         description: Business not found
+ *         description: Service not found
  */
 
 /**
  * @swagger
- * /businesses/{businessId}/bookings/date/{date}:
+ * /services/{serviceId}/bookings/date/{date}:
  *   get:
- *     summary: Get bookings for a business by date
- *     tags: [Businesses]
+ *     summary: Get bookings for a service by date
+ *     tags: [Services]
  *     security:
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
- *         name: businessId
+ *         name: serviceId
  *         required: true
  *         schema:
  *           type: string
@@ -157,7 +157,7 @@ const businessesRouter = express.Router();
  *           format: date
  *     responses:
  *       200:
- *         description: A list of bookings for the business by date
+ *         description: A list of bookings for the service by date
  *         content:
  *           application/json:
  *             schema:
@@ -168,19 +168,19 @@ const businessesRouter = express.Router();
  *         description: Unauthorized
  */
 
-businessesRouter.get("/", authMiddleware, getBusinesses);
-businessesRouter.get(
+servicesRouter.get("/", getServices);
+servicesRouter.get(
   "/category/:category",
   authMiddleware,
-  getBusinessesByCategory
+  getServicesByCategory
 );
-businessesRouter.get("/:id", authMiddleware, getBusinessById);
-businessesRouter.post("/", authMiddleware, createBusiness);
-businessesRouter.put("/:id", authMiddleware, updateBusiness);
-businessesRouter.get(
-  "/:businessId/bookings/date/:date",
+servicesRouter.get("/:id", authMiddleware, getServiceById);
+servicesRouter.post("/", authMiddleware, createService);
+servicesRouter.put("/:id", authMiddleware, updateService);
+servicesRouter.get(
+  "/:serviceId/bookings/date/:date",
   authMiddleware,
-  getBookingsByBusinessAndDate
+  getBookingsByServiceAndDate
 );
 
-export default businessesRouter;
+export default servicesRouter;

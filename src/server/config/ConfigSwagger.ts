@@ -9,7 +9,7 @@ const swaggerOptions = {
   definition: {
     openapi: "3.0.0",
     info: {
-      title: "API for Managing Categories, Businesses, and Bookings",
+      title: "API for Managing Categories, Services and Bookings",
       version: "1.0.0",
     },
     components: {

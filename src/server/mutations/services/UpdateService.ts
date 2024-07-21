@@ -1,22 +1,20 @@
 import { Request, Response } from "express";
-import BusinessModel, { IBusiness } from "../../models/BusinessModel.ts";
-
-// Swagger annotations remain the same
+import ServiceModel, { IService } from "../../models/ServiceModel.ts";
 
 /**
  * @swagger
- * /businesses/{id}:
+ * /services/{id}:
  *  put:
- *    description: Update an existing business
+ *    description: Update an existing service
  *    tags:
- *      - Businesses
+ *      - Services
  *    parameters:
  *      - in: path
  *        name: id
  *        schema:
  *          type: string
  *        required: true
- *        description: The ID of the business
+ *        description: The ID of the service
  *    requestBody:
  *      required: true
  *      content:
@@ -40,20 +38,20 @@ import BusinessModel, { IBusiness } from "../../models/BusinessModel.ts";
  *                type: string
  *    responses:
  *      200:
- *        description: Business updated
+ *        description: Service updated
  *        content:
  *          application/json:
  *            schema:
- *              $ref: '#/components/schemas/Business'
+ *              $ref: '#/components/schemas/Service'
  *      400:
  *        description: Invalid input
  *      404:
- *        description: Business not found
+ *        description: Service not found
  *      500:
- *        description: An error occurred while updating the business
+ *        description: An error occurred while updating the service
  */
 
-const updateBusiness = async (
+const updateService = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
@@ -61,22 +59,23 @@ const updateBusiness = async (
   const updateData = req.body;
 
   try {
-    const business: IBusiness | null = await BusinessModel.findById(id);
-    if (!business) {
-      return res.status(404).json({ error: "Business not found" });
+    const service: IService | null = await ServiceModel.findById(id);
+    if (!service) {
+      return res.status(404).json({ error: "Service not found" });
     }
 
+    // TODO: pakeisti "as any"
     Object.keys(updateData).forEach((key) => {
-      (business as any)[key] = updateData[key];
+      (service as any)[key] = updateData[key];
     });
 
-    const updatedBusiness: IBusiness = await business.save();
-    return res.status(200).json(updatedBusiness);
+    const updatedService: IService = await service.save();
+    return res.status(200).json(updatedService);
   } catch (err) {
     return res
       .status(500)
-      .json({ error: "An error occurred while updating the business" });
+      .json({ error: "An error occurred while updating the service" });
   }
 };
 
-export default updateBusiness;
+export default updateService;

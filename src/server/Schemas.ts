@@ -9,7 +9,7 @@ export const bookingSchema = Joi.object({
   status: Joi.string().required(),
 });
 
-export const businessSchema = Joi.object({
+export const serviceSchema = Joi.object({
   name: Joi.string().required(),
   description: Joi.string().required(),
   address: Joi.string().required(),

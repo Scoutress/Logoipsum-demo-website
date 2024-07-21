@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import moment from "moment";
 import BookingModel, { IBooking } from "../../models/BookingModel.ts";
-import BusinessModel from "../../models/BusinessModel.ts";
+import ServiceModel from "../../models/ServiceModel.ts";
 import validate from "../../middleware/ValidationMiddleware.ts";
 import { bookingSchema } from "../../Schemas.ts";
 
@@ -19,14 +19,14 @@ import { bookingSchema } from "../../Schemas.ts";
  *          schema:
  *            type: object
  *            required:
- *              - businessID
+ *              - serviceID
  *              - date
  *              - time
  *              - userEmail
  *              - userName
  *              - status
  *            properties:
- *              businessID:
+ *              serviceID:
  *                type: string
  *              date:
  *                type: string
@@ -55,7 +55,7 @@ const createBooking = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  const { businessID, date, time, userEmail, userName, status } = req.body;
+  const { serviceID, date, time, userEmail, userName, status } = req.body;
 
   if (!moment(date, "YYYY-MM-DD", true).isValid()) {
     return res
@@ -64,15 +64,15 @@ const createBooking = async (
   }
 
   try {
-    const business = await BusinessModel.findById(businessID);
-    if (!business) {
+    const service = await ServiceModel.findById(serviceID);
+    if (!service) {
       return res
         .status(400)
-        .json({ error: "Business with this ID does not exist" });
+        .json({ error: "Service with this ID does not exist" });
     }
 
     const newBooking: IBooking = await BookingModel.create({
-      businessID,
+      serviceID: serviceID,
       date,
       time,
       userEmail,

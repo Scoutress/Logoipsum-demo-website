@@ -4,7 +4,7 @@ import { Document, model, Schema } from "mongoose";
  * @swagger
  * components:
  *  schemas:
- *    Business:
+ *    Service:
  *      type: object
  *      required:
  *        - name
@@ -33,7 +33,7 @@ import { Document, model, Schema } from "mongoose";
  *          type: string
  */
 
-export interface IBusiness extends Document {
+export interface IService extends Document {
   name: string;
   description: string;
   address: string;
@@ -43,7 +43,7 @@ export interface IBusiness extends Document {
   photo: string;
 }
 
-const businessSchema = new Schema<IBusiness>({
+const serviceSchema = new Schema<IService>({
   name: { type: String, required: true },
   description: { type: String, required: true },
   address: { type: String, required: true },
@@ -53,5 +53,5 @@ const businessSchema = new Schema<IBusiness>({
   photo: { type: String, required: true },
 });
 
-const BusinessModel = model<IBusiness>("Business", businessSchema);
-export default BusinessModel;
+const ServiceModel = model<IService>("Service", serviceSchema);
+export default ServiceModel;

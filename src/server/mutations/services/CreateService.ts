@@ -1,15 +1,15 @@
 import { Request, Response } from "express";
-import BusinessModel from "../../models/BusinessModel.ts";
-import { businessSchema } from "../../Schemas.ts";
+import ServiceModel from "../../models/ServiceModel.ts";
+import { serviceSchema } from "../../Schemas.ts";
 import validate from "../../middleware/ValidationMiddleware.ts";
 
 /**
  * @swagger
- * /businesses:
+ * /services:
  *  post:
- *    description: Create a new business
+ *    description: Create a new service
  *    tags:
- *      - Businesses
+ *      - Services
  *    requestBody:
  *      required: true
  *      content:
@@ -41,18 +41,18 @@ import validate from "../../middleware/ValidationMiddleware.ts";
  *                type: string
  *    responses:
  *      201:
- *        description: Business created
+ *        description: Service created
  *        content:
  *          application/json:
  *            schema:
- *              $ref: '#/components/schemas/Business'
+ *              $ref: '#/components/schemas/Service'
  *      400:
  *        description: Invalid input
  *      500:
- *        description: An error occurred while creating the business
+ *        description: An error occurred while creating the service
  */
 
-const createBusiness = async (
+const createService = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
@@ -60,7 +60,7 @@ const createBusiness = async (
     req.body;
 
   try {
-    const newBusiness = await BusinessModel.create({
+    const newService = await ServiceModel.create({
       name,
       description,
       address,
@@ -69,13 +69,13 @@ const createBusiness = async (
       email,
       photo,
     });
-    return res.status(201).json(newBusiness);
+    return res.status(201).json(newService);
   } catch (err) {
-    console.error("Error creating business:", err);
+    console.error("Error creating service:", err);
     return res
       .status(500)
-      .json({ error: "An error occurred while creating the business" });
+      .json({ error: "An error occurred while creating the service" });
   }
 };
 
-export default [validate(businessSchema), createBusiness];
+export default [validate(serviceSchema), createService];

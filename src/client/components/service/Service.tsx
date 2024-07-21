@@ -15,11 +15,11 @@ interface ServiceProps {
 }
 
 const Service: React.FC<ServiceProps> = ({
-  category = "Default Category",
-  name = "Default Name",
-  worker = "Default Worker",
-  address = "Default Address",
-  photo = "default.jpg",
+  category,
+  name,
+  worker,
+  address,
+  photo,
   className,
 }) => {
   const navigate = useNavigate();

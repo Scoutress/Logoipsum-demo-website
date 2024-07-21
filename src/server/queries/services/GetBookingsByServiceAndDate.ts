@@ -5,18 +5,18 @@ import BookingModel from "../../models/BookingModel.ts";
 
 /**
  * @swagger
- * /businesses/{businessId}/bookings/date/{date}:
+ * /services/{serviceId}/bookings/date/{date}:
  *  get:
- *    summary: Get bookings for a business by date
+ *    summary: Get bookings for a service by date
  *    tags:
- *      - Businesses
+ *      - Services
  *    parameters:
  *      - in: path
- *        name: businessId
+ *        name: serviceId
  *        schema:
  *          type: string
  *        required: true
- *        description: The ID of the business
+ *        description: The ID of the service
  *      - in: path
  *        name: date
  *        schema:
@@ -26,7 +26,7 @@ import BookingModel from "../../models/BookingModel.ts";
  *        description: The date of the bookings (YYYY-MM-DD)
  *    responses:
  *      200:
- *        description: A list of bookings for the business by date
+ *        description: A list of bookings for the service by date
  *        content:
  *          application/json:
  *            schema:
@@ -36,16 +36,16 @@ import BookingModel from "../../models/BookingModel.ts";
  *      400:
  *        description: Invalid date format
  *      404:
- *        description: No bookings found for this business on the given date
+ *        description: No bookings found for this service on the given date
  *      500:
  *        description: An error occurred while fetching bookings
  */
 
-const getBookingsByBusinessAndDate = async (
+const getBookingsByServiceAndDate = async (
   req: Request,
   res: Response
 ): Promise<void> => {
-  const { businessId, date } = req.params;
+  const { serviceId, date } = req.params;
 
   if (!moment(date, "YYYY-MM-DD", true).isValid()) {
     res
@@ -54,22 +54,22 @@ const getBookingsByBusinessAndDate = async (
     return;
   }
 
-  if (!mongoose.Types.ObjectId.isValid(businessId)) {
-    res.status(400).json({ error: "Invalid business ID format" });
+  if (!mongoose.Types.ObjectId.isValid(serviceId)) {
+    res.status(400).json({ error: "Invalid service ID format" });
     return;
   }
 
   try {
-    const businessObjectId = new mongoose.Types.ObjectId(businessId);
+    const serviceObjectId = new mongoose.Types.ObjectId(serviceId);
 
     const bookings = await BookingModel.find({
-      businessID: businessObjectId,
+      serviceID: serviceObjectId,
       date,
     });
 
     if (bookings.length === 0) {
       res.status(404).json({
-        error: "No bookings found for this business on the given date",
+        error: "No bookings found for this service on the given date",
       });
       return;
     }
@@ -83,4 +83,4 @@ const getBookingsByBusinessAndDate = async (
   }
 };
 
-export default getBookingsByBusinessAndDate;
+export default getBookingsByServiceAndDate;

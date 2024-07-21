@@ -1,11 +1,11 @@
 import { createBrowserRouter } from "react-router-dom";
-import ErrorPage from "../pages/ErrorPage.jsx";
-import Home from "../pages/home/Home.jsx";
-import Services from "../pages/services/Services.jsx";
-import About from "../pages/About.jsx";
-import Routes from "./Routes.jsx";
-import Root from "./Root.js";
-import SearchPage from "../pages/search/SearchPage.jsx";
+import ErrorPage from "../pages/ErrorPage.tsx";
+import Home from "../pages/home/Home.tsx";
+import Services from "../pages/services/Services.tsx";
+import About from "../pages/about/About.tsx";
+import Routes from "./Routes.tsx";
+import Root from "./Root.tsx";
+import SearchPage from "../pages/search/SearchPage.tsx";
 
 const Router = createBrowserRouter([
   {

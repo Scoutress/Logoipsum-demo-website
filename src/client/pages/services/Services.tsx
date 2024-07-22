@@ -1,7 +1,6 @@
 import { useParams } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import styles from "./Services.module.scss";
-import Sidebar from "./sidebar/Sidebar";
 import CategoryList from "./category-list/CategoryList";
 import ServicesList from "./services-list/ServicesList";
 
@@ -21,10 +20,6 @@ const Services: React.FC = () => {
 
   return (
     <div className={styles.servicesPage}>
-      <Sidebar
-        selectedCategory={selectedCategory}
-        onCategoryClick={setSelectedCategory}
-      />
       <div className={styles.servicesList}>
         <CategoryList selectedCategory={selectedCategory} />
       </div>

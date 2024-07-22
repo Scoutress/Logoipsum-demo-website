@@ -1,13 +1,12 @@
 # Tasks left:
 
-- Bug: When pressing on category (in /services) twice, system will show doubled service cards.
-- Bug: Size of service cards is not correct (in /services).
+- Bug: When pressing on category (in /services), category component is not active.
 - Bug: Search is not working.
 - Bug: While creating new business or booking with swagger, he asks for ID. And when I try to fill id input, it says "id is not allowed".
+- Bug: While pressing on "Book now" btn, iš shows "Error fetching service" if not Logged in.
 
 ## Typescript part
 
-- Make a dynamic route for one business page.
 - By clicking on Avatar (user) in the dropdown menu.
 - Sidebar modal form opening after pressing the "Book Appointment" button.
 - Open My bookings on the route by selecting the "My booking" option from the dropdown menu.

@@ -5,7 +5,7 @@ import styles from "./HomeCategories.module.scss";
 
 interface Category {
   name: string;
-  link: string;
+  link: string; // Galime pašalinti šį lauką, nes naudosime dinaminį maršrutą
   iconFile: string;
 }
 
@@ -42,7 +42,10 @@ const HomeCategories: React.FC = () => {
     <div className={styles.container}>
       {categories.map((category) => (
         <div key={category.name} className={styles.subcontainer}>
-          <Link to={category.link} className={styles.link}>
+          <Link
+            to={`/category/${category.name.toLowerCase()}`}
+            className={styles.link}
+          >
             <img
               src={`/${category.iconFile}`}
               alt={`${category.name} Icon`}

@@ -5,10 +5,10 @@ import Service from "../../../components/service/Service";
 import styles from "./ServicesList.module.scss";
 
 interface ServiceData {
-  id: number;
+  _id: string;
+  contactPerson: string;
   category: string;
   name: string;
-  worker: string;
   address: string;
   photo: string;
 }
@@ -26,7 +26,7 @@ const ServicesList: React.FC = () => {
 
       try {
         const response = await axios.get<ServiceData[]>(
-          "http://localhost:3001/services"
+          "http://localhost:5005/services"
         );
         const data = response.data;
 
@@ -68,23 +68,29 @@ const ServicesList: React.FC = () => {
 
   return (
     <div className={styles.servicesList}>
-      {services && services.length > 0 ? (
-        services.map((service) => (
-          <Service
-            key={service.id}
-            className={styles.service}
-            category={service.category}
-            name={service.name}
-            worker={service.worker}
-            address={service.address}
-            photo={service.photo}
-          />
-        ))
-      ) : (
-        <div className={styles.noServices}>
-          There are no services in this category
-        </div>
-      )}
+      <div className={styles.categoryHeader}>
+        {category ? category : <span>&nbsp;</span>}
+      </div>
+      <div className={styles.servicesContainer}>
+        {services && services.length > 0 ? (
+          services.map((service) => (
+            <Service
+              key={service._id}
+              _id={service._id}
+              className={styles.service}
+              category={service.category}
+              name={service.name}
+              worker={service.contactPerson}
+              address={service.address}
+              photo={"/" + service.photo}
+            />
+          ))
+        ) : (
+          <div className={styles.noServices}>
+            There are no services in this category
+          </div>
+        )}
+      </div>
     </div>
   );
 };

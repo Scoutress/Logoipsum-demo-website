@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
 import React from "react";
-import styles from "./Button.module.scss";
 
 interface ButtonProps {
   className?: string;
@@ -16,8 +15,8 @@ const Button: React.FC<ButtonProps> = ({
   icon: Icon,
 }) => {
   return (
-    <button className={`${styles.button} ${className}`} onClick={onClick}>
-      {Icon && <Icon className={styles.icon} />}
+    <button className={`${className}`} onClick={onClick}>
+      {Icon && <Icon />}
       {children}
     </button>
   );

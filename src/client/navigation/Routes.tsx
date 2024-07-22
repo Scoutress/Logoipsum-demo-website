@@ -23,7 +23,10 @@ const Routes = {
     link: "/*",
     name: "404",
   },
+  detailsPage: {
+    link: "/details/:id",
+    name: "Details",
+  },
 };
 
 export default Routes;
-

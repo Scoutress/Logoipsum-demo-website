@@ -48,7 +48,7 @@ const Header: React.FC = () => {
     <header className={styles.header}>
       <div className={styles.logo}>
         <Link to="/">
-          <img src="logos/logo-logoipsum.svg" alt="Logo" />
+          <img src="/logos/logo-logoipsum.svg" alt="Logo" />
         </Link>
       </div>
       <div className={styles.navbar}>

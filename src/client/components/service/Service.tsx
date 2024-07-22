@@ -6,6 +6,7 @@ import useLocalStorage from "../../hooks/UseLocalStorage";
 import styles from "./Service.module.scss";
 
 interface ServiceProps {
+  _id: string;
   category: string;
   name: string;
   worker: string;
@@ -15,6 +16,7 @@ interface ServiceProps {
 }
 
 const Service: React.FC<ServiceProps> = ({
+  _id,
   category,
   name,
   worker,
@@ -37,6 +39,13 @@ const Service: React.FC<ServiceProps> = ({
     navigate(`/category/${category.toLowerCase()}`);
   };
 
+  const handleBtnClick = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.stopPropagation();
+    navigate(`/details/${_id}`);
+  };
+
   const handleFavorite = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
@@ -51,7 +60,7 @@ const Service: React.FC<ServiceProps> = ({
         )
       );
     } else {
-      const newFavorite = { category, name, worker, address, photo };
+      const newFavorite = { _id, category, name, worker, address, photo };
       setFavorites([...favorites, newFavorite]);
     }
   };
@@ -74,7 +83,9 @@ const Service: React.FC<ServiceProps> = ({
         <p className={styles.name}>{name}</p>
         <p className={styles.worker}>{worker}</p>
         <p className={styles.address}>{address}</p>
-        <button className={styles.button}>Book now</button>
+        <button className={styles.button} onClick={handleBtnClick}>
+          Book now
+        </button>
       </div>
     </div>
   );

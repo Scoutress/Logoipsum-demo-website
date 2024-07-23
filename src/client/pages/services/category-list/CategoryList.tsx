@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styles from "./CategoryList.module.scss";
 
 interface Category {
@@ -13,13 +13,18 @@ interface Category {
 
 interface CategoryListProps {
   selectedCategory: string;
+  setSelectedCategory: (category: string) => void;
 }
 
-const CategoryList: React.FC<CategoryListProps> = ({ selectedCategory }) => {
+const CategoryList: React.FC<CategoryListProps> = ({
+  selectedCategory,
+  setSelectedCategory,
+}) => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
+  const { category } = useParams<{ category: string }>();
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -37,7 +42,18 @@ const CategoryList: React.FC<CategoryListProps> = ({ selectedCategory }) => {
     };
 
     fetchCategories();
-  }, [selectedCategory]);
+  }, []);
+
+  useEffect(() => {
+    if (category) {
+      setSelectedCategory(category.charAt(0).toUpperCase() + category.slice(1));
+    }
+  }, [category, setSelectedCategory]);
+
+  const handleCategoryClick = (category: string) => {
+    setSelectedCategory(category);
+    navigate(`/category/${category.toLowerCase()}`);
+  };
 
   if (loading) {
     return <div>Loading...</div>;
@@ -50,14 +66,14 @@ const CategoryList: React.FC<CategoryListProps> = ({ selectedCategory }) => {
   return (
     <div className={styles.container}>
       <h1 className={styles.categoryListTitle}>Categories</h1>
-      <div className={styles.services}>
+      <div className={styles.categories}>
         {categories.map((category) => (
           <div
             key={category.id}
             className={`${styles.categoryItem} ${
               selectedCategory === category.name ? styles.active : ""
             }`}
-            onClick={() => navigate(`/category/${category.name.toLowerCase()}`)}
+            onClick={() => handleCategoryClick(category.name)}
           >
             <img
               src={"/" + category.iconFile}
@@ -74,6 +90,7 @@ const CategoryList: React.FC<CategoryListProps> = ({ selectedCategory }) => {
 
 CategoryList.propTypes = {
   selectedCategory: PropTypes.string.isRequired,
+  setSelectedCategory: PropTypes.func.isRequired,
 };
 
 export default CategoryList;

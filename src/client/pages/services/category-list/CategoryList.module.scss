@@ -10,7 +10,7 @@
   margin-bottom: 20px;
 }
 
-.services {
+.categories {
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -26,12 +26,11 @@
   transition: background-color 0.3s, border-color 0.3s;
 
   &:hover {
-    background-color: #f3e9fc;
+    background-color: #e1d5f7;
   }
 
   &.active {
-    background-color: #f3e9fc;
-    border-color: #6f42c1;
+    background-color: #e1d5f7;
   }
 }
 

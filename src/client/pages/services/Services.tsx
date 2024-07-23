@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styles from "./Services.module.scss";
 import CategoryList from "./category-list/CategoryList";
 import ServicesList from "./services-list/ServicesList";
@@ -10,21 +10,16 @@ const Services: React.FC = () => {
     category || "All"
   );
 
-  useEffect(() => {
-    if (category) {
-      setSelectedCategory(category);
-    } else {
-      setSelectedCategory("All");
-    }
-  }, [category]);
-
   return (
     <div className={styles.servicesPage}>
       <div className={styles.servicesList}>
-        <CategoryList selectedCategory={selectedCategory} />
+        <CategoryList
+          selectedCategory={selectedCategory}
+          setSelectedCategory={setSelectedCategory}
+        />
       </div>
       <div>
-        <ServicesList />
+        <ServicesList selectedCategory={selectedCategory} />
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
-import { useState, useContext } from "react";
-import { Link } from "react-router-dom";
+import { useState, useContext, useEffect } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import styles from "./Header.module.scss";
 import Button from "../button/Button";
 import PropTypes from "prop-types";
@@ -9,11 +9,12 @@ import { AuthContext } from "../../context/AuthContext";
 interface NavItemProps {
   to: string;
   children: React.ReactNode;
+  onClick?: (event: React.MouseEvent<HTMLLIElement>) => void;
 }
 
-const NavItem: React.FC<NavItemProps> = ({ to, children }) => {
+const NavItem: React.FC<NavItemProps> = ({ to, children, onClick }) => {
   return (
-    <li className={styles.button}>
+    <li className={styles.button} onClick={onClick}>
       <Link to={to} className={styles.buttonLink}>
         {children}
       </Link>
@@ -24,6 +25,7 @@ const NavItem: React.FC<NavItemProps> = ({ to, children }) => {
 NavItem.propTypes = {
   to: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
+  onClick: PropTypes.func,
 };
 
 const Header: React.FC = () => {
@@ -35,6 +37,9 @@ const Header: React.FC = () => {
 
   const { user, logout } = authContext;
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [reload, setReload] = useState(false);
 
   const handleLoginClick = () => {
     setIsModalOpen(true);
@@ -43,6 +48,21 @@ const Header: React.FC = () => {
   const handleLogoutClick = () => {
     logout();
   };
+
+  const handleServicesClick = (event: React.MouseEvent<HTMLLIElement>) => {
+    if (location.pathname.startsWith("/category/")) {
+      event.preventDefault();
+      setReload(true);
+      navigate("/services");
+    }
+  };
+
+  useEffect(() => {
+    if (reload && location.pathname === "/services") {
+      setReload(false);
+      window.location.reload();
+    }
+  }, [location.pathname, reload]);
 
   return (
     <header className={styles.header}>
@@ -55,7 +75,9 @@ const Header: React.FC = () => {
         <nav>
           <ul className={styles.ul}>
             <NavItem to="/">Home</NavItem>
-            <NavItem to="/services">Services</NavItem>
+            <NavItem to="/services" onClick={handleServicesClick}>
+              Services
+            </NavItem>
             <NavItem to="/about">About Us</NavItem>
           </ul>
         </nav>

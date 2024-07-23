@@ -1,6 +1,5 @@
 # Tasks left:
 
-- Bug: When pressing on category (in /services), category component is not active.
 - Bug: Search is not working.
 - Bug: While creating new business or booking with swagger, he asks for ID. And when I try to fill id input, it says "id is not allowed".
 - Bug: While pressing on "Book now" btn, iš shows "Error fetching service" if not Logged in.

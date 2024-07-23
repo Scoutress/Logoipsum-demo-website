@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import axios from "axios";
 import Service from "../../../components/service/Service";
 import styles from "./ServicesList.module.scss";
@@ -13,8 +12,11 @@ interface ServiceData {
   photo: string;
 }
 
-const ServicesList: React.FC = () => {
-  const { category } = useParams<{ category: string }>();
+interface ServicesListProps {
+  selectedCategory: string;
+}
+
+const ServicesList: React.FC<ServicesListProps> = ({ selectedCategory }) => {
   const [services, setServices] = useState<ServiceData[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -31,10 +33,11 @@ const ServicesList: React.FC = () => {
         const data = response.data;
 
         if (data && Array.isArray(data)) {
-          if (category) {
+          if (selectedCategory && selectedCategory !== "All") {
             const filteredServices = data.filter(
               (service) =>
-                service.category.toLowerCase() === category.toLowerCase()
+                service.category.toLowerCase() ===
+                selectedCategory.toLowerCase()
             );
             setServices(filteredServices);
           } else {
@@ -56,7 +59,7 @@ const ServicesList: React.FC = () => {
     };
 
     fetchServices();
-  }, [category]);
+  }, [selectedCategory]);
 
   if (loading) {
     return <div className={styles.loading}>Loading services...</div>;
@@ -69,7 +72,7 @@ const ServicesList: React.FC = () => {
   return (
     <div className={styles.servicesList}>
       <div className={styles.categoryHeader}>
-        {category ? category : <span>&nbsp;</span>}
+        {selectedCategory ? selectedCategory : <span>&nbsp;</span>}
       </div>
       <div className={styles.servicesContainer}>
         {services && services.length > 0 ? (

@@ -4,11 +4,12 @@ import Service from "../../../components/service/Service";
 import styles from "./SearchListSection.module.scss";
 
 interface ServiceData {
-  id: number;
+  _id: string;
+  category: string;
   name: string;
-  description: string;
-  imageUrl: string;
-  // add other properties if needed
+  worker: string;
+  address: string;
+  photo: string;
 }
 
 interface SearchListSectionProps {
@@ -18,7 +19,8 @@ interface SearchListSectionProps {
 const SearchListSection: React.FC<SearchListSectionProps> = ({
   searchTerm,
 }) => {
-  const [services, setServices] = useState<ServiceData[]>([]);
+  const [allServices, setAllServices] = useState<ServiceData[]>([]);
+  const [filteredServices, setFilteredServices] = useState<ServiceData[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -28,9 +30,9 @@ const SearchListSection: React.FC<SearchListSectionProps> = ({
       setError(null);
       try {
         const response = await axios.get<ServiceData[]>(
-          `http://localhost:3001/services?term=${searchTerm}`
+          `http://localhost:5005/services`
         );
-        setServices(response.data);
+        setAllServices(response.data);
       } catch (error) {
         setError("Error fetching services");
         console.error("Error fetching services:", error);
@@ -40,7 +42,27 @@ const SearchListSection: React.FC<SearchListSectionProps> = ({
     };
 
     fetchServices();
-  }, [searchTerm]);
+  }, []);
+
+  useEffect(() => {
+    if (!searchTerm) {
+      setFilteredServices(allServices);
+    } else {
+      const lowercasedTerm = searchTerm.toLowerCase();
+      const filtered = allServices.filter(
+        (service) =>
+          (service.category &&
+            service.category.toLowerCase().includes(lowercasedTerm)) ||
+          (service.name &&
+            service.name.toLowerCase().includes(lowercasedTerm)) ||
+          (service.worker &&
+            service.worker.toLowerCase().includes(lowercasedTerm)) ||
+          (service.address &&
+            service.address.toLowerCase().includes(lowercasedTerm))
+      );
+      setFilteredServices(filtered);
+    }
+  }, [searchTerm, allServices]);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -52,14 +74,15 @@ const SearchListSection: React.FC<SearchListSectionProps> = ({
 
   return (
     <div className={styles.container}>
-      {services.map((service) => (
+      {filteredServices.map((service) => (
         <Service
-          category={""}
-          worker={""}
-          address={""}
-          photo={""}
-          key={service.id}
-          {...service}
+          key={service._id}
+          _id={service._id}
+          category={service.category}
+          name={service.name}
+          worker={service.worker}
+          address={service.address}
+          photo={service.photo}
         />
       ))}
     </div>

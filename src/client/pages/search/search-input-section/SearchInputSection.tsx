@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, ChangeEvent } from "react";
-import Input from "../../../components/input/Input";
+import Input from "../../../components/input/Input.tsx";
 import styles from "./SearchInputSection.module.scss";
 
 interface SearchInputSectionProps {

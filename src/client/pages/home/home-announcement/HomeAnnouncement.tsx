@@ -14,11 +14,7 @@ const HomeAnnouncement: React.FC = () => {
   };
 
   const handleSearchClick = () => {
-    if (searchTerm !== "") {
-      navigate(`/search?term=${searchTerm}`);
-    } else {
-      navigate(`/search`);
-    }
+    navigate("/search", { state: { term: searchTerm } });
   };
 
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {

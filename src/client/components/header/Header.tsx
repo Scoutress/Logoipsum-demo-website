@@ -37,6 +37,7 @@ const Header: React.FC = () => {
 
   const { user, logout } = authContext;
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const [reload, setReload] = useState(false);
@@ -64,6 +65,10 @@ const Header: React.FC = () => {
     }
   }, [location.pathname, reload]);
 
+  const handleDropdownToggle = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
   return (
     <header className={styles.header}>
       <div className={styles.logo}>
@@ -83,9 +88,27 @@ const Header: React.FC = () => {
         </nav>
       </div>
       {user ? (
-        <Button className={styles.loginBtn} onClick={handleLogoutClick}>
-          Logout
-        </Button>
+        <div className={styles.userMenu}>
+          <button className={styles.userButton} onClick={handleDropdownToggle}>
+            {user.username.charAt(0).toUpperCase()}
+          </button>
+          {isDropdownOpen && (
+            <div className={styles.dropdownMenu}>
+              <Link to="/my-account" className={styles.dropdownItem}>
+                My Account
+              </Link>
+              <Link to="/my-bookings" className={styles.dropdownItem}>
+                My Bookings
+              </Link>
+              <button
+                className={styles.dropdownItem}
+                onClick={handleLogoutClick}
+              >
+                Logout
+              </button>
+            </div>
+          )}
+        </div>
       ) : (
         <Button className={styles.loginBtn} onClick={handleLoginClick}>
           Login / Sign Up

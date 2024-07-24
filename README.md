@@ -5,7 +5,6 @@
 
 ## Typescript part
 
-- By clicking on Avatar (user) in the dropdown menu.
 - Sidebar modal form opening after pressing the "Book Appointment" button.
 - Open My bookings on the route by selecting the "My booking" option from the dropdown menu.
 - Integrate Formik and yup libraries into React application:

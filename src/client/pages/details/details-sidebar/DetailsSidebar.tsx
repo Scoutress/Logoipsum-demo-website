@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import BookingModal from "../../../components/booking-modal/BookingModal.tsx";
 import styles from "./DetailsSidebar.module.scss";
 
 interface DetailsSidebarProps {
@@ -14,12 +15,13 @@ interface Service {
   address: string;
   contactPerson: string;
   photo: string;
-  category: string; // Pridėkite category savybę
+  category: string;
 }
 
 const DetailsSidebar: React.FC<DetailsSidebarProps> = ({ id, category }) => {
   const [services, setServices] = useState<Service[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -46,13 +48,19 @@ const DetailsSidebar: React.FC<DetailsSidebarProps> = ({ id, category }) => {
     navigate(`/details/${serviceId}`);
   };
 
+  const handleBookClick = () => {
+    setIsModalOpen(true);
+  };
+
   if (error) {
     return <div>{error}</div>;
   }
 
   return (
     <div className={styles.sidebarContainer}>
-      <button className={styles.bookButton}>Book Appointment</button>
+      <button className={styles.bookButton} onClick={handleBookClick}>
+        Book Appointment
+      </button>
       <h3>Similar Business</h3>
       {services.map((service) => (
         <div
@@ -72,6 +80,9 @@ const DetailsSidebar: React.FC<DetailsSidebarProps> = ({ id, category }) => {
           </div>
         </div>
       ))}
+      {isModalOpen && (
+        <BookingModal serviceID={id} onClose={() => setIsModalOpen(false)} />
+      )}
     </div>
   );
 };

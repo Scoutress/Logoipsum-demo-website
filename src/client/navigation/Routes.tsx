@@ -27,6 +27,10 @@ const Routes = {
     link: "/details/:id",
     name: "Details",
   },
+  bookingsPage: {
+    link: "/bookings",
+    name: "My Bookings",
+  },
 };
 
 export default Routes;

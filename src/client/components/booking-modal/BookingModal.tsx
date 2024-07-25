@@ -30,9 +30,20 @@ const BookingModal: React.FC<BookingModalProps> = ({ serviceID, onClose }) => {
           throw new Error("No token found");
         }
 
+        const [hours, minutes] = selectedTime.split(":").map(Number);
+        const bookingDate = new Date(selectedDate);
+        bookingDate.setHours(hours);
+        bookingDate.setMinutes(minutes);
+        bookingDate.setSeconds(0);
+        bookingDate.setMilliseconds(0);
+
+        console.log("Selected Date:", selectedDate);
+        console.log("Selected Time:", selectedTime);
+        console.log("Booking Date with Time:", bookingDate);
+
         const bookingData = {
           serviceID,
-          date: selectedDate.toISOString().split("T")[0],
+          date: bookingDate.toISOString().split("T")[0],
           time: selectedTime,
           userEmail: user.email,
           userName: user.firstName + " " + user.lastName,

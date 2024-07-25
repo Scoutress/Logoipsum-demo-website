@@ -12,7 +12,6 @@ import { model, Schema, Document } from "mongoose";
  *        - time
  *        - userEmail
  *        - userName
- *        - status
  *      properties:
  *        id:
  *          type: string
@@ -26,8 +25,6 @@ import { model, Schema, Document } from "mongoose";
  *          type: string
  *        userName:
  *          type: string
- *        status:
- *          type: string
  */
 
 export interface IBooking extends Document {
@@ -36,7 +33,6 @@ export interface IBooking extends Document {
   time: string;
   userEmail: string;
   userName: string;
-  status: string;
 }
 
 const bookingSchema = new Schema<IBooking>({
@@ -45,7 +41,6 @@ const bookingSchema = new Schema<IBooking>({
   time: { type: String, required: true },
   userEmail: { type: String, required: true },
   userName: { type: String, required: true },
-  status: { type: String, required: true },
 });
 
 const BookingModel = model<IBooking>("Booking", bookingSchema);

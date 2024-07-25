@@ -7,6 +7,7 @@ import Routes from "./Routes.tsx";
 import Root from "./Root.tsx";
 import SearchPage from "../pages/search/SearchPage.tsx";
 import Details from "../pages/details/Details.tsx";
+import MyBookings from "../pages/my-bookings/MyBookings.tsx";
 
 const Router = createBrowserRouter([
   {
@@ -36,6 +37,10 @@ const Router = createBrowserRouter([
       {
         path: Routes.detailsPage.link,
         element: <Details />,
+      },
+      {
+        path: Routes.bookingsPage.link,
+        element: <MyBookings />,
       },
     ],
   },

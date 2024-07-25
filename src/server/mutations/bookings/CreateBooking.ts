@@ -13,7 +13,6 @@ import BookingModel from "../../models/BookingModel.ts";
  *        - time
  *        - userEmail
  *        - userName
- *        - status
  *      properties:
  *        id:
  *          type: string
@@ -27,19 +26,15 @@ import BookingModel from "../../models/BookingModel.ts";
  *          type: string
  *        userName:
  *          type: string
- *        status:
- *          type: string
  */
 
 const createBooking = async (
   req: Request,
   res: Response
 ): Promise<Response> => {
-  const { serviceID, date, time, userEmail, userName, status } = req.body;
+  const { serviceID, date, time, userEmail, userName } = req.body;
 
-  console.log("Received booking data:", req.body);
-
-  if (!serviceID || !date || !time || !userEmail || !userName || !status) {
+  if (!serviceID || !date || !time || !userEmail || !userName) {
     return res.status(400).json({ error: "Missing required fields" });
   }
 
@@ -50,7 +45,6 @@ const createBooking = async (
       time,
       userEmail,
       userName,
-      status,
     });
 
     await newBooking.save();

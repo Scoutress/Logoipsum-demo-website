@@ -94,10 +94,10 @@ const Header: React.FC = () => {
           </button>
           {isDropdownOpen && (
             <div className={styles.dropdownMenu}>
-              <Link to="/my-account" className={styles.dropdownItem}>
+              <Link to="/account" className={styles.dropdownItem}>
                 My Account
               </Link>
-              <Link to="/my-bookings" className={styles.dropdownItem}>
+              <Link to="/bookings" className={styles.dropdownItem}>
                 My Bookings
               </Link>
               <button

@@ -1,5 +1,7 @@
-import React, { useState, useContext, ChangeEvent, FormEvent } from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
 import { AuthContext } from "../../context/AuthContext";
 import styles from "./AuthModal.module.scss";
 import Loading from "../loading/Loading";
@@ -16,8 +18,32 @@ const AuthModal: React.FC<AuthModalProps> = ({ onClose }) => {
   }
 
   const { login, register } = authContext;
-  const [isLogin, setIsLogin] = useState(true);
-  const [formData, setFormData] = useState({
+  const [isLogin, setIsLogin] = React.useState(true);
+  const [error, setError] = React.useState<string | null>(null);
+  const [loading, setLoading] = React.useState(false);
+
+  const validationSchema = Yup.object().shape({
+    username: isLogin ? Yup.string() : Yup.string().required("Required"),
+    firstName: isLogin ? Yup.string() : Yup.string().required("Required"),
+    lastName: isLogin ? Yup.string() : Yup.string().required("Required"),
+    city: isLogin ? Yup.string() : Yup.string().required("Required"),
+    email: Yup.string()
+      .matches(
+        /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+        "Invalid email format"
+      )
+      .required("Required"),
+    password: Yup.string()
+      .min(6, "Password must be at least 6 characters")
+      .required("Required"),
+    confirmPassword: isLogin
+      ? Yup.string()
+      : Yup.string()
+          .oneOf([Yup.ref("password")], "Passwords do not match")
+          .required("Required"),
+  });
+
+  const initialValues = {
     username: "",
     firstName: "",
     lastName: "",
@@ -25,35 +51,17 @@ const AuthModal: React.FC<AuthModalProps> = ({ onClose }) => {
     email: "",
     password: "",
     confirmPassword: "",
-  });
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
-
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const validateEmail = (email: string) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
-
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleSubmit = async (values: any) => {
     setLoading(true);
     setError(null);
 
     try {
-      if (!validateEmail(formData.email)) {
-        setError("Invalid email format. Please enter a valid email address.");
-        setLoading(false);
-        return;
-      }
-
       if (isLogin) {
         const success = await login({
-          email: formData.email,
-          password: formData.password,
+          email: values.email,
+          password: values.password,
         });
         if (success) {
           onClose();
@@ -61,22 +69,18 @@ const AuthModal: React.FC<AuthModalProps> = ({ onClose }) => {
           setError("Invalid email or password");
         }
       } else {
-        if (formData.password !== formData.confirmPassword) {
-          setError("Passwords do not match");
+        const success = await register({
+          username: values.username,
+          firstName: values.firstName,
+          lastName: values.lastName,
+          city: values.city,
+          email: values.email,
+          password: values.password,
+        });
+        if (success) {
+          onClose();
         } else {
-          const success = await register({
-            username: formData.username,
-            firstName: formData.firstName,
-            lastName: formData.lastName,
-            city: formData.city,
-            email: formData.email,
-            password: formData.password,
-          });
-          if (success) {
-            onClose();
-          } else {
-            setError("Registration failed");
-          }
+          setError("Registration failed");
         }
       }
     } catch (error: any) {
@@ -102,93 +106,89 @@ const AuthModal: React.FC<AuthModalProps> = ({ onClose }) => {
         {loading ? (
           <Loading />
         ) : (
-          <form onSubmit={handleSubmit}>
-            {!isLogin && (
-              <>
-                <div className={styles.formGroup}>
-                  <label htmlFor="username">Username</label>
-                  <input
-                    type="text"
-                    id="username"
-                    name="username"
-                    value={formData.username}
-                    onChange={handleChange}
-                    required
-                  />
-                </div>
-                <div className={styles.formGroup}>
-                  <label htmlFor="firstName">First Name</label>
-                  <input
-                    type="text"
-                    id="firstName"
-                    name="firstName"
-                    value={formData.firstName}
-                    onChange={handleChange}
-                    required
-                  />
-                </div>
-                <div className={styles.formGroup}>
-                  <label htmlFor="lastName">Last Name</label>
-                  <input
-                    type="text"
-                    id="lastName"
-                    name="lastName"
-                    value={formData.lastName}
-                    onChange={handleChange}
-                    required
-                  />
-                </div>
-                <div className={styles.formGroup}>
-                  <label htmlFor="city">City</label>
-                  <input
-                    type="text"
-                    id="city"
-                    name="city"
-                    value={formData.city}
-                    onChange={handleChange}
-                    required
-                  />
-                </div>
-              </>
-            )}
-            <div className={styles.formGroup}>
-              <label htmlFor="email">Email</label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-              />
-            </div>
-            <div className={styles.formGroup}>
-              <label htmlFor="password">Password</label>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                required
-              />
-            </div>
-            {!isLogin && (
+          <Formik
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            onSubmit={handleSubmit}
+          >
+            <Form>
+              {!isLogin && (
+                <>
+                  <div className={styles.formGroup}>
+                    <label htmlFor="username">Username</label>
+                    <Field type="text" id="username" name="username" />
+                    <ErrorMessage
+                      name="username"
+                      component="div"
+                      className={styles.errorMessage}
+                    />
+                  </div>
+                  <div className={styles.formGroup}>
+                    <label htmlFor="firstName">First Name</label>
+                    <Field type="text" id="firstName" name="firstName" />
+                    <ErrorMessage
+                      name="firstName"
+                      component="div"
+                      className={styles.errorMessage}
+                    />
+                  </div>
+                  <div className={styles.formGroup}>
+                    <label htmlFor="lastName">Last Name</label>
+                    <Field type="text" id="lastName" name="lastName" />
+                    <ErrorMessage
+                      name="lastName"
+                      component="div"
+                      className={styles.errorMessage}
+                    />
+                  </div>
+                  <div className={styles.formGroup}>
+                    <label htmlFor="city">City</label>
+                    <Field type="text" id="city" name="city" />
+                    <ErrorMessage
+                      name="city"
+                      component="div"
+                      className={styles.errorMessage}
+                    />
+                  </div>
+                </>
+              )}
               <div className={styles.formGroup}>
-                <label htmlFor="confirmPassword">Confirm Password</label>
-                <input
-                  type="password"
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  value={formData.confirmPassword}
-                  onChange={handleChange}
-                  required
+                <label htmlFor="email">Email</label>
+                <Field type="text" id="email" name="email" />
+                <ErrorMessage
+                  name="email"
+                  component="div"
+                  className={styles.errorMessage}
                 />
               </div>
-            )}
-            {error && <p className={styles.error}>{error}</p>}
-            <button type="submit">{isLogin ? "Login" : "Register"}</button>
-          </form>
+              <div className={styles.formGroup}>
+                <label htmlFor="password">Password</label>
+                <Field type="password" id="password" name="password" />
+                <ErrorMessage
+                  name="password"
+                  component="div"
+                  className={styles.errorMessage}
+                />
+              </div>
+              {!isLogin && (
+                <div className={styles.formGroup}>
+                  <label htmlFor="confirmPassword">Confirm Password</label>
+                  <Field
+                    type="password"
+                    id="confirmPassword"
+                    name="confirmPassword"
+                  />
+                  <ErrorMessage
+                    name="confirmPassword"
+                    component="div"
+                    className={styles.errorMessage}
+                  />
+                </div>
+              )}
+              {error && <p className={styles.error}>{error}</p>}
+              <button type="submit">{isLogin ? "Login" : "Register"}</button>
+            </Form>
+          </Formik>
         )}
         <p>
           {isLogin ? "Don't have an account?" : "Already have an account?"}{" "}

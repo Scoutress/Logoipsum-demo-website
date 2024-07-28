@@ -1,6 +1,5 @@
 # Tasks left:
 
-- Bug: While pressing on "Book now" btn, iš shows "Error fetching service" if not Logged in.
 - Bug: User drop-down list sometimes is open after changing page/url.
 
 ---

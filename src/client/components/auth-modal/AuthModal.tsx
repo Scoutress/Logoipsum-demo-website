@@ -8,9 +8,10 @@ import Loading from "../loading/Loading";
 
 interface AuthModalProps {
   onClose: () => void;
+  onLoginSuccess: () => void;
 }
 
-const AuthModal: React.FC<AuthModalProps> = ({ onClose }) => {
+const AuthModal: React.FC<AuthModalProps> = ({ onClose, onLoginSuccess }) => {
   const authContext = useContext(AuthContext);
 
   if (!authContext) {
@@ -64,6 +65,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ onClose }) => {
           password: values.password,
         });
         if (success) {
+          onLoginSuccess();
           onClose();
         } else {
           setError("Invalid email or password");
@@ -78,6 +80,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ onClose }) => {
           password: values.password,
         });
         if (success) {
+          onLoginSuccess();
           onClose();
         } else {
           setError("Registration failed");
@@ -206,6 +209,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ onClose }) => {
 
 AuthModal.propTypes = {
   onClose: PropTypes.func.isRequired,
+  onLoginSuccess: PropTypes.func.isRequired,
 };
 
 export default AuthModal;

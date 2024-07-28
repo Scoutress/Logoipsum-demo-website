@@ -67,6 +67,12 @@ const MyBookings: React.FC = () => {
     fetchBookings();
   }, [user]);
 
+  useEffect(() => {
+    if (!user) {
+      window.location.replace("/");
+    }
+  }, [user]);
+
   const now = new Date();
 
   const filteredBookings = bookings.filter((booking) => {

@@ -1,10 +1,5 @@
 # Tasks left:
 
-- Bug: User drop-down list sometimes is open after changing page/url.
-
----
-
-- Task: When log out while in /bookings page, need to redirect to home page.
 - Task: When creating booking, it chould show success msg.
 - Task: User data editing from drop-down (/account).
 - Task: i18n.

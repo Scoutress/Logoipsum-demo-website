@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
 import Service from "../../../components/service/Service.tsx";
 import styles from "./HomePopular.module.scss";
 
@@ -14,44 +15,38 @@ interface ServiceData {
   photo: string;
 }
 
+const fetchServices = async (): Promise<ServiceData[]> => {
+  const { data } = await axios.get<ServiceData[]>(
+    "http://localhost:5005/services"
+  );
+  return data;
+};
+
 const HomePopular: React.FC = () => {
-  const [popularServices, setPopularServices] = useState<ServiceData[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const {
+    data: popularServices,
+    isLoading,
+    error,
+  } = useQuery<ServiceData[], Error>({
+    queryKey: ["services"],
+    queryFn: fetchServices,
+  });
 
-  useEffect(() => {
-    const fetchServices = async () => {
-      try {
-        const response = await axios.get<ServiceData[]>(
-          "http://localhost:5005/services"
-        );
-
-        const popular = response.data.slice(0, 4);
-        setPopularServices(popular);
-      } catch (error) {
-        setError("Error fetching services");
-        console.error("Error fetching services:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchServices();
-  }, []);
-
-  if (loading) {
+  if (isLoading) {
     return <div>Loading...</div>;
   }
 
   if (error) {
-    return <div>{error}</div>;
+    return <div>{error.message}</div>;
   }
+
+  const popular = popularServices?.slice(0, 4) || [];
 
   return (
     <div>
       <h3 className={styles.title}>Popular services</h3>
       <div className={styles.container}>
-        {popularServices.map((service) => {
+        {popular.map((service) => {
           return (
             <Service
               key={service._id || service.name}

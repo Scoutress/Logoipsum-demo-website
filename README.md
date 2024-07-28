@@ -7,10 +7,9 @@
 
 - Task: When log out while in /bookings page, need to redirect to home page.
 - Task: When creating booking, it chould show success msg.
-
-## Typescript part
-
-- Integrate the React-query library into a React application.
+- Task: User data editing from drop-down (/account).
+- Task: i18n.
+- Task: Dark theme option.
 
 ## Test part
 

@@ -1,8 +1,8 @@
 import { useParams } from "react-router-dom";
 import React, { useState } from "react";
 import styles from "./Services.module.scss";
-import CategoryList from "./category-list/CategoryList";
-import ServicesList from "./services-list/ServicesList";
+import CategoryList from "./categories-list/CategoryList.tsx";
+import ServicesList from "./services-list/ServicesList.tsx";
 
 const Services: React.FC = () => {
   const { category } = useParams<{ category: string }>();

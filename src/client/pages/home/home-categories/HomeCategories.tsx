@@ -1,46 +1,40 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
 import styles from "./HomeCategories.module.scss";
 
 interface Category {
   name: string;
-  link: string; // Galime pašalinti šį lauką, nes naudosime dinaminį maršrutą
   iconFile: string;
 }
 
+const fetchCategories = async (): Promise<Category[]> => {
+  const { data } = await axios.get("http://localhost:5005/categories");
+  return data;
+};
+
 const HomeCategories: React.FC = () => {
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const {
+    data: categories,
+    isLoading,
+    error,
+  } = useQuery<Category[], Error>({
+    queryKey: ["categories"],
+    queryFn: fetchCategories,
+  });
 
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await axios.get("http://localhost:5005/categories");
-        setCategories(response.data);
-      } catch (error) {
-        setError("Error fetching categories");
-        console.error("Error fetching categories:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchCategories();
-  }, []);
-
-  if (loading) {
+  if (isLoading) {
     return <div>Loading...</div>;
   }
 
   if (error) {
-    return <div>{error}</div>;
+    return <div>{error.message}</div>;
   }
 
   return (
     <div className={styles.container}>
-      {categories.map((category) => (
+      {categories?.map((category) => (
         <div key={category.name} className={styles.subcontainer}>
           <Link
             to={`/category/${category.name.toLowerCase()}`}

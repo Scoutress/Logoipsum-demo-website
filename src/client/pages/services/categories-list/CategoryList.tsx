@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import styles from "./CategoryList.module.scss";
 
 interface Category {
@@ -16,33 +17,26 @@ interface CategoryListProps {
   setSelectedCategory: (category: string) => void;
 }
 
+const fetchCategories = async (): Promise<Category[]> => {
+  const { data } = await axios.get("http://localhost:5005/categories");
+  return data;
+};
+
 const CategoryList: React.FC<CategoryListProps> = ({
   selectedCategory,
   setSelectedCategory,
 }) => {
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
   const { category } = useParams<{ category: string }>();
 
-  useEffect(() => {
-    const fetchCategories = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const response = await axios.get("http://localhost:5005/categories");
-        setCategories(response.data);
-      } catch (error) {
-        setError("Error fetching categories");
-        console.error("Error fetching categories:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchCategories();
-  }, []);
+  const {
+    data: categories,
+    isLoading,
+    error,
+  } = useQuery<Category[], Error>({
+    queryKey: ["categories"],
+    queryFn: fetchCategories,
+  });
 
   useEffect(() => {
     if (category) {
@@ -55,19 +49,19 @@ const CategoryList: React.FC<CategoryListProps> = ({
     navigate(`/category/${category.toLowerCase()}`);
   };
 
-  if (loading) {
+  if (isLoading) {
     return <div>Loading...</div>;
   }
 
   if (error) {
-    return <div>{error}</div>;
+    return <div>{error.message}</div>;
   }
 
   return (
     <div className={styles.container}>
       <h1 className={styles.categoryListTitle}>Categories</h1>
       <div className={styles.categories}>
-        {categories.map((category) => (
+        {categories?.map((category) => (
           <div
             key={category.id}
             className={`${styles.categoryItem} ${

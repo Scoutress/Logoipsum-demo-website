@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Service from "../../../components/service/Service";
+import { useQuery } from "@tanstack/react-query";
+import Service from "../../../components/service/Service.tsx";
 import styles from "./SearchListSection.module.scss";
 
 interface ServiceData {
@@ -16,60 +17,54 @@ interface SearchListSectionProps {
   searchTerm: string;
 }
 
+const fetchServices = async (): Promise<ServiceData[]> => {
+  const { data } = await axios.get<ServiceData[]>(
+    "http://localhost:5005/services"
+  );
+  return data;
+};
+
 const SearchListSection: React.FC<SearchListSectionProps> = ({
   searchTerm,
 }) => {
-  const [allServices, setAllServices] = useState<ServiceData[]>([]);
   const [filteredServices, setFilteredServices] = useState<ServiceData[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchServices = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const response = await axios.get<ServiceData[]>(
-          `http://localhost:5005/services`
-        );
-        setAllServices(response.data);
-      } catch (error) {
-        setError("Error fetching services");
-        console.error("Error fetching services:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchServices();
-  }, []);
+  const {
+    data: allServices,
+    isLoading,
+    error,
+  } = useQuery<ServiceData[], Error>({
+    queryKey: ["services"],
+    queryFn: fetchServices,
+  });
 
   useEffect(() => {
     if (!searchTerm) {
-      setFilteredServices(allServices);
+      setFilteredServices(allServices || []);
     } else {
       const lowercasedTerm = searchTerm.toLowerCase();
-      const filtered = allServices.filter(
-        (service) =>
-          (service.category &&
-            service.category.toLowerCase().includes(lowercasedTerm)) ||
-          (service.name &&
-            service.name.toLowerCase().includes(lowercasedTerm)) ||
-          (service.worker &&
-            service.worker.toLowerCase().includes(lowercasedTerm)) ||
-          (service.address &&
-            service.address.toLowerCase().includes(lowercasedTerm))
-      );
+      const filtered =
+        allServices?.filter(
+          (service) =>
+            (service.category &&
+              service.category.toLowerCase().includes(lowercasedTerm)) ||
+            (service.name &&
+              service.name.toLowerCase().includes(lowercasedTerm)) ||
+            (service.worker &&
+              service.worker.toLowerCase().includes(lowercasedTerm)) ||
+            (service.address &&
+              service.address.toLowerCase().includes(lowercasedTerm))
+        ) || [];
       setFilteredServices(filtered);
     }
   }, [searchTerm, allServices]);
 
-  if (loading) {
+  if (isLoading) {
     return <div>Loading...</div>;
   }
 
   if (error) {
-    return <div>{error}</div>;
+    return <div>{error.message}</div>;
   }
 
   return (

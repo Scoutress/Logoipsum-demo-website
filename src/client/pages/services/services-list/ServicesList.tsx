@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import React from "react";
 import axios from "axios";
-import Service from "../../../components/service/Service";
+import { useQuery } from "@tanstack/react-query";
+import Service from "../../../components/service/Service.tsx";
 import styles from "./ServicesList.module.scss";
 
 interface ServiceData {
@@ -16,57 +17,44 @@ interface ServicesListProps {
   selectedCategory: string;
 }
 
+const fetchServices = async (): Promise<ServiceData[]> => {
+  const { data } = await axios.get<ServiceData[]>(
+    "http://localhost:5005/services"
+  );
+  return data;
+};
+
 const ServicesList: React.FC<ServicesListProps> = ({ selectedCategory }) => {
-  const [services, setServices] = useState<ServiceData[]>([]);
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
+  const {
+    data: services,
+    isLoading,
+    error,
+  } = useQuery<ServiceData[], Error>({
+    queryKey: ["services"],
+    queryFn: fetchServices,
+  });
 
-  useEffect(() => {
-    const fetchServices = async () => {
-      setLoading(true);
-      setError(null);
+  const filteredServices = React.useMemo(() => {
+    if (!services) return [];
+    if (selectedCategory && selectedCategory !== "All") {
+      return services.filter(
+        (service) =>
+          service.category.toLowerCase() === selectedCategory.toLowerCase()
+      );
+    }
+    return services;
+  }, [services, selectedCategory]);
 
-      try {
-        const response = await axios.get<ServiceData[]>(
-          "http://localhost:5005/services"
-        );
-        const data = response.data;
-
-        if (data && Array.isArray(data)) {
-          if (selectedCategory && selectedCategory !== "All") {
-            const filteredServices = data.filter(
-              (service) =>
-                service.category.toLowerCase() ===
-                selectedCategory.toLowerCase()
-            );
-            setServices(filteredServices);
-          } else {
-            setServices(data);
-          }
-        } else {
-          setError("Invalid data format");
-        }
-      } catch (error) {
-        console.error("Error fetching services:", error);
-        setError(
-          error instanceof Error
-            ? error.message
-            : "An unknown error occurred while fetching services"
-        );
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchServices();
-  }, [selectedCategory]);
-
-  if (loading) {
+  if (isLoading) {
     return <div className={styles.loading}>Loading services...</div>;
   }
 
   if (error) {
-    return <div className={styles.error}>Error fetching services: {error}</div>;
+    return (
+      <div className={styles.error}>
+        Error fetching services: {error.message}
+      </div>
+    );
   }
 
   return (
@@ -75,8 +63,8 @@ const ServicesList: React.FC<ServicesListProps> = ({ selectedCategory }) => {
         {selectedCategory ? selectedCategory : <span>&nbsp;</span>}
       </div>
       <div className={styles.servicesContainer}>
-        {services && services.length > 0 ? (
-          services.map((service) => (
+        {filteredServices && filteredServices.length > 0 ? (
+          filteredServices.map((service) => (
             <Service
               key={service._id}
               _id={service._id}

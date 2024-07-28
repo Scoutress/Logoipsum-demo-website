@@ -1,3 +1,5 @@
+@import "../../styles/Variables.module.scss";
+
 .modalBackdrop {
   position: fixed;
   top: 0;
@@ -19,6 +21,7 @@
   flex-direction: column;
   padding: 20px;
   overflow-y: auto;
+  font-family: $primaryFontStyle;
 }
 
 .modalContent {
@@ -66,10 +69,15 @@ p {
 
 .timeSlot {
   padding: 10px;
-  background: #f0f0f0;
+  background: lightgray;
   border: 1px solid #ddd;
   cursor: pointer;
   text-align: center;
+  font-weight: bold;
+}
+
+.timeSlot:hover {
+  background: gray;
 }
 
 .selected {
@@ -85,6 +93,7 @@ p {
   cursor: pointer;
   margin-top: 20px;
   align-self: center;
+  font-weight: bold;
 }
 
 .successMessage {

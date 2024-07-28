@@ -1,13 +1,11 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-// Define the shape of a category object
 interface Category {
   id: number;
   name: string;
 }
 
-// Define the return type of the custom hook
 interface UseCategoriesReturn {
   categories: Category[];
   loading: boolean;

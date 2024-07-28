@@ -4,92 +4,10 @@ import formatAuthResponse from "../helpers/FormatAuthResponse.ts";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 
-/**
- * @swagger
- * /auth/register:
- *   post:
- *     summary: Register user
- *     tags: [Auth]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - username
- *               - firstName
- *               - lastName
- *               - city
- *               - email
- *               - password
- *             properties:
- *               username:
- *                 type: string
- *                 description: The user's username
- *                 example: johndoe
- *               firstName:
- *                 type: string
- *                 description: The user's first name
- *                 example: John
- *               lastName:
- *                 type: string
- *                 description: The user's last name
- *                 example: Doe
- *               city:
- *                 type: string
- *                 description: The user's city
- *                 example: New York
- *               email:
- *                 type: string
- *                 description: The user's email
- *                 example: johndoe@example.com
- *               password:
- *                 type: string
- *                 description: The user's password
- *                 example: password123
- *     responses:
- *       201:
- *         description: User successfully registered
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 token:
- *                   type: string
- *                   description: The JWT token
- *                 user:
- *                   $ref: '#/components/schemas/AuthResponse'
- *       400:
- *         description: User already exists
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: User already exists
- *       500:
- *         description: Error registering new user
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 message:
- *                   type: string
- *                   example: Error registering new user.
- *                 error:
- *                   type: string
- *                   example: error.message
- */
-
 dotenv.config();
 
 const register = async (req: Request, res: Response): Promise<Response> => {
-  const { username, firstName, lastName, city, email, password } = req.body;
+  const { id, username, firstName, lastName, city, email, password } = req.body;
 
   try {
     const existingUser = await UserModel.findOne({ email });
@@ -103,6 +21,7 @@ const register = async (req: Request, res: Response): Promise<Response> => {
     }
 
     const newUser: IUser = new UserModel({
+      _id: id,
       username,
       firstName,
       lastName,

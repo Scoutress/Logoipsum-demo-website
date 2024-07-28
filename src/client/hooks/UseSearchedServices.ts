@@ -1,17 +1,14 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-// Define the shape of a service object
 interface Service {
   id: number;
   name: string;
   category: string;
   worker: string;
   address: string;
-  // Add other service properties as needed
 }
 
-// Define the return type of the custom hook
 interface UseSearchedServicesReturn {
   filteredServices: Service[];
   loading: boolean;

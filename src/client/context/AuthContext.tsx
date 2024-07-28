@@ -19,6 +19,7 @@ interface User {
 
 interface AuthContextType {
   user: User | null;
+  isAuthenticated: () => boolean;
   login: (userData: { email: string; password: string }) => Promise<boolean>;
   register: (userData: {
     username: string;
@@ -101,8 +102,12 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     localStorage.removeItem("token");
   };
 
+  const isAuthenticated = () => user !== null;
+
   return (
-    <AuthContext.Provider value={{ user, login, register, logout }}>
+    <AuthContext.Provider
+      value={{ user, isAuthenticated, login, register, logout }}
+    >
       {children}
     </AuthContext.Provider>
   );

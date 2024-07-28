@@ -1,7 +1,5 @@
 # Tasks left:
 
-- Task: When creating booking, it chould show success msg.
-- Task: User data editing from drop-down (/account).
 - Task: i18n.
 - Task: Dark theme option.
 

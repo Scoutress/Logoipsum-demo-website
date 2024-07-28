@@ -31,6 +31,10 @@ const Routes = {
     link: "/bookings",
     name: "My Bookings",
   },
+  accountPage: {
+    link: "/account",
+    name: "My Account",
+  },
 };
 
 export default Routes;

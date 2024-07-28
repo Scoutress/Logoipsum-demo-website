@@ -5,7 +5,7 @@ interface JwtPayload {
   id: string;
 }
 
-interface AuthenticatedRequest extends Request {
+export interface AuthenticatedRequest extends Request {
   currentUser?: JwtPayload;
 }
 

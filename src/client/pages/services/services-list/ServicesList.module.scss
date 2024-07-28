@@ -1,8 +1,12 @@
+@import "../../../styles/Variables.module.scss";
+
 .servicesList {
+  font-family: $primaryFontStyle;
   display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  padding: 20px;
+  flex-direction: column;
+  padding: 12px;
+  justify-content: center;
+  margin: 0 auto;
 }
 
 .error {
@@ -27,4 +31,22 @@
   overflow: hidden;
   background-color: #fff;
   margin-bottom: 20px;
+}
+
+.categoryHeader {
+  margin-top: 10px;
+  margin-left: 50px;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  min-height: 30px;
+  text-transform: capitalize;
+  text-align: left;
+}
+
+.servicesContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
 }

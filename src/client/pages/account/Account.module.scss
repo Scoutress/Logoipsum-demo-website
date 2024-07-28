@@ -1,0 +1,13 @@
+@import "../../styles/Variables.module.scss";
+
+.container {
+  font-family: $primaryFontStyle;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}

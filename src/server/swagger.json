@@ -3,7 +3,7 @@
   "info": {
     "title": "",
     "version": "1.0.0",
-    "description": "API for managing categories, businesses, and bookings."
+    "description": "API for managing categories, services, and bookings."
   },
   "servers": [
     {
@@ -38,7 +38,12 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Category"
+                "type": "object",
+                "required": ["name", "iconFile"],
+                "properties": {
+                  "name": { "type": "string" },
+                  "iconFile": { "type": "string" }
+                }
               }
             }
           }
@@ -57,18 +62,18 @@
         }
       }
     },
-    "/businesses": {
+    "/services": {
       "get": {
-        "summary": "Get all businesses",
+        "summary": "Get all services",
         "responses": {
           "200": {
-            "description": "A list of businesses",
+            "description": "A list of services",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Business"
+                    "$ref": "#/components/schemas/Service"
                   }
                 }
               }
@@ -77,24 +82,24 @@
         }
       },
       "post": {
-        "summary": "Create a new business",
+        "summary": "Create a new service",
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Business"
+                "$ref": "#/components/schemas/Service"
               }
             }
           }
         },
         "responses": {
           "201": {
-            "description": "Business created",
+            "description": "Service created",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Business"
+                  "$ref": "#/components/schemas/Service"
                 }
               }
             }
@@ -102,9 +107,9 @@
         }
       }
     },
-    "/businesses/category/{category}": {
+    "/services/category/{category}": {
       "get": {
-        "summary": "Get businesses by category",
+        "summary": "Get services by category",
         "parameters": [
           {
             "name": "category",
@@ -117,13 +122,13 @@
         ],
         "responses": {
           "200": {
-            "description": "A list of businesses by category",
+            "description": "A list of services by category",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Business"
+                    "$ref": "#/components/schemas/Service"
                   }
                 }
               }
@@ -132,9 +137,9 @@
         }
       }
     },
-    "/businesses/{id}": {
+    "/services/{id}": {
       "get": {
-        "summary": "Get a business by ID",
+        "summary": "Get a service by ID",
         "parameters": [
           {
             "name": "id",
@@ -147,22 +152,22 @@
         ],
         "responses": {
           "200": {
-            "description": "A business object",
+            "description": "A service object",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Business"
+                  "$ref": "#/components/schemas/Service"
                 }
               }
             }
           },
           "404": {
-            "description": "Business not found"
+            "description": "Service not found"
           }
         }
       },
       "put": {
-        "summary": "Update a business by ID",
+        "summary": "Update a service by ID",
         "parameters": [
           {
             "name": "id",
@@ -178,24 +183,24 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Business"
+                "$ref": "#/components/schemas/Service"
               }
             }
           }
         },
         "responses": {
           "200": {
-            "description": "Business updated",
+            "description": "Service updated",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Business"
+                  "$ref": "#/components/schemas/Service"
                 }
               }
             }
           },
           "404": {
-            "description": "Business not found"
+            "description": "Service not found"
           }
         }
       }
@@ -257,12 +262,12 @@
         }
       }
     },
-    "/businesses/{businessId}/bookings/date/{date}": {
+    "/businesses/{serviceId}/bookings/date/{date}": {
       "get": {
-        "summary": "Get bookings for a business by date",
+        "summary": "Get bookings for a service by date",
         "parameters": [
           {
-            "name": "businessId",
+            "name": "serviceId",
             "in": "path",
             "required": true,
             "schema": {
@@ -281,7 +286,7 @@
         ],
         "responses": {
           "200": {
-            "description": "A list of bookings for the business by date",
+            "description": "A list of bookings for the service by date",
             "content": {
               "application/json": {
                 "schema": {
@@ -332,19 +337,20 @@
       "Category": {
         "type": "object",
         "properties": {
+          "id": {
+            "type": "string",
+            "readOnly": true
+          },
           "name": {
             "type": "string"
           },
-          "link": {
-            "type": "string"
-          },
-          "icon": {
+          "iconFile": {
             "type": "string"
           }
         },
-        "required": ["name", "link", "icon"]
+        "required": ["name", "iconFile"]
       },
-      "Business": {
+      "Service": {
         "type": "object",
         "properties": {
           "name": {
@@ -363,7 +369,7 @@
             "type": "string"
           }
         },
-        "required": ["name", "category", "address", "worker", "photo"]
+        "required": ["name", "category", "address", "worker"]
       },
       "Booking": {
         "type": "object",

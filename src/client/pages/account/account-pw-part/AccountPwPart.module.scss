@@ -1,0 +1,84 @@
+@import "../../../styles/Variables.module.scss";
+
+.accountPwPart {
+  font-family: $primaryFontStyle;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  position: relative;
+  min-height: 150px;
+}
+
+.inputGroup {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+label {
+  width: 150px;
+  font-weight: bold;
+  margin-right: 10px;
+  text-align: left;
+}
+
+.input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.buttonContainer {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #004d40;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.errorMessage {
+  margin-left: 20px;
+  color: red;
+  font-size: 14px;
+}
+
+.successMessage {
+  flex: 1;
+  text-align: center;
+  font-size: 20px;
+  color: green;
+  animation: fadeInOut 1.5s;
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.error {
+  color: red;
+  font-size: 12px;
+  margin-left: 10px;
+}

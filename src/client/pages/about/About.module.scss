@@ -1,0 +1,21 @@
+.container {
+  font-family: $primaryFontStyle;
+  font-size: $primaryH3FontSize;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.title {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  color: #333;
+  text-align: left;
+}
+
+.description {
+  font-size: 1.125rem;
+  line-height: 1.6;
+  margin-bottom: 15px;
+  color: #555;
+}

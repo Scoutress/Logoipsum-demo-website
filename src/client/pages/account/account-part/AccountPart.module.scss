@@ -1,0 +1,60 @@
+@import "../../../styles/Variables.module.scss";
+
+.accountPart {
+  font-family: $primaryFontStyle;
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  position: relative;
+  min-height: 50px;
+}
+
+label {
+  width: 150px;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  margin-right: 10px;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #004d40;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.successMessage {
+  flex: 1;
+  text-align: center;
+  font-size: 20px;
+  color: green;
+  animation: fadeInOut 1.5s;
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}

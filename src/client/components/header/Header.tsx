@@ -1,10 +1,10 @@
 import { useState, useContext, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import styles from "./Header.module.scss";
-import Button from "../button/Button";
+import Button from "../button/Button.tsx";
 import PropTypes from "prop-types";
-import AuthModal from "../auth-modal/AuthModal";
-import { AuthContext } from "../../context/AuthContext";
+import AuthModal from "../auth-modal/AuthModal.tsx";
+import { AuthContext } from "../../context/AuthContext.tsx";
 
 interface NavItemProps {
   to: string;
@@ -48,6 +48,7 @@ const Header: React.FC = () => {
 
   const handleLogoutClick = () => {
     logout();
+    setIsDropdownOpen(false);
   };
 
   const handleServicesClick = (event: React.MouseEvent<HTMLLIElement>) => {
@@ -68,6 +69,10 @@ const Header: React.FC = () => {
   const handleDropdownToggle = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
+
+  useEffect(() => {
+    setIsDropdownOpen(false);
+  }, [location.pathname]);
 
   return (
     <header className={styles.header}>
@@ -94,10 +99,18 @@ const Header: React.FC = () => {
           </button>
           {isDropdownOpen && (
             <div className={styles.dropdownMenu}>
-              <Link to="/account" className={styles.dropdownItem}>
+              <Link
+                to="/account"
+                className={styles.dropdownItem}
+                onClick={() => setIsDropdownOpen(false)}
+              >
                 My Account
               </Link>
-              <Link to="/bookings" className={styles.dropdownItem}>
+              <Link
+                to="/bookings"
+                className={styles.dropdownItem}
+                onClick={() => setIsDropdownOpen(false)}
+              >
                 My Bookings
               </Link>
               <button
@@ -114,7 +127,12 @@ const Header: React.FC = () => {
           Login / Sign Up
         </Button>
       )}
-      {isModalOpen && <AuthModal onClose={() => setIsModalOpen(false)} />}
+      {isModalOpen && (
+        <AuthModal
+          onClose={() => setIsModalOpen(false)}
+          onLoginSuccess={() => setIsModalOpen(false)}
+        />
+      )}
     </header>
   );
 };

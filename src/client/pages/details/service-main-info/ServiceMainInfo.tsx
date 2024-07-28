@@ -13,14 +13,12 @@ interface ServiceMainInfoProps {
 }
 
 const ServiceMainInfo: React.FC<ServiceMainInfoProps> = ({
-  id,
   name,
   category,
   address,
   contactPerson,
   email,
   photo,
-  availability,
 }) => {
   return (
     <div className={styles.container}>
@@ -40,9 +38,6 @@ const ServiceMainInfo: React.FC<ServiceMainInfoProps> = ({
       <div className={styles.contactContainer}>
         <p className={styles.contactPerson}>
           <i className="fas fa-user"></i> {contactPerson}
-        </p>
-        <p className={styles.availability}>
-          <i className="fas fa-clock"></i> {availability}
         </p>
       </div>
     </div>

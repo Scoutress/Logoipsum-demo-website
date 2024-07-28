@@ -3,6 +3,7 @@ import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import Service from "../../../components/service/Service.tsx";
 import styles from "./ServicesList.module.scss";
+import { useTranslation } from "react-i18next";
 
 interface ServiceData {
   _id: string;
@@ -25,6 +26,7 @@ const fetchServices = async (): Promise<ServiceData[]> => {
 };
 
 const ServicesList: React.FC<ServicesListProps> = ({ selectedCategory }) => {
+  const { t } = useTranslation();
   const {
     data: services,
     isLoading,
@@ -46,13 +48,13 @@ const ServicesList: React.FC<ServicesListProps> = ({ selectedCategory }) => {
   }, [services, selectedCategory]);
 
   if (isLoading) {
-    return <div className={styles.loading}>Loading services...</div>;
+    return <div className={styles.loading}>{t("LOADING_SERVICES")}</div>;
   }
 
   if (error) {
     return (
       <div className={styles.error}>
-        Error fetching services: {error.message}
+        {t("ERROR_FETCHING_SERVICES")}: {error.message}
       </div>
     );
   }
@@ -60,7 +62,7 @@ const ServicesList: React.FC<ServicesListProps> = ({ selectedCategory }) => {
   return (
     <div className={styles.servicesList}>
       <div className={styles.categoryHeader}>
-        {selectedCategory ? selectedCategory : <span>&nbsp;</span>}
+        {selectedCategory === "All" ? t("ALL_CATEGORIES") : <span>&nbsp;</span>}
       </div>
       <div className={styles.servicesContainer}>
         {filteredServices && filteredServices.length > 0 ? (
@@ -78,7 +80,7 @@ const ServicesList: React.FC<ServicesListProps> = ({ selectedCategory }) => {
           ))
         ) : (
           <div className={styles.noServices}>
-            There are no services in this category
+            {t("NO_SERVICES_IN_CATEGORY")}
           </div>
         )}
       </div>

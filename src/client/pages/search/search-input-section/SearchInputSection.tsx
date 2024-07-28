@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, ChangeEvent } from "react";
 import Input from "../../../components/input/Input.tsx";
 import styles from "./SearchInputSection.module.scss";
+import { useTranslation } from "react-i18next";
 
 interface SearchInputSectionProps {
   setSearchTerm: (term: string) => void;
@@ -13,6 +14,7 @@ const SearchInputSection: React.FC<SearchInputSectionProps> = ({
 }) => {
   const [inputValue, setInputValue] = useState<string>(searchTerm);
   const inputRef = useRef<HTMLInputElement>(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     setInputValue(searchTerm);
@@ -36,7 +38,7 @@ const SearchInputSection: React.FC<SearchInputSectionProps> = ({
         ref={inputRef}
         value={inputValue}
         onChange={handleSearchChange}
-        placeholder="Search"
+        placeholder={t("SEARCH_PLACEHOLDER")}
         className={styles.searchInput}
         maxLength={50}
       />

@@ -70,6 +70,19 @@
   background-color: #5012bd;
 }
 
+.languageSwitcher {
+  margin-left: 10px;
+  button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    img {
+      width: 30px;
+      height: 20px;
+    }
+  }
+}
+
 .userMenu {
   position: relative;
 }

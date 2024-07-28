@@ -3,6 +3,7 @@ import axios from "axios";
 import { useAuth } from "../../context/AuthContext.tsx";
 import CalendarComponent from "../calendar/Calendar.tsx";
 import styles from "./BookingModal.module.scss";
+import { useTranslation } from "react-i18next";
 
 interface BookingModalProps {
   serviceID: string;
@@ -14,6 +15,7 @@ const BookingModal: React.FC<BookingModalProps> = ({ serviceID, onClose }) => {
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const { user } = useAuth();
+  const { t } = useTranslation();
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -48,7 +50,7 @@ const BookingModal: React.FC<BookingModalProps> = ({ serviceID, onClose }) => {
       try {
         const token = localStorage.getItem("token");
         if (!token) {
-          throw new Error("No token found");
+          throw new Error(t("NO_TOKEN_FOUND"));
         }
 
         const [hours, minutes] = selectedTime.split(":").map(Number);
@@ -57,10 +59,6 @@ const BookingModal: React.FC<BookingModalProps> = ({ serviceID, onClose }) => {
         bookingDate.setMinutes(minutes);
         bookingDate.setSeconds(0);
         bookingDate.setMilliseconds(0);
-
-        console.log("Selected Date:", selectedDate);
-        console.log("Selected Time:", selectedTime);
-        console.log("Booking Date with Time:", bookingDate);
 
         const bookingData = {
           serviceID,
@@ -71,20 +69,18 @@ const BookingModal: React.FC<BookingModalProps> = ({ serviceID, onClose }) => {
           status: "Pending",
         };
 
-        console.log("Booking Data:", bookingData);
-
         await axios.post("http://localhost:5005/bookings", bookingData, {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
         });
-        setSuccessMessage("Booking successful!");
+        setSuccessMessage(t("BOOKING_SUCCESSFUL"));
         setTimeout(() => {
           onClose();
         }, 2000);
       } catch (error) {
-        console.error("Error creating booking:", error);
+        console.error(t("ERROR_CREATING_BOOKING"), error);
       }
     }
   };
@@ -98,17 +94,17 @@ const BookingModal: React.FC<BookingModalProps> = ({ serviceID, onClose }) => {
           <button className={styles.closeButton} onClick={onClose}>
             ×
           </button>
-          <h2>Book a Service</h2>
+          <h2>{t("BOOK_SERVICE")}</h2>
           {successMessage ? (
             <p className={styles.successMessage}>{successMessage}</p>
           ) : (
             <>
               <div className={styles.calendarWrapper}>
-                <h3>Select Date</h3>
+                <h3>{t("SELECT_DATE")}</h3>
                 <CalendarComponent onDateChange={handleDateChange} />
               </div>
               <div className={styles.timeSlotsWrapper}>
-                <h3>Select Time Slot</h3>
+                <h3>{t("SELECT_TIME_SLOT")}</h3>
                 <div className={styles.timeSlots}>
                   {times.map((time) => (
                     <button
@@ -124,7 +120,7 @@ const BookingModal: React.FC<BookingModalProps> = ({ serviceID, onClose }) => {
                 </div>
               </div>
               <button className={styles.bookButton} onClick={handleBooking}>
-                Book for this time
+                {t("BOOK_FOR_THIS_TIME")}
               </button>
             </>
           )}

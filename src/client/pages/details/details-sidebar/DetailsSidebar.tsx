@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import BookingModal from "../../../components/booking-modal/BookingModal.tsx";
 import styles from "./DetailsSidebar.module.scss";
+import { useTranslation } from "react-i18next";
 
 interface DetailsSidebarProps {
   id: string;
@@ -23,6 +24,7 @@ const DetailsSidebar: React.FC<DetailsSidebarProps> = ({ id, category }) => {
   const [error, setError] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchServices = async () => {
@@ -37,12 +39,12 @@ const DetailsSidebar: React.FC<DetailsSidebarProps> = ({ id, category }) => {
           .slice(0, 3);
         setServices(filteredServices);
       } catch (error) {
-        setError("Error fetching services");
+        setError(t("ERROR_FETCHING_SERVICES"));
       }
     };
 
     fetchServices();
-  }, [id, category]);
+  }, [id, category, t]);
 
   const handleServiceClick = (serviceId: string) => {
     navigate(`/details/${serviceId}`);
@@ -59,9 +61,9 @@ const DetailsSidebar: React.FC<DetailsSidebarProps> = ({ id, category }) => {
   return (
     <div className={styles.sidebarContainer}>
       <button className={styles.bookButton} onClick={handleBookClick}>
-        Book Appointment
+        {t("BOOK_APPOINTMENT")}
       </button>
-      <h3>Similar Business</h3>
+      <h3>{t("SIMILAR_BUSINESS")}</h3>
       {services.map((service) => (
         <div
           key={service._id}

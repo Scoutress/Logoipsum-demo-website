@@ -4,6 +4,7 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import styles from "./CategoryList.module.scss";
+import { useTranslation } from "react-i18next";
 
 interface Category {
   iconFile: string;
@@ -28,6 +29,7 @@ const CategoryList: React.FC<CategoryListProps> = ({
 }) => {
   const navigate = useNavigate();
   const { category } = useParams<{ category: string }>();
+  const { t } = useTranslation();
 
   const {
     data: categories,
@@ -50,16 +52,16 @@ const CategoryList: React.FC<CategoryListProps> = ({
   };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div>{t("LOADING")}</div>;
   }
 
   if (error) {
-    return <div>{error.message}</div>;
+    return <div>{t("ERROR_FETCHING_CATEGORIES")}</div>;
   }
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.categoryListTitle}>Categories</h1>
+      <h1 className={styles.categoryListTitle}>{t("CATEGORIES")}</h1>
       <div className={styles.categories}>
         {categories?.map((category) => (
           <div

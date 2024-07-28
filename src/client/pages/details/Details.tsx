@@ -7,6 +7,7 @@ import DetailsSidebar from "./details-sidebar/DetailsSidebar";
 import ServiceGallery from "./service-gallery/ServiceGallery";
 import AuthModal from "../../components/auth-modal/AuthModal.tsx";
 import styles from "./Details.module.scss";
+import { useTranslation } from "react-i18next";
 
 const Details: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -14,6 +15,7 @@ const Details: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState<boolean>(false);
+  const { t } = useTranslation();
 
   const fetchService = async () => {
     const token = localStorage.getItem("token");
@@ -32,7 +34,7 @@ const Details: React.FC = () => {
       });
       setService(response.data);
     } catch (error) {
-      setError("Error fetching service");
+      setError(t("ERROR_FETCHING_SERVICE"));
     } finally {
       setLoading(false);
     }
@@ -53,7 +55,7 @@ const Details: React.FC = () => {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div>{t("LOADING")}</div>;
   }
 
   if (isLoginModalOpen) {
@@ -63,15 +65,13 @@ const Details: React.FC = () => {
           onClose={handleCloseModal}
           onLoginSuccess={handleLoginSuccess}
         />
-        <div className={styles.message}>
-          You need to log in to book service.
-        </div>
+        <div className={styles.message}>{t("LOGIN_REQUIRED")}</div>
       </div>
     );
   }
 
   if (error || !service) {
-    return <div>{error || "Error loading service"}</div>;
+    return <div>{error || t("ERROR_LOADING_SERVICE")}</div>;
   }
 
   const serviceId = service._id ?? "";

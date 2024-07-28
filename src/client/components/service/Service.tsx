@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import useLocalStorage from "../../hooks/UseLocalStorage";
 import styles from "./Service.module.scss";
+import { useTranslation } from "react-i18next";
 
 interface ServiceProps {
   _id: string;
@@ -29,6 +30,7 @@ const Service: React.FC<ServiceProps> = ({
     "favorites",
     []
   );
+  const { t } = useTranslation();
 
   const isFavorite = favorites.some(
     (fav) =>
@@ -84,7 +86,7 @@ const Service: React.FC<ServiceProps> = ({
         <p className={styles.worker}>{worker}</p>
         <p className={styles.address}>{address}</p>
         <button className={styles.button} onClick={handleBtnClick}>
-          Book now
+          {t("BOOK_NOW")}
         </button>
       </div>
     </div>

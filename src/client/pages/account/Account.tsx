@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import AccountPart from "./account-part/AccountPart.tsx";
-import AccountPwPart from "./account-pw-part/AccountPwPart.tsx";
 import { useAuth } from "../../context/AuthContext.tsx";
 import styles from "./Account.module.scss";
+import { useTranslation } from "react-i18next";
 
 interface User {
   id: string;
@@ -28,6 +28,7 @@ const Account = () => {
 
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -71,37 +72,37 @@ const Account = () => {
 
   return (
     <div className={styles.container}>
-      <h1>Account</h1>
+      <h1>{t("ACCOUNT")}</h1>
       <AccountPart
-        label="Username"
+        label={t("USERNAME")}
         name="username"
         value={user.username}
         userId={user.id}
         onUpdate={handleUpdate}
       />
       <AccountPart
-        label="First Name"
+        label={t("FIRST_NAME")}
         name="firstName"
         value={user.firstName}
         userId={user.id}
         onUpdate={handleUpdate}
       />
       <AccountPart
-        label="Last Name"
+        label={t("LAST_NAME")}
         name="lastName"
         value={user.lastName}
         userId={user.id}
         onUpdate={handleUpdate}
       />
       <AccountPart
-        label="City"
+        label={t("CITY")}
         name="city"
         value={user.city}
         userId={user.id}
         onUpdate={handleUpdate}
       />
       <AccountPart
-        label="Email"
+        label={t("EMAIL")}
         name="email"
         value={user.email}
         userId={user.id}

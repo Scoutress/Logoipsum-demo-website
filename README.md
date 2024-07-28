@@ -1,8 +1,5 @@
 # Tasks left:
 
-- Task: i18n.
-- Task: Dark theme option.
-
 ## Test part
 
 - Integrate Jest and React Testing Library libraries into a React application.

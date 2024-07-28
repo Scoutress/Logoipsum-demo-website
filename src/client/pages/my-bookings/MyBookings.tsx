@@ -3,6 +3,7 @@ import axios from "axios";
 import { useAuth } from "../../context/AuthContext";
 import moment from "moment-timezone";
 import styles from "./MyBookings.module.scss";
+import { useTranslation } from "react-i18next";
 
 interface Booking {
   _id: string;
@@ -26,6 +27,7 @@ const MyBookings: React.FC = () => {
   const [services, setServices] = useState<Record<string, Service>>({});
   const [activeTab, setActiveTab] = useState<"Booked" | "Completed">("Booked");
   const { user } = useAuth();
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchBookings = async () => {
@@ -96,12 +98,12 @@ const MyBookings: React.FC = () => {
   };
 
   if (!user) {
-    return <div>Please log in to see your bookings.</div>;
+    return <div>{t("PLEASE_LOG_IN")}</div>;
   }
 
   return (
     <div className={styles.container}>
-      <h1>My Bookings</h1>
+      <h1>{t("MY_BOOKINGS")}</h1>
       <div className={styles.tabs}>
         <button
           className={`${styles.tabButton} ${
@@ -109,7 +111,7 @@ const MyBookings: React.FC = () => {
           }`}
           onClick={() => setActiveTab("Booked")}
         >
-          Booked
+          {t("BOOKED")}
         </button>
         <button
           className={`${styles.tabButton} ${
@@ -117,7 +119,7 @@ const MyBookings: React.FC = () => {
           }`}
           onClick={() => setActiveTab("Completed")}
         >
-          Completed
+          {t("COMPLETED")}
         </button>
       </div>
       <div className={styles.bookingsList}>
@@ -142,8 +144,14 @@ const MyBookings: React.FC = () => {
                     <h3>{service.name}</h3>
                     <p>{service.contactPerson}</p>
                     <p>{service.address}</p>
-                    <p>Service on: {formatDate(booking.date, booking.time)}</p>
-                    <p>Service at: {formatTime(booking.date, booking.time)}</p>
+                    <p>
+                      {t("SERVICE_ON")}:{" "}
+                      {formatDate(booking.date, booking.time)}
+                    </p>
+                    <p>
+                      {t("SERVICE_AT")}:{" "}
+                      {formatTime(booking.date, booking.time)}
+                    </p>
                   </div>
                 </>
               )}

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styles from "./ServiceGallery.module.scss";
+import { useTranslation } from "react-i18next";
 
 interface ServiceGalleryProps {
   photo: string;
@@ -7,6 +8,7 @@ interface ServiceGalleryProps {
 
 const ServiceGallery: React.FC<ServiceGalleryProps> = ({ photo }) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const { t } = useTranslation();
 
   const handlePhotoClick = () => {
     setIsModalOpen(true);
@@ -18,7 +20,7 @@ const ServiceGallery: React.FC<ServiceGalleryProps> = ({ photo }) => {
 
   return (
     <div className={styles.galleryContainer}>
-      <h2>Gallery</h2>
+      <h2>{t("GALLERY")}</h2>
       <div className={styles.photosContainer}>
         <img
           src={photo}

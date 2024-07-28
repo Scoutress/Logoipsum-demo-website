@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import styles from "./AccountPart.module.scss";
+import { useTranslation } from "react-i18next";
 
 interface AccountPartProps {
   label: string;
@@ -21,6 +22,7 @@ const AccountPart: React.FC<AccountPartProps> = ({
   const [isUpdating, setIsUpdating] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const componentRef = useRef<HTMLDivElement>(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     setInputValue(value);
@@ -59,7 +61,7 @@ const AccountPart: React.FC<AccountPartProps> = ({
   return (
     <div className={styles.accountPart} ref={componentRef}>
       {showSuccessMessage ? (
-        <p className={styles.successMessage}>Updated successfully!</p>
+        <p className={styles.successMessage}>{t("UPDATED_SUCCESSFULLY")}</p>
       ) : (
         <>
           <label htmlFor={name}>{label}</label>
@@ -72,7 +74,7 @@ const AccountPart: React.FC<AccountPartProps> = ({
             disabled={isUpdating}
           />
           <button onClick={handleSave} disabled={isUpdating}>
-            {isUpdating ? "Saving..." : "Save"}
+            {isUpdating ? t("SAVING") : t("SAVE")}
           </button>
         </>
       )}

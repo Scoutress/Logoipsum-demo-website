@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styles from "./Calendar.module.scss";
+import { useTranslation } from "react-i18next";
 
 interface CalendarComponentProps {
   onDateChange: (date: Date) => void;
@@ -10,8 +11,32 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
 }) => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const { t } = useTranslation();
 
-  const daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+  const daysOfWeek = [
+    t("MONDAY"),
+    t("TUESDAY"),
+    t("WEDNESDAY"),
+    t("THURSDAY"),
+    t("FRIDAY"),
+    t("SATURDAY"),
+    t("SUNDAY"),
+  ];
+
+  const months = [
+    t("JANUARY"),
+    t("FEBRUARY"),
+    t("MARCH"),
+    t("APRIL"),
+    t("MAY"),
+    t("JUNE"),
+    t("JULY"),
+    t("AUGUST"),
+    t("SEPTEMBER"),
+    t("OCTOBER"),
+    t("NOVEMBER"),
+    t("DECEMBER"),
+  ];
 
   const getDaysInMonth = (date: Date) => {
     const year = date.getFullYear();
@@ -75,14 +100,13 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
       <div className={styles.header}>
         <button onClick={handlePrevMonth}>&lt;</button>
         <span>
-          {currentDate.toLocaleString("default", { month: "long" })}{" "}
-          {currentDate.getFullYear()}
+          {months[currentDate.getMonth()]} {currentDate.getFullYear()}
         </span>
         <button onClick={handleNextMonth}>&gt;</button>
       </div>
       <div className={styles.daysOfWeek}>
-        {daysOfWeek.map((day) => (
-          <div key={day} className={styles.dayOfWeek}>
+        {daysOfWeek.map((day, index) => (
+          <div key={index} className={styles.dayOfWeek}>
             {day}
           </div>
         ))}

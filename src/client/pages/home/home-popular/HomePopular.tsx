@@ -3,6 +3,7 @@ import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import Service from "../../../components/service/Service.tsx";
 import styles from "./HomePopular.module.scss";
+import { useTranslation } from "react-i18next";
 
 interface ServiceData {
   _id: string;
@@ -23,6 +24,7 @@ const fetchServices = async (): Promise<ServiceData[]> => {
 };
 
 const HomePopular: React.FC = () => {
+  const { t } = useTranslation();
   const {
     data: popularServices,
     isLoading,
@@ -33,18 +35,18 @@ const HomePopular: React.FC = () => {
   });
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div>{t("LOADING")}</div>;
   }
 
   if (error) {
-    return <div>{error.message}</div>;
+    return <div>{t("ERROR_FETCHING_SERVICES")}</div>;
   }
 
   const popular = popularServices?.slice(0, 4) || [];
 
   return (
     <div>
-      <h3 className={styles.title}>Popular services</h3>
+      <h3 className={styles.title}>{t("POPULAR_SERVICES")}</h3>
       <div className={styles.container}>
         {popular.map((service) => {
           return (

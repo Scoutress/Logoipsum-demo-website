@@ -5,6 +5,7 @@ import Button from "../button/Button.tsx";
 import PropTypes from "prop-types";
 import AuthModal from "../auth-modal/AuthModal.tsx";
 import { AuthContext } from "../../context/AuthContext.tsx";
+import { useTranslation } from "react-i18next";
 
 interface NavItemProps {
   to: string;
@@ -41,6 +42,7 @@ const Header: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [reload, setReload] = useState(false);
+  const { t, i18n } = useTranslation();
 
   const handleLoginClick = () => {
     setIsModalOpen(true);
@@ -74,6 +76,11 @@ const Header: React.FC = () => {
     setIsDropdownOpen(false);
   }, [location.pathname]);
 
+  const toggleLanguage = () => {
+    const newLang = i18n.language === "en" ? "lt" : "en";
+    i18n.changeLanguage(newLang);
+  };
+
   return (
     <header className={styles.header}>
       <div className={styles.logo}>
@@ -84,13 +91,29 @@ const Header: React.FC = () => {
       <div className={styles.navbar}>
         <nav>
           <ul className={styles.ul}>
-            <NavItem to="/">Home</NavItem>
+            <NavItem to="/">{t("HOME")}</NavItem>
             <NavItem to="/services" onClick={handleServicesClick}>
-              Services
+              {t("SERVICES")}
             </NavItem>
-            <NavItem to="/about">About Us</NavItem>
+            <NavItem to="/about">{t("ABOUT_US")}</NavItem>
           </ul>
         </nav>
+      </div>
+      <div className={styles.languageSwitcher}>
+        <button onClick={toggleLanguage}>
+          <img
+            src={
+              i18n.language === "en"
+                ? "/flags/LithuanianFlag.png"
+                : "/flags/EnglishFlag.png"
+            }
+            alt={
+              i18n.language === "en"
+                ? t("SWITCH_TO_LITHUANIAN")
+                : t("SWITCH_TO_ENGLISH")
+            }
+          />
+        </button>
       </div>
       {user ? (
         <div className={styles.userMenu}>
@@ -104,27 +127,27 @@ const Header: React.FC = () => {
                 className={styles.dropdownItem}
                 onClick={() => setIsDropdownOpen(false)}
               >
-                My Account
+                {t("MY_ACCOUNT")}
               </Link>
               <Link
                 to="/bookings"
                 className={styles.dropdownItem}
                 onClick={() => setIsDropdownOpen(false)}
               >
-                My Bookings
+                {t("MY_BOOKINGS")}
               </Link>
               <button
                 className={styles.dropdownItem}
                 onClick={handleLogoutClick}
               >
-                Logout
+                {t("LOGOUT")}
               </button>
             </div>
           )}
         </div>
       ) : (
         <Button className={styles.loginBtn} onClick={handleLoginClick}>
-          Login / Sign Up
+          {t("LOGIN_SIGNUP")}
         </Button>
       )}
       {isModalOpen && (

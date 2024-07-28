@@ -5,6 +5,7 @@ import * as Yup from "yup";
 import { AuthContext } from "../../context/AuthContext";
 import styles from "./AuthModal.module.scss";
 import Loading from "../loading/Loading";
+import { useTranslation } from "react-i18next";
 
 interface AuthModalProps {
   onClose: () => void;
@@ -13,6 +14,7 @@ interface AuthModalProps {
 
 const AuthModal: React.FC<AuthModalProps> = ({ onClose, onLoginSuccess }) => {
   const authContext = useContext(AuthContext);
+  const { t } = useTranslation();
 
   if (!authContext) {
     throw new Error("AuthModal must be used within an AuthProvider");
@@ -44,24 +46,24 @@ const AuthModal: React.FC<AuthModalProps> = ({ onClose, onLoginSuccess }) => {
   };
 
   const validationSchema = Yup.object().shape({
-    username: isLogin ? Yup.string() : Yup.string().required("Required"),
-    firstName: isLogin ? Yup.string() : Yup.string().required("Required"),
-    lastName: isLogin ? Yup.string() : Yup.string().required("Required"),
-    city: isLogin ? Yup.string() : Yup.string().required("Required"),
+    username: isLogin ? Yup.string() : Yup.string().required(t("REQUIRED")),
+    firstName: isLogin ? Yup.string() : Yup.string().required(t("REQUIRED")),
+    lastName: isLogin ? Yup.string() : Yup.string().required(t("REQUIRED")),
+    city: isLogin ? Yup.string() : Yup.string().required(t("REQUIRED")),
     email: Yup.string()
       .matches(
         /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-        "Invalid email format"
+        t("INVALID_EMAIL_FORMAT")
       )
-      .required("Required"),
+      .required(t("REQUIRED")),
     password: Yup.string()
-      .min(6, "Password must be at least 6 characters")
-      .required("Required"),
+      .min(6, t("PASSWORD_MIN_LENGTH"))
+      .required(t("REQUIRED")),
     confirmPassword: isLogin
       ? Yup.string()
       : Yup.string()
-          .oneOf([Yup.ref("password")], "Passwords do not match")
-          .required("Required"),
+          .oneOf([Yup.ref("password")], t("PASSWORDS_DO_NOT_MATCH"))
+          .required(t("REQUIRED")),
   });
 
   const initialValues = {
@@ -88,7 +90,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ onClose, onLoginSuccess }) => {
           onLoginSuccess();
           onClose();
         } else {
-          setError("Invalid email or password");
+          setError(t("INVALID_EMAIL_OR_PASSWORD"));
         }
       } else {
         const success = await register({
@@ -103,16 +105,16 @@ const AuthModal: React.FC<AuthModalProps> = ({ onClose, onLoginSuccess }) => {
           onLoginSuccess();
           onClose();
         } else {
-          setError("Registration failed");
+          setError(t("REGISTRATION_FAILED"));
         }
       }
     } catch (error: any) {
       if (error.response) {
         setError(`Error: ${error.response.data.message}`);
       } else if (error.request) {
-        setError("Network error, please try again later.");
+        setError(t("NETWORK_ERROR"));
       } else {
-        setError("An unexpected error occurred. Please try again later.");
+        setError(t("UNEXPECTED_ERROR"));
       }
     } finally {
       setLoading(false);
@@ -125,7 +127,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ onClose, onLoginSuccess }) => {
         <button className={styles.closeButton} onClick={onClose}>
           ✖
         </button>
-        <h2>{isLogin ? "Login" : "Register"}</h2>
+        <h2>{isLogin ? t("LOGIN") : t("REGISTER")}</h2>
         {loading ? (
           <Loading />
         ) : (
@@ -138,7 +140,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ onClose, onLoginSuccess }) => {
               {!isLogin && (
                 <>
                   <div className={styles.formGroup}>
-                    <label htmlFor="username">Username</label>
+                    <label htmlFor="username">{t("USERNAME")}</label>
                     <Field type="text" id="username" name="username" />
                     <ErrorMessage
                       name="username"
@@ -147,7 +149,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ onClose, onLoginSuccess }) => {
                     />
                   </div>
                   <div className={styles.formGroup}>
-                    <label htmlFor="firstName">First Name</label>
+                    <label htmlFor="firstName">{t("FIRST_NAME")}</label>
                     <Field type="text" id="firstName" name="firstName" />
                     <ErrorMessage
                       name="firstName"
@@ -156,7 +158,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ onClose, onLoginSuccess }) => {
                     />
                   </div>
                   <div className={styles.formGroup}>
-                    <label htmlFor="lastName">Last Name</label>
+                    <label htmlFor="lastName">{t("LAST_NAME")}</label>
                     <Field type="text" id="lastName" name="lastName" />
                     <ErrorMessage
                       name="lastName"
@@ -165,7 +167,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ onClose, onLoginSuccess }) => {
                     />
                   </div>
                   <div className={styles.formGroup}>
-                    <label htmlFor="city">City</label>
+                    <label htmlFor="city">{t("CITY")}</label>
                     <Field type="text" id="city" name="city" />
                     <ErrorMessage
                       name="city"
@@ -176,7 +178,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ onClose, onLoginSuccess }) => {
                 </>
               )}
               <div className={styles.formGroup}>
-                <label htmlFor="email">Email</label>
+                <label htmlFor="email">{t("EMAIL")}</label>
                 <Field type="text" id="email" name="email" />
                 <ErrorMessage
                   name="email"
@@ -185,7 +187,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ onClose, onLoginSuccess }) => {
                 />
               </div>
               <div className={styles.formGroup}>
-                <label htmlFor="password">Password</label>
+                <label htmlFor="password">{t("PASSWORD")}</label>
                 <Field type="password" id="password" name="password" />
                 <ErrorMessage
                   name="password"
@@ -195,7 +197,9 @@ const AuthModal: React.FC<AuthModalProps> = ({ onClose, onLoginSuccess }) => {
               </div>
               {!isLogin && (
                 <div className={styles.formGroup}>
-                  <label htmlFor="confirmPassword">Confirm Password</label>
+                  <label htmlFor="confirmPassword">
+                    {t("CONFIRM_PASSWORD")}
+                  </label>
                   <Field
                     type="password"
                     id="confirmPassword"
@@ -209,17 +213,19 @@ const AuthModal: React.FC<AuthModalProps> = ({ onClose, onLoginSuccess }) => {
                 </div>
               )}
               {error && <p className={styles.error}>{error}</p>}
-              <button type="submit">{isLogin ? "Login" : "Register"}</button>
+              <button type="submit">
+                {isLogin ? t("LOGIN") : t("REGISTER")}
+              </button>
             </Form>
           </Formik>
         )}
         <p>
-          {isLogin ? "Don't have an account?" : "Already have an account?"}{" "}
+          {isLogin ? t("LOGIN_PROMPT") : t("REGISTER_PROMPT")}{" "}
           <span
             className={styles.toggleForm}
             onClick={() => setIsLogin(!isLogin)}
           >
-            {isLogin ? "Register" : "Login"}
+            {isLogin ? t("LOGIN_ACTION") : t("REGISTER_ACTION")}
           </span>
         </p>
       </div>

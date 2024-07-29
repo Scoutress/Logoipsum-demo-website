@@ -17,6 +17,6 @@
     "jsx": "react-jsx",
     "allowImportingTsExtensions": true
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "setupTests.js"],
   "exclude": ["node_modules"]
 }

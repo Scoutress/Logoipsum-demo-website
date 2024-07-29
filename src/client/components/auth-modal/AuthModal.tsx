@@ -122,7 +122,11 @@ const AuthModal: React.FC<AuthModalProps> = ({ onClose, onLoginSuccess }) => {
   };
 
   return (
-    <div className={styles.modalBackdrop} onClick={handleBackdropClick}>
+    <div
+      className={styles.modalBackdrop}
+      onClick={handleBackdropClick}
+      data-testid="backdrop"
+    >
       <div className={styles.modal}>
         <button className={styles.closeButton} onClick={onClose}>
           ✖

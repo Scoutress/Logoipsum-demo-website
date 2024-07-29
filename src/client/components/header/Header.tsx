@@ -1,3 +1,4 @@
+import React from "react"; // Add this line if it's missing
 import { useState, useContext, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import styles from "./Header.module.scss";

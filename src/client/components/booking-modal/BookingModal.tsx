@@ -88,7 +88,11 @@ const BookingModal: React.FC<BookingModalProps> = ({ serviceID, onClose }) => {
   const times = Array.from({ length: 9 }, (_, i) => `${8 + i}:00`);
 
   return (
-    <div className={styles.modalBackdrop} onClick={handleBackdropClick}>
+    <div
+      className={styles.modalBackdrop}
+      onClick={handleBackdropClick}
+      data-testid="modal-backdrop"
+    >
       <div className={styles.modal}>
         <div className={styles.modalContent}>
           <button className={styles.closeButton} onClick={onClose}>

@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
-import useLocalStorage from "../../hooks/UseLocalStorage";
+import useLocalStorage from "../../hooks/use-local-storage/UseLocalStorage";
 import styles from "./Service.module.scss";
 import { useTranslation } from "react-i18next";
 

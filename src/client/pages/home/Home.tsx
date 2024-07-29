@@ -1,6 +1,7 @@
-import HomeAnnouncement from "./home-announcement/HomeAnnouncement.js";
-import HomeCategories from "./home-categories/HomeCategories.js";
-import HomePopular from "./home-popular/HomePopular.js";
+import React from "react";
+import HomeAnnouncement from "./home-announcement/HomeAnnouncement.tsx";
+import HomeCategories from "./home-categories/HomeCategories.tsx";
+import HomePopular from "./home-popular/HomePopular.tsx";
 
 const Home = () => {
   return (

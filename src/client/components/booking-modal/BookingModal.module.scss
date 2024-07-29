@@ -1,4 +1,4 @@
-@import "../../styles/Variables.module.scss";
+// // @import "../../styles/Variables.module.scss";
 
 .modalBackdrop {
   position: fixed;
@@ -21,7 +21,7 @@
   flex-direction: column;
   padding: 20px;
   overflow-y: auto;
-  font-family: $primaryFontStyle;
+  // // font-family: $primaryFontStyle;
 }
 
 .modalContent {

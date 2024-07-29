@@ -12,7 +12,8 @@
     "preview": "vite preview",
     "eslint": "eslint --fix .",
     "dev": "npm-run-all --parallel start-vite start-nodemon",
-    "test": "jest --coverage --config jest.config.cjs"
+    "test": "jest --coverage --config jest.config.cjs",
+    "deploy": "git push heroku main"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.5.2",
@@ -99,5 +100,9 @@
     "typescript": "^5.5.3",
     "vite": "^5.3.1",
     "vitest": "^2.0.4"
+  },
+  "engines": {
+    "node": "20.x",
+    "npm": "10.x"
   }
 }

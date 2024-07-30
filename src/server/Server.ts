@@ -20,12 +20,7 @@ const startServer = async () => {
   server.use(errorHandler);
 
   await connectToDb(() => {
-    server.listen(SERVER_PORT, () => {
-      //TODO: Remove log before deploy
-      console.log(
-        `Server is running on http://localhost:${SERVER_PORT}/api-docs`
-      );
-    });
+    server.listen(SERVER_PORT);
   });
 };
 

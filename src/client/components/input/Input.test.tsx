@@ -3,7 +3,6 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import Input from "./Input";
 
-// Define mock functions
 const mockOnChange = jest.fn();
 const mockOnKeyDown = jest.fn();
 
@@ -48,7 +47,7 @@ describe("Input component", () => {
     const inputElement = screen.getByRole("textbox");
     fireEvent.change(inputElement, { target: { value: "new value" } });
     expect(mockOnChange).toHaveBeenCalledTimes(1);
-    expect(mockOnChange).toHaveBeenCalledWith(expect.any(Object)); // Adjusted
+    expect(mockOnChange).toHaveBeenCalledWith(expect.any(Object));
   });
 
   test("calls onKeyDown handler when a key is pressed", () => {
@@ -59,7 +58,7 @@ describe("Input component", () => {
     const inputElement = screen.getByRole("textbox");
     fireEvent.keyDown(inputElement, { key: "Enter" });
     expect(mockOnKeyDown).toHaveBeenCalledTimes(1);
-    expect(mockOnKeyDown).toHaveBeenCalledWith(expect.any(Object)); // Adjusted
+    expect(mockOnKeyDown).toHaveBeenCalledWith(expect.any(Object));
   });
 
   test("does not call onKeyDown if it is not provided", () => {

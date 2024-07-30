@@ -3,7 +3,6 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import HomeAnnouncement from "./HomeAnnouncement";
 import { useNavigate } from "react-router-dom";
 
-// Mock necessary modules
 jest.mock("react-router-dom", () => ({
   useNavigate: jest.fn(),
 }));
@@ -24,7 +23,6 @@ describe("HomeAnnouncement Component", () => {
   it("renders correctly with translations", () => {
     render(<HomeAnnouncement />);
 
-    // Check if the translated text is rendered
     expect(screen.getByText("MAIN_TITLE")).toBeInTheDocument();
     expect(screen.getByText("MAIN_SUB_TITLE")).toBeInTheDocument();
     expect(

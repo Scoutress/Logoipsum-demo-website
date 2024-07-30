@@ -4,7 +4,6 @@ import Details from "./Details";
 import axios from "axios";
 import { BrowserRouter as Router } from "react-router-dom";
 
-// Mock the necessary modules
 jest.mock("axios");
 jest.mock("react-i18next", () => ({
   useTranslation: () => ({
@@ -28,31 +27,6 @@ describe("Details Component", () => {
     jest.clearAllMocks();
   });
 
-  // it("shows loading state initially", () => {
-  //   (axios.get as jest.Mock).mockResolvedValueOnce({ data: mockService });
-
-  //   render(
-  //     <Router>
-  //       <Details />
-  //     </Router>
-  //   );
-
-  //   expect(screen.getByText("LOADING")).toBeInTheDocument();
-  // });
-
-  // it("shows login modal if no token is present", async () => {
-  //   localStorage.removeItem("token");
-  //   (axios.get as jest.Mock).mockResolvedValueOnce({ data: mockService });
-
-  //   render(
-  //     <Router>
-  //       <Details />
-  //     </Router>
-  //   );
-
-  //   expect(await screen.findByText("LOGIN_REQUIRED")).toBeInTheDocument();
-  // });
-
   it("shows service details after successful fetch", async () => {
     localStorage.setItem("token", "dummy-token");
     (axios.get as jest.Mock).mockResolvedValueOnce({ data: mockService });
@@ -72,42 +46,4 @@ describe("Details Component", () => {
       expect(screen.getByText(mockService.description)).toBeInTheDocument();
     });
   });
-
-  // it("handles error state", async () => {
-  //   localStorage.setItem("token", "dummy-token");
-  //   (axios.get as jest.Mock).mockRejectedValueOnce(new Error("Fetch error"));
-
-  //   render(
-  //     <Router>
-  //       <Details />
-  //     </Router>
-  //   );
-
-  //   await waitFor(() => {
-  //     expect(screen.getByText("ERROR_LOADING_SERVICE")).toBeInTheDocument();
-  //   });
-  // });
-
-  // it("handles login success and fetches service data again", async () => {
-  //   localStorage.removeItem("token");
-  //   (axios.get as jest.Mock).mockRejectedValueOnce(new Error("Fetch error"));
-
-  //   const { getByText } = render(
-  //     <Router>
-  //       <Details />
-  //     </Router>
-  //   );
-
-  //   fireEvent.click(getByText("LOGIN_REQUIRED"));
-
-  //   // Mock successful login and fetch service data
-  //   localStorage.setItem("token", "dummy-token");
-  //   (axios.get as jest.Mock).mockResolvedValueOnce({ data: mockService });
-
-  //   fireEvent.click(screen.getByText("LOGIN_SUCCESS"));
-
-  //   await waitFor(() => {
-  //     expect(screen.getByText(mockService.name)).toBeInTheDocument();
-  //   });
-  // });
 });

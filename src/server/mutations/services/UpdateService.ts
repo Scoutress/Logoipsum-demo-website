@@ -56,7 +56,7 @@ const updateService = async (
   res: Response
 ): Promise<Response> => {
   const { id } = req.params;
-  const updateData = req.body;
+  const updateData: Partial<IService> = req.body;
 
   try {
     const service: IService | null = await ServiceModel.findById(id);
@@ -64,10 +64,7 @@ const updateService = async (
       return res.status(404).json({ error: "Service not found" });
     }
 
-    // TODO: pakeisti "as any"
-    Object.keys(updateData).forEach((key) => {
-      (service as any)[key] = updateData[key];
-    });
+    Object.assign(service, updateData);
 
     const updatedService: IService = await service.save();
     return res.status(200).json(updatedService);

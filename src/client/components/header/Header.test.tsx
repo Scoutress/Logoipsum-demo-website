@@ -6,7 +6,6 @@ import Header from "./Header";
 import { AuthProvider } from "../../context/AuthContext";
 import { useTranslation } from "react-i18next";
 
-// Mock useTranslation
 jest.mock("react-i18next", () => ({
   useTranslation: () => ({
     t: (key: string) => {
@@ -24,13 +23,12 @@ jest.mock("react-i18next", () => ({
       return translations[key] || key;
     },
     i18n: {
-      language: "en", // Mock the language property
+      language: "en",
       changeLanguage: jest.fn(),
     },
   }),
 }));
 
-// Mock AuthContext
 const mockUser = {
   id: 1,
   username: "TestUser",
@@ -63,28 +61,13 @@ describe("Header Component", () => {
     expect(screen.getByAltText("Switch to Lithuanian")).toBeInTheDocument();
   });
 
-  // test("displays user menu and handles dropdown", () => {
-  //   renderComponent();
-  //   fireEvent.click(screen.getByText(/TestUser/i)); // naudokite visą tekstą arba regex
-  //   expect(screen.getByText("My Account")).toBeInTheDocument();
-  //   expect(screen.getByText("My Bookings")).toBeInTheDocument();
-  //   expect(screen.getByText("Logout")).toBeInTheDocument();
-  // });
-
   test("opens and closes login modal", () => {
     renderComponent();
     fireEvent.click(screen.getByText("Login/Signup"));
-    expect(screen.getByTestId("backdrop")).toBeInTheDocument(); // naudokite data-testid
+    expect(screen.getByTestId("backdrop")).toBeInTheDocument();
     fireEvent.click(screen.getByText("✖"));
     expect(screen.queryByTestId("backdrop")).not.toBeInTheDocument();
   });
-
-  // test("toggles language", () => {
-  //   renderComponent();
-  //   const languageButton = screen.getByAltText("Switch to Lithuanian");
-  //   fireEvent.click(languageButton);
-  //   expect(screen.getByAltText("Switch to English")).toBeInTheDocument(); // tikrinkite alternatyvų alt tekstą
-  // });
 
   test("navigates to services and handles page reload", async () => {
     renderComponent();

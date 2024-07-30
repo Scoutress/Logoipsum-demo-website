@@ -1,11 +1,9 @@
-// src/client/pages/account/Account.test.tsx
-
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import Account from "./Account";
 import { BrowserRouter as Router } from "react-router-dom";
-import { AuthProvider } from "../../context/AuthContext"; // Patikrinkite, ar kelias yra teisingas
+import { AuthProvider } from "../../context/AuthContext";
 
 describe("Account Component", () => {
   it("renders Account component", () => {
@@ -17,7 +15,6 @@ describe("Account Component", () => {
       </Router>
     );
 
-    // Patikrinkite, ar puslapio antraštė yra matoma
     expect(screen.getByText("ACCOUNT")).toBeInTheDocument();
   });
 });

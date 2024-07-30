@@ -1,7 +1,7 @@
-// @import "../../../styles/Variables.module.scss";
+@import "../../../styles/Variables.module.scss";
 
 .accountPwPart {
-  // font-family: $primaryFontStyle;
+  font-family: $primaryFontStyle;
   display: flex;
   flex-direction: column;
   margin-bottom: 20px;

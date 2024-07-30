@@ -2,7 +2,6 @@ import React from "react";
 import { render, screen } from "@testing-library/react";
 import ErrorPage from "./ErrorPage";
 
-// Mock the necessary modules
 jest.mock("react-i18next", () => ({
   useTranslation: () => ({
     t: (key: string) => key,
@@ -13,7 +12,6 @@ describe("ErrorPage Component", () => {
   it("renders correctly with translations", () => {
     render(<ErrorPage />);
 
-    // Check if the translated text is rendered
     expect(screen.getByText("404_TITLE")).toBeInTheDocument();
     expect(screen.getByText("404_MESSAGE")).toBeInTheDocument();
     expect(screen.getByText("404_DESCRIPTION")).toBeInTheDocument();

@@ -1,8 +1,8 @@
-// @import "../../styles/main.module.scss";
+@import "../../styles/main.module.scss";
 
 .container {
-  // // font-family: $primaryFontStyle;
-  // font-size: $primaryH3FontSize;
+  font-family: $primaryFontStyle;
+  font-size: $primaryH3FontSize;
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;

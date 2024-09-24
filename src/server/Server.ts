@@ -1,7 +1,5 @@
-import "dotenv/config";
 import express from "express";
 import {
-  configEnvVariables,
   configSwagger,
   configMiddlewares,
   configRoutes,
@@ -9,21 +7,14 @@ import {
 } from "./config/Index.ts";
 import errorHandler from "./middleware/ErrorHandler.ts";
 
-const { SERVER_PORT } = configEnvVariables;
+const server = express();
 
-const startServer = async () => {
-  const server = express();
-  configSwagger(server);
-  configMiddlewares(server);
-  configRoutes(server);
+configSwagger(server);
+configMiddlewares(server);
+configRoutes(server);
 
-  server.use(errorHandler);
+server.use(errorHandler);
 
-  await connectToDb(() => {
-    server.listen(SERVER_PORT);
-  });
-};
+await connectToDb();
 
-startServer().catch((err) => {
-  console.error("Failed to start server:", err);
-});
+export default server;

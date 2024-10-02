@@ -28,8 +28,7 @@ const swaggerOptions = {
     ],
     servers: [
       {
-        // url: `http://localhost:${process.env.SERVER_PORT}`,
-        url: `https://logoipsum-demo-website.vercel.app`,
+        url: `http://localhost:${process.env.SERVER_PORT}`,
       },
     ],
   },
